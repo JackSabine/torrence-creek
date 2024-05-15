@@ -77,7 +77,7 @@ module tb_top;
 
         // DUT configuration
         dut_config = cache_config::type_id::create("dut_config");
-        dut_config.set(LINE_SIZE, L1_CACHE_SIZE, 1);
+        dut_config.set(LINE_SIZE, L1_CACHE_SIZE, L2_CACHE_SIZE, L2_ASSOC);
         dut_config.print();
 
         uvm_config_db #(cache_config)::set(

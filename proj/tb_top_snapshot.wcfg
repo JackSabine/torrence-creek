@@ -14,18 +14,19 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="1,049 ns"></ZoomStartTime>
-      <ZoomEndTime time="1,219 ns"></ZoomEndTime>
-      <Cursor1Time time="1,103 ns"></Cursor1Time>
+      <ZoomStartTime time="0 ns"></ZoomStartTime>
+      <ZoomEndTime time="88 ns"></ZoomEndTime>
+      <Cursor1Time time="38 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="287"></NameColumnWidth>
-      <ValueColumnWidth column_width="140"></ValueColumnWidth>
+      <ValueColumnWidth column_width="116"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="5" />
+   <WVObjectSize size="7" />
    <wvobject type="group" fp_name="group36">
       <obj_property name="label">rst_vi</obj_property>
       <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
       <wvobject type="logic" fp_name="/tb_top/rst_if/reset">
          <obj_property name="ElementShortName">reset</obj_property>
          <obj_property name="ObjectShortName">reset</obj_property>
@@ -38,6 +39,7 @@
    <wvobject type="group" fp_name="group59">
       <obj_property name="label">ireq</obj_property>
       <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
       <wvobject type="logic" fp_name="/tb_top/dut/icache_req_if/clk">
          <obj_property name="ElementShortName">clk</obj_property>
          <obj_property name="ObjectShortName">clk</obj_property>
@@ -213,6 +215,356 @@
       <wvobject type="array" fp_name="/tb_top/hmem_if/XLEN">
          <obj_property name="ElementShortName">XLEN[31:0]</obj_property>
          <obj_property name="ObjectShortName">XLEN[31:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="group" fp_name="group63">
+      <obj_property name="label">ICACHE</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject type="array" fp_name="/tb_top/dut/icache/controller/state">
+         <obj_property name="ElementShortName">state[1:0]</obj_property>
+         <obj_property name="ObjectShortName">state[1:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/tb_top/dut/icache/controller/next_state">
+         <obj_property name="ElementShortName">next_state[1:0]</obj_property>
+         <obj_property name="ObjectShortName">next_state[1:0]</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/tb_top/dut/icache/internal_if/valid_block_match">
+         <obj_property name="ElementShortName">valid_block_match</obj_property>
+         <obj_property name="ObjectShortName">valid_block_match</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/tb_top/dut/icache/internal_if/valid_dirty_bit">
+         <obj_property name="ElementShortName">valid_dirty_bit</obj_property>
+         <obj_property name="ObjectShortName">valid_dirty_bit</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/tb_top/dut/icache/internal_if/miss_recovery_mode">
+         <obj_property name="ElementShortName">miss_recovery_mode</obj_property>
+         <obj_property name="ObjectShortName">miss_recovery_mode</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/tb_top/dut/icache/internal_if/process_lru_counters">
+         <obj_property name="ElementShortName">process_lru_counters</obj_property>
+         <obj_property name="ObjectShortName">process_lru_counters</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/tb_top/dut/icache/internal_if/clear_selected_dirty_bit">
+         <obj_property name="ElementShortName">clear_selected_dirty_bit</obj_property>
+         <obj_property name="ObjectShortName">clear_selected_dirty_bit</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/tb_top/dut/icache/internal_if/set_selected_dirty_bit">
+         <obj_property name="ElementShortName">set_selected_dirty_bit</obj_property>
+         <obj_property name="ObjectShortName">set_selected_dirty_bit</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/tb_top/dut/icache/internal_if/perform_write">
+         <obj_property name="ElementShortName">perform_write</obj_property>
+         <obj_property name="ObjectShortName">perform_write</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/tb_top/dut/icache/internal_if/clear_selected_valid_bit">
+         <obj_property name="ElementShortName">clear_selected_valid_bit</obj_property>
+         <obj_property name="ObjectShortName">clear_selected_valid_bit</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/tb_top/dut/icache/internal_if/finish_new_line_install">
+         <obj_property name="ElementShortName">finish_new_line_install</obj_property>
+         <obj_property name="ObjectShortName">finish_new_line_install</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/tb_top/dut/icache/internal_if/set_hmem_block_address">
+         <obj_property name="ElementShortName">set_hmem_block_address</obj_property>
+         <obj_property name="ObjectShortName">set_hmem_block_address</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/tb_top/dut/icache/internal_if/use_victim_tag_for_hmem_block_address">
+         <obj_property name="ElementShortName">use_victim_tag_for_hmem_block_address</obj_property>
+         <obj_property name="ObjectShortName">use_victim_tag_for_hmem_block_address</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/tb_top/dut/icache/internal_if/reset_counter">
+         <obj_property name="ElementShortName">reset_counter</obj_property>
+         <obj_property name="ObjectShortName">reset_counter</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/tb_top/dut/icache/internal_if/decrement_counter">
+         <obj_property name="ElementShortName">decrement_counter</obj_property>
+         <obj_property name="ObjectShortName">decrement_counter</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/tb_top/dut/icache/internal_if/counter_done">
+         <obj_property name="ElementShortName">counter_done</obj_property>
+         <obj_property name="ObjectShortName">counter_done</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/tb_top/dut/icache/internal_if/valid_block_match">
+         <obj_property name="ElementShortName">valid_block_match</obj_property>
+         <obj_property name="ObjectShortName">valid_block_match</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/tb_top/dut/icache/internal_if/valid_dirty_bit">
+         <obj_property name="ElementShortName">valid_dirty_bit</obj_property>
+         <obj_property name="ObjectShortName">valid_dirty_bit</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="group" fp_name="group118">
+      <obj_property name="label">L2</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject type="group" fp_name="group148">
+         <obj_property name="label">req</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+         <wvobject type="array" fp_name="/tb_top/dut/l2_cache/req_if/req_address">
+            <obj_property name="ElementShortName">req_address[31:0]</obj_property>
+            <obj_property name="ObjectShortName">req_address[31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/tb_top/dut/l2_cache/req_if/req_operation">
+            <obj_property name="ElementShortName">req_operation[1:0]</obj_property>
+            <obj_property name="ObjectShortName">req_operation[1:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/tb_top/dut/l2_cache/req_if/req_size">
+            <obj_property name="ElementShortName">req_size[1:0]</obj_property>
+            <obj_property name="ObjectShortName">req_size[1:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/tb_top/dut/l2_cache/req_if/req_store_word">
+            <obj_property name="ElementShortName">req_store_word[31:0]</obj_property>
+            <obj_property name="ObjectShortName">req_store_word[31:0]</obj_property>
+         </wvobject>
+         <wvobject type="logic" fp_name="/tb_top/dut/l2_cache/req_if/req_valid">
+            <obj_property name="ElementShortName">req_valid</obj_property>
+            <obj_property name="ObjectShortName">req_valid</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/tb_top/dut/l2_cache/req_if/req_loaded_word">
+            <obj_property name="ElementShortName">req_loaded_word[31:0]</obj_property>
+            <obj_property name="ObjectShortName">req_loaded_word[31:0]</obj_property>
+         </wvobject>
+         <wvobject type="logic" fp_name="/tb_top/dut/l2_cache/req_if/req_fulfilled">
+            <obj_property name="ElementShortName">req_fulfilled</obj_property>
+            <obj_property name="ObjectShortName">req_fulfilled</obj_property>
+         </wvobject>
+      </wvobject>
+      <wvobject type="group" fp_name="group50">
+         <obj_property name="label">datapath</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+         <wvobject type="group" fp_name="group158">
+            <obj_property name="label">metadata</obj_property>
+            <obj_property name="DisplayName">label</obj_property>
+            <obj_property name="isExpanded"></obj_property>
+            <wvobject type="group" fp_name="group121">
+               <obj_property name="label">lru</obj_property>
+               <obj_property name="DisplayName">label</obj_property>
+               <obj_property name="isExpanded"></obj_property>
+               <wvobject type="logic" fp_name="/tb_top/dut/l2_cache/datapath/metadata/\genblk2.lru_counters /clk">
+                  <obj_property name="ElementShortName">clk</obj_property>
+                  <obj_property name="ObjectShortName">clk</obj_property>
+               </wvobject>
+               <wvobject type="logic" fp_name="/tb_top/dut/l2_cache/datapath/metadata/\genblk2.lru_counters /reset">
+                  <obj_property name="ElementShortName">reset</obj_property>
+                  <obj_property name="ObjectShortName">reset</obj_property>
+               </wvobject>
+               <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/\genblk2.lru_counters /set">
+                  <obj_property name="ElementShortName">set[6:0]</obj_property>
+                  <obj_property name="ObjectShortName">set[6:0]</obj_property>
+               </wvobject>
+               <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/\genblk2.lru_counters /selected_way">
+                  <obj_property name="ElementShortName">selected_way[1:0]</obj_property>
+                  <obj_property name="ObjectShortName">selected_way[1:0]</obj_property>
+               </wvobject>
+               <wvobject type="logic" fp_name="/tb_top/dut/l2_cache/datapath/metadata/\genblk2.lru_counters /process_lru_counters">
+                  <obj_property name="ElementShortName">process_lru_counters</obj_property>
+                  <obj_property name="ObjectShortName">process_lru_counters</obj_property>
+               </wvobject>
+               <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/\genblk2.lru_counters /victim_way">
+                  <obj_property name="ElementShortName">victim_way[1:0]</obj_property>
+                  <obj_property name="ObjectShortName">victim_way[1:0]</obj_property>
+               </wvobject>
+               <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/\genblk2.lru_counters /lru_array">
+                  <obj_property name="ElementShortName">lru_array[127:0][3:0][1:0]</obj_property>
+                  <obj_property name="ObjectShortName">lru_array[127:0][3:0][1:0]</obj_property>
+               </wvobject>
+               <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/\genblk2.lru_counters /selected_way_lru_counter">
+                  <obj_property name="ElementShortName">selected_way_lru_counter[1:0]</obj_property>
+                  <obj_property name="ObjectShortName">selected_way_lru_counter[1:0]</obj_property>
+               </wvobject>
+               <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/\genblk2.lru_counters /one_hot_victim_way">
+                  <obj_property name="ElementShortName">one_hot_victim_way[3:0]</obj_property>
+                  <obj_property name="ObjectShortName">one_hot_victim_way[3:0]</obj_property>
+               </wvobject>
+               <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/\genblk2.lru_counters /NUM_SETS">
+                  <obj_property name="ElementShortName">NUM_SETS[31:0]</obj_property>
+                  <obj_property name="ObjectShortName">NUM_SETS[31:0]</obj_property>
+               </wvobject>
+               <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/\genblk2.lru_counters /ASSOC">
+                  <obj_property name="ElementShortName">ASSOC[31:0]</obj_property>
+                  <obj_property name="ObjectShortName">ASSOC[31:0]</obj_property>
+               </wvobject>
+               <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/\genblk2.lru_counters /SET_SIZE">
+                  <obj_property name="ElementShortName">SET_SIZE[31:0]</obj_property>
+                  <obj_property name="ObjectShortName">SET_SIZE[31:0]</obj_property>
+               </wvobject>
+               <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/\genblk2.lru_counters /ASSOC_SIZE">
+                  <obj_property name="ElementShortName">ASSOC_SIZE[31:0]</obj_property>
+                  <obj_property name="ObjectShortName">ASSOC_SIZE[31:0]</obj_property>
+               </wvobject>
+            </wvobject>
+            <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/valid_array">
+               <obj_property name="ElementShortName">valid_array[127:0][3:0]</obj_property>
+               <obj_property name="ObjectShortName">valid_array[127:0][3:0]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/\genblk2.matching_way ">
+               <obj_property name="ElementShortName">\genblk2.matching_way [1:0]</obj_property>
+               <obj_property name="ObjectShortName">\genblk2.matching_way [1:0]</obj_property>
+            </wvobject>
+         </wvobject>
+         <wvobject type="group" fp_name="group111">
+            <obj_property name="label">datalines</obj_property>
+            <obj_property name="DisplayName">label</obj_property>
+            <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/data/selected_way">
+               <obj_property name="ElementShortName">selected_way[1:0]</obj_property>
+               <obj_property name="ObjectShortName">selected_way[1:0]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/data/word_read">
+               <obj_property name="ElementShortName">word_read[31:0]</obj_property>
+               <obj_property name="ObjectShortName">word_read[31:0]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/data/data_lines">
+               <obj_property name="ElementShortName">data_lines[127:0][3:0][7:0][3:0][7:0]</obj_property>
+               <obj_property name="ObjectShortName">data_lines[127:0][3:0][7:0][3:0][7:0]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/data/w_set_active">
+               <obj_property name="ElementShortName">w_set_active[127:0]</obj_property>
+               <obj_property name="ObjectShortName">w_set_active[127:0]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/data/w_way_active">
+               <obj_property name="ElementShortName">w_way_active[3:0]</obj_property>
+               <obj_property name="ObjectShortName">w_way_active[3:0]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/data/w_word_active">
+               <obj_property name="ElementShortName">w_word_active[7:0]</obj_property>
+               <obj_property name="ObjectShortName">w_word_active[7:0]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/data/w_byte_active">
+               <obj_property name="ElementShortName">w_byte_active[3:0]</obj_property>
+               <obj_property name="ObjectShortName">w_byte_active[3:0]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/data/ASSOC">
+               <obj_property name="ElementShortName">ASSOC[31:0]</obj_property>
+               <obj_property name="ObjectShortName">ASSOC[31:0]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/data/ASSOC_WIDTH">
+               <obj_property name="ElementShortName">ASSOC_WIDTH[31:0]</obj_property>
+               <obj_property name="ObjectShortName">ASSOC_WIDTH[31:0]</obj_property>
+            </wvobject>
+         </wvobject>
+         <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/req_word_select">
+            <obj_property name="ElementShortName">req_word_select[2:0]</obj_property>
+            <obj_property name="ObjectShortName">req_word_select[2:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/word_select">
+            <obj_property name="ElementShortName">word_select[2:0]</obj_property>
+            <obj_property name="ObjectShortName">word_select[2:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/req_byte_select">
+            <obj_property name="ElementShortName">req_byte_select[1:0]</obj_property>
+            <obj_property name="ObjectShortName">req_byte_select[1:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/byte_select">
+            <obj_property name="ElementShortName">byte_select[1:0]</obj_property>
+            <obj_property name="ObjectShortName">byte_select[1:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/op_size">
+            <obj_property name="ElementShortName">op_size[1:0]</obj_property>
+            <obj_property name="ObjectShortName">op_size[1:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/hmem_block_address">
+            <obj_property name="ElementShortName">hmem_block_address[26:0]</obj_property>
+            <obj_property name="ObjectShortName">hmem_block_address[26:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/word_to_store">
+            <obj_property name="ElementShortName">word_to_store[31:0]</obj_property>
+            <obj_property name="ObjectShortName">word_to_store[31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/req_set">
+            <obj_property name="ElementShortName">req_set[6:0]</obj_property>
+            <obj_property name="ObjectShortName">req_set[6:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/req_tag">
+            <obj_property name="ElementShortName">req_tag[19:0]</obj_property>
+            <obj_property name="ObjectShortName">req_tag[19:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/fetched_word">
+            <obj_property name="ElementShortName">fetched_word[31:0]</obj_property>
+            <obj_property name="ObjectShortName">fetched_word[31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/counter_out">
+            <obj_property name="ElementShortName">counter_out[2:0]</obj_property>
+            <obj_property name="ObjectShortName">counter_out[2:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/selected_tag">
+            <obj_property name="ElementShortName">selected_tag[19:0]</obj_property>
+            <obj_property name="ObjectShortName">selected_tag[19:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/selected_way">
+            <obj_property name="ElementShortName">selected_way[1:0]</obj_property>
+            <obj_property name="ObjectShortName">selected_way[1:0]</obj_property>
+         </wvobject>
+      </wvobject>
+      <wvobject type="group" fp_name="group103">
+         <obj_property name="label">internal</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+         <wvobject type="logic" fp_name="/tb_top/dut/l2_cache/internal_if/miss_recovery_mode">
+            <obj_property name="ElementShortName">miss_recovery_mode</obj_property>
+            <obj_property name="ObjectShortName">miss_recovery_mode</obj_property>
+         </wvobject>
+         <wvobject type="logic" fp_name="/tb_top/dut/l2_cache/internal_if/process_lru_counters">
+            <obj_property name="ElementShortName">process_lru_counters</obj_property>
+            <obj_property name="ObjectShortName">process_lru_counters</obj_property>
+         </wvobject>
+         <wvobject type="logic" fp_name="/tb_top/dut/l2_cache/internal_if/clear_selected_dirty_bit">
+            <obj_property name="ElementShortName">clear_selected_dirty_bit</obj_property>
+            <obj_property name="ObjectShortName">clear_selected_dirty_bit</obj_property>
+         </wvobject>
+         <wvobject type="logic" fp_name="/tb_top/dut/l2_cache/internal_if/set_selected_dirty_bit">
+            <obj_property name="ElementShortName">set_selected_dirty_bit</obj_property>
+            <obj_property name="ObjectShortName">set_selected_dirty_bit</obj_property>
+         </wvobject>
+         <wvobject type="logic" fp_name="/tb_top/dut/l2_cache/internal_if/perform_write">
+            <obj_property name="ElementShortName">perform_write</obj_property>
+            <obj_property name="ObjectShortName">perform_write</obj_property>
+         </wvobject>
+         <wvobject type="logic" fp_name="/tb_top/dut/l2_cache/internal_if/clear_selected_valid_bit">
+            <obj_property name="ElementShortName">clear_selected_valid_bit</obj_property>
+            <obj_property name="ObjectShortName">clear_selected_valid_bit</obj_property>
+         </wvobject>
+         <wvobject type="logic" fp_name="/tb_top/dut/l2_cache/internal_if/finish_new_line_install">
+            <obj_property name="ElementShortName">finish_new_line_install</obj_property>
+            <obj_property name="ObjectShortName">finish_new_line_install</obj_property>
+         </wvobject>
+         <wvobject type="logic" fp_name="/tb_top/dut/l2_cache/internal_if/set_hmem_block_address">
+            <obj_property name="ElementShortName">set_hmem_block_address</obj_property>
+            <obj_property name="ObjectShortName">set_hmem_block_address</obj_property>
+         </wvobject>
+         <wvobject type="logic" fp_name="/tb_top/dut/l2_cache/internal_if/use_victim_tag_for_hmem_block_address">
+            <obj_property name="ElementShortName">use_victim_tag_for_hmem_block_address</obj_property>
+            <obj_property name="ObjectShortName">use_victim_tag_for_hmem_block_address</obj_property>
+         </wvobject>
+         <wvobject type="logic" fp_name="/tb_top/dut/l2_cache/internal_if/reset_counter">
+            <obj_property name="ElementShortName">reset_counter</obj_property>
+            <obj_property name="ObjectShortName">reset_counter</obj_property>
+         </wvobject>
+         <wvobject type="logic" fp_name="/tb_top/dut/l2_cache/internal_if/decrement_counter">
+            <obj_property name="ElementShortName">decrement_counter</obj_property>
+            <obj_property name="ObjectShortName">decrement_counter</obj_property>
+         </wvobject>
+         <wvobject type="logic" fp_name="/tb_top/dut/l2_cache/internal_if/counter_done">
+            <obj_property name="ElementShortName">counter_done</obj_property>
+            <obj_property name="ObjectShortName">counter_done</obj_property>
+         </wvobject>
+         <wvobject type="logic" fp_name="/tb_top/dut/l2_cache/internal_if/valid_block_match">
+            <obj_property name="ElementShortName">valid_block_match</obj_property>
+            <obj_property name="ObjectShortName">valid_block_match</obj_property>
+         </wvobject>
+         <wvobject type="logic" fp_name="/tb_top/dut/l2_cache/internal_if/valid_dirty_bit">
+            <obj_property name="ElementShortName">valid_dirty_bit</obj_property>
+            <obj_property name="ObjectShortName">valid_dirty_bit</obj_property>
+         </wvobject>
+      </wvobject>
+      <wvobject type="array" fp_name="/tb_top/dut/l2_cache/controller/next_state">
+         <obj_property name="ElementShortName">next_state[1:0]</obj_property>
+         <obj_property name="ObjectShortName">next_state[1:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/tb_top/dut/l2_cache/controller/state">
+         <obj_property name="ElementShortName">state[1:0]</obj_property>
+         <obj_property name="ObjectShortName">state[1:0]</obj_property>
       </wvobject>
    </wvobject>
 </wave_config>

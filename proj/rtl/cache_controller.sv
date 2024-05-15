@@ -35,7 +35,8 @@ always_comb begin
         internal_if.use_victim_tag_for_hmem_block_address,
         internal_if.reset_counter,
         req_if.req_fulfilled,
-        internal_if.decrement_counter
+        internal_if.decrement_counter,
+        internal_if.process_lru_counters
     } = '0;
 
     case (state)
@@ -72,6 +73,7 @@ always_comb begin
                         2'b1?: begin : hit
                             next_state = ST_IDLE;
                             req_if.req_fulfilled = 1'b1;
+                            internal_if.process_lru_counters = 1'b1;
                             if (req_if.req_operation == STORE) begin
                                 mealy_perform_write = 1'b1;
                                 internal_if.set_selected_dirty_bit = 1'b1;
@@ -114,6 +116,7 @@ always_comb begin
                 next_state = ST_IDLE;
                 internal_if.finish_new_line_install = 1'b1;
                 internal_if.clear_selected_dirty_bit = 1'b1;
+                internal_if.process_lru_counters = 1'b1;
             end else begin
                 next_state = ST_ALLOCATE;
             end
@@ -150,7 +153,8 @@ always_comb begin
                 internal_if.use_victim_tag_for_hmem_block_address,
                 internal_if.reset_counter,
                 req_if.req_fulfilled,
-                internal_if.decrement_counter
+                internal_if.decrement_counter,
+                internal_if.process_lru_counters
             } = 'x;
         end
     endcase

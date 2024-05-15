@@ -6,6 +6,7 @@ SRC_FILES_RTL = \
 	common/counter.sv \
 	common/onehot0_to_binary.sv \
 	dirty_bits.sv \
+	lru_counters.sv \
 	metadata.sv \
 	cache_controller.sv \
 	cache_datapath.sv \

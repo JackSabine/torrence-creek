@@ -40,7 +40,7 @@ class scoreboard extends uvm_scoreboard;
         dcache_expected_fifo = new("dcache_expected_fifo", this);
         dcache_observed_fifo = new("dcache_observed_fifo", this);
 
-        cache_model = new(dut_config.cache_size, dut_config.line_size, dut_config.assoc);
+        cache_model = new(dut_config.l1_cache_size, dut_config.line_size, 1);
     endfunction
 
     function new (string name, uvm_component parent);
