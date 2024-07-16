@@ -4,6 +4,8 @@
 `define WORD        (32)
 `define HALF        (16)
 `define BYTE        (8)
+`define BYTES_PER_WORD ((`WORD) / (`BYTE))
+`define HALFS_PER_WORD ((`WORD) / (`HALF))
 `define REG_BITS    (5)
 `define NUM_REGS    (32)
 

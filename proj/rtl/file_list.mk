@@ -1,8 +1,9 @@
 SRC_FILES_RTL = \
 	interfaces.sv \
-	icache_datapath.sv \
-	icache_controller.sv \
+	common/cachelines.sv \
+	common/counter.sv \
+	common/metadata.sv \
+	common/cache_controller.sv \
+	common/cache_datapath.sv \
 	icache.sv \
-	dcache_datapath.sv \
-	dcache_controller.sv \
 	dcache.sv
