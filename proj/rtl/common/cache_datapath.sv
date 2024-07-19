@@ -11,7 +11,7 @@ module cache_datapath import torrence_types::*; #(
     input wire clk,
     reset_if rst_if,
 
-    cache_if req_if,
+    cache_if.cache req_if,
     higher_memory_if hmem_if,
 
     //// DATAPATH/CONTROLLER SIGNALS ////
@@ -104,7 +104,7 @@ endgenerate
 
 assign hmem_if.req_address = {hmem_block_address, counter_out, {BYTE_SELECT_SIZE{1'b0}}};
 
-cache_metadata #(
+metadata #(
     .NUM_SETS(NUM_SETS),
     .SET_SIZE(SET_SIZE),
     .TAG_SIZE(TAG_SIZE),
@@ -116,7 +116,7 @@ cache_metadata #(
     .*
 );
 
-cache_data #(
+datalines #(
     .XLEN(XLEN),
     .NUM_SETS(NUM_SETS),
     .SET_SIZE(SET_SIZE),
@@ -138,7 +138,6 @@ counter #(
     .count(counter_out)
 );
 
-assign req_if.req_store_word = fetched_word;
-assign req_if.fetched_word   = fetched_word;
+assign req_if.req_loaded_word = fetched_word;
 
 endmodule

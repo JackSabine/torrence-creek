@@ -1,4 +1,4 @@
-module cache_metadata #(
+module metadata #(
     parameter NUM_SETS = 4,
     parameter SET_SIZE = 2,
     parameter TAG_SIZE = 30,

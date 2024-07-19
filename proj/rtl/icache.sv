@@ -5,7 +5,7 @@ module icache import torrence_types::*; #(
 ) (
     input wire clk,
     reset_if rst_if,
-    cache_if req_if,
+    cache_if.cache req_if,
     higher_memory_if hmem_if
 );
 
@@ -50,6 +50,11 @@ cache_datapath #(
 );
 
 cache_controller controller (
+    .clk(clk),
+    .rst_if(rst_if),
+    .req_if(req_if),
+    .hmem_if(hmem_if),
+
     .counter_done(counter_done),
     .valid_block_match(valid_block_match),
     .valid_dirty_bit(1'b0),

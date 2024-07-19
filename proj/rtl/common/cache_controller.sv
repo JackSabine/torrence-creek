@@ -3,7 +3,7 @@ module cache_controller import torrence_types::*; (
     input wire clk,
     reset_if rst_if,
 
-    cache_if req_if,
+    cache_if.cache req_if,
     higher_memory_if hmem_if,
 
     //// DATAPATH/CONTROLLER SIGNALS ////
@@ -48,7 +48,8 @@ always_comb begin
         set_hmem_block_address,
         use_victim_tag_for_hmem_block_address,
         reset_counter,
-        req_if.req_fulfilled
+        req_if.req_fulfilled,
+        decrement_counter
     } = '0;
 
     case (state)
@@ -101,7 +102,7 @@ always_comb begin
         end
 
         ST_WRITEBACK: begin
-            if (counter_done) begin
+            if (counter_done & hmem_if.req_fulfilled) begin
                 next_state = ST_ALLOCATE;
                 set_hmem_block_address = 1'b1;
                 reset_counter = 1'b1;
@@ -113,23 +114,31 @@ always_comb begin
         end
 
         ST_ALLOCATE: begin
-            if (counter_done) begin
+            if (counter_done & hmem_if.req_fulfilled) begin
                 next_state = ST_IDLE;
                 finish_new_line_install = 1'b1;
                 clear_selected_dirty_bit = 1'b1;
             end else begin
                 next_state = ST_ALLOCATE;
             end
+
+            if (hmem_if.req_fulfilled) begin
+                decrement_counter = 1'b1;
+            end
         end
 
         ST_FLUSH: begin
-            if (counter_done) begin
+            if (counter_done & hmem_if.req_fulfilled) begin
                 next_state = ST_IDLE;
                 clear_selected_dirty_bit = 1'b1;
                 clear_selected_valid_bit = 1'b1;
                 req_if.req_fulfilled = 1'b1;
             end else begin
                 next_state = ST_FLUSH;
+            end
+
+            if (hmem_if.req_fulfilled) begin
+                decrement_counter = 1'b1;
             end
         end
 
@@ -144,7 +153,8 @@ always_comb begin
                 set_hmem_block_address,
                 use_victim_tag_for_hmem_block_address,
                 reset_counter,
-                req_if.req_fulfilled
+                req_if.req_fulfilled,
+                decrement_counter
             } = 'x;
         end
     endcase
@@ -153,8 +163,6 @@ end
 //// MOORE OUTPUTS ////
 always_comb begin
     miss_recovery_mode = 1'b0;
-    miss_recovery_mode = 1'b0;
-    decrement_counter = 1'b0;
     hmem_if.req_operation = LOAD;
     hmem_if.req_valid = 1'b0;
     moore_perform_write = 1'b0;
@@ -169,26 +177,17 @@ always_comb begin
             hmem_if.req_operation = LOAD;
             hmem_if.req_valid = 1'b1;
             moore_perform_write = 1'b1;
-
-            if (hmem_if.req_fulfilled) begin
-                decrement_counter = 1'b1;
-            end
         end
 
         ST_FLUSH, ST_WRITEBACK: begin
             miss_recovery_mode = 1'b1;
             hmem_if.req_operation = STORE;
             hmem_if.req_valid = 1'b1;
-
-            if (hmem_if.req_fulfilled) begin
-                decrement_counter = 1'b1;
-            end
         end
 
         default: begin
             miss_recovery_mode = 1'bx;
             miss_recovery_mode = 1'bx;
-            decrement_counter = 1'bx;
             hmem_if.req_operation = MO_UNKNOWN;
             hmem_if.req_valid = 1'bx;
             moore_perform_write = 1'bx;

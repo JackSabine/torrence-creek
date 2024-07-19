@@ -16,4 +16,6 @@ always_ff @(posedge clk) begin
     end
 end
 
+assign done = (count == '0);
+
 endmodule
