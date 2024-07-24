@@ -111,6 +111,10 @@ always_comb begin
             end else begin
                 next_state = ST_WRITEBACK;
             end
+
+            if (hmem_if.req_fulfilled) begin
+                decrement_counter = 1'b1;
+            end
         end
 
         ST_ALLOCATE: begin

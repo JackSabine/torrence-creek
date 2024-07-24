@@ -139,5 +139,6 @@ counter #(
 );
 
 assign req_if.req_loaded_word = fetched_word;
+assign hmem_if.req_store_word = fetched_word;
 
 endmodule
