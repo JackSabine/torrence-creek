@@ -12,5 +12,6 @@ class icache_basic_test extends cache_base_test;
     virtual function void set_transaction_type();
         `uvm_info(get_name(), "Overriding types", UVM_LOW)
         memory_transaction::type_id::set_type_override(icache_transaction::get_type());
+        random_access_seq::type_id::set_type_override(icache_random_access_seq::get_type());
     endfunction
 endclass

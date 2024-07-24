@@ -107,6 +107,10 @@ class icache_transaction extends word_memory_transaction;
         req_operation == LOAD;
     }
 
+    constraint ro_rw_boundary {
+        req_address < `RO_RW_MEMORY_BOUNDARY;
+    }
+
     function new(string name = "");
         super.new(name);
         origin = ICACHE;
@@ -118,6 +122,10 @@ class dcache_transaction extends word_memory_transaction;
 
     constraint origin_con {
         origin == DCACHE;
+    }
+
+    constraint ro_rw_boundary {
+        req_address >= `RO_RW_MEMORY_BOUNDARY;
     }
 
     function new(string name = "");
