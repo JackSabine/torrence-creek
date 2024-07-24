@@ -72,3 +72,39 @@ class random_access_seq extends uvm_sequence #(memory_transaction);
         end
     endtask
 endclass
+
+
+
+class icache_random_access_seq extends random_access_seq;
+    `uvm_object_utils(icache_random_access_seq)
+
+    function void post_randomize();
+        super.post_randomize();
+        foreach (block_array[i]) begin
+            // Clear boundary bit
+            block_array[i] &= ~`RO_RW_MEMORY_BOUNDARY;
+        end
+    endfunction
+
+    function new(string name = "");
+        super.new(name);
+    endfunction
+endclass
+
+
+
+class dcache_random_access_seq extends random_access_seq;
+    `uvm_object_utils(dcache_random_access_seq)
+
+    function void post_randomize();
+        super.post_randomize();
+        foreach (block_array[i]) begin
+            // Set boundary bit
+            block_array[i] |= `RO_RW_MEMORY_BOUNDARY;
+        end
+    endfunction
+
+    function new(string name = "");
+        super.new(name);
+    endfunction
+endclass

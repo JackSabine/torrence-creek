@@ -4,40 +4,71 @@ module icache import torrence_types::*; #(
     parameter XLEN = 32 // bits
 ) (
     input wire clk,
-    input wire reset,
-
-    input wire [XLEN-1:0] pipe_req_address,
-    input wire memory_operation_e pipe_req_type,
-    input wire pipe_req_valid,
-    output wire [XLEN-1:0] pipe_fetched_word,
-    output wire pipe_req_fulfilled,
-
-    output wire [XLEN-1:0] l2_req_address,
-    output wire memory_operation_e l2_req_type,
-    output wire l2_req_valid,
-    input wire [XLEN-1:0] l2_fetched_word,
-    input wire l2_req_fulfilled
+    reset_if rst_if,
+    cache_if.cache req_if,
+    higher_memory_if hmem_if
 );
 
 ///////////////////////////////////////////////////////////////////
 //                 controller <-> datapath signals               //
 ///////////////////////////////////////////////////////////////////
-wire load_mode;
+wire miss_recovery_mode;
 wire perform_write;
 wire clear_selected_valid_bit;
 wire finish_new_line_install;
-wire set_new_l2_block_address;
+wire set_hmem_block_address;
 wire reset_counter;
 wire decrement_counter;
 wire counter_done;
 wire valid_block_match;
 
-icache_datapath #(
+cache_datapath #(
     .LINE_SIZE(LINE_SIZE),
     .CACHE_SIZE(CACHE_SIZE),
-    .XLEN(XLEN)
-) datapath (.*);
+    .XLEN(XLEN),
+    .READ_ONLY(1)
+) datapath (
+    .clk(clk),
+    .rst_if(rst_if),
+    .req_if(req_if),
+    .hmem_if(hmem_if),
 
-icache_controller controller (.*);
+    .miss_recovery_mode(miss_recovery_mode),
+    .clear_selected_dirty_bit(),
+    .set_selected_dirty_bit(),
+    .perform_write(perform_write),
+    .clear_selected_valid_bit(clear_selected_valid_bit),
+    .finish_new_line_install(finish_new_line_install),
+    .set_hmem_block_address(set_hmem_block_address),
+    .use_victim_tag_for_hmem_block_address(),
+    .reset_counter(reset_counter),
+    .decrement_counter(decrement_counter),
+
+    .counter_done(counter_done),
+    .valid_block_match(valid_block_match),
+    .valid_dirty_bit()
+);
+
+cache_controller controller (
+    .clk(clk),
+    .rst_if(rst_if),
+    .req_if(req_if),
+    .hmem_if(hmem_if),
+
+    .counter_done(counter_done),
+    .valid_block_match(valid_block_match),
+    .valid_dirty_bit(1'b0),
+
+    .miss_recovery_mode(miss_recovery_mode),
+    .clear_selected_dirty_bit(),
+    .set_selected_dirty_bit(),
+    .perform_write(perform_write),
+    .clear_selected_valid_bit(clear_selected_valid_bit),
+    .finish_new_line_install(finish_new_line_install),
+    .set_hmem_block_address(set_hmem_block_address),
+    .use_victim_tag_for_hmem_block_address(),
+    .reset_counter(reset_counter),
+    .decrement_counter(decrement_counter)
+);
 
 endmodule

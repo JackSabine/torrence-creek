@@ -1,8 +1,11 @@
 SRC_FILES_RTL = \
-	interfaces.sv \
-	icache_datapath.sv \
-	icache_controller.sv \
+	interfaces/cache_if.sv \
+	interfaces/higher_memory_if.sv \
+	interfaces/reset_if.sv \
+	common/datalines.sv \
+	common/counter.sv \
+	common/metadata.sv \
+	common/cache_controller.sv \
+	common/cache_datapath.sv \
 	icache.sv \
-	dcache_datapath.sv \
-	dcache_controller.sv \
 	dcache.sv

@@ -23,19 +23,9 @@ module tb_top;
         .XLEN(XLEN)
     ) icache_dut (
         .clk(clk),
-        .reset(rst_if.reset),
-
-        .pipe_req_address  (icache_req_if.req_address),
-        .pipe_req_type     (icache_req_if.req_operation),
-        .pipe_req_valid    (icache_req_if.req_valid),
-        .pipe_fetched_word (icache_req_if.req_loaded_word),
-        .pipe_req_fulfilled(icache_req_if.req_fulfilled),
-
-        .l2_req_address  (icache_rsp_if.req_address),
-        .l2_req_type     (icache_rsp_if.req_operation),
-        .l2_req_valid    (icache_rsp_if.req_valid),
-        .l2_fetched_word (icache_rsp_if.req_loaded_word),
-        .l2_req_fulfilled(icache_rsp_if.req_fulfilled)
+        .rst_if(rst_if),
+        .req_if(icache_req_if),
+        .hmem_if(icache_rsp_if)
     );
 
     dcache #(
@@ -44,22 +34,9 @@ module tb_top;
         .XLEN(XLEN)
     ) dcache_dut (
         .clk(clk),
-        .reset(rst_if.reset),
-
-        .pipe_req_address  (dcache_req_if.req_address),
-        .pipe_req_type     (dcache_req_if.req_operation),
-        .pipe_req_size     (dcache_req_if.req_size),
-        .pipe_req_valid    (dcache_req_if.req_valid),
-        .pipe_word_to_store(dcache_req_if.req_store_word),
-        .pipe_fetched_word (dcache_req_if.req_loaded_word),
-        .pipe_req_fulfilled(dcache_req_if.req_fulfilled),
-
-        .l2_req_address  (dcache_rsp_if.req_address),
-        .l2_req_type     (dcache_rsp_if.req_operation),
-        .l2_req_valid    (dcache_rsp_if.req_valid),
-        .l2_word_to_store(dcache_rsp_if.req_store_word),
-        .l2_fetched_word (dcache_rsp_if.req_loaded_word),
-        .l2_req_fulfilled(dcache_rsp_if.req_fulfilled)
+        .rst_if(rst_if),
+        .req_if(dcache_req_if),
+        .hmem_if(dcache_rsp_if)
     );
 
     initial begin

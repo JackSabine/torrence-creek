@@ -18,8 +18,8 @@ class l1_basic_test extends cache_base_test;
     endfunction
 
     virtual task main_phase(uvm_phase phase);
-        random_access_seq icache_seq;
-        random_access_seq dcache_seq;
+        icache_random_access_seq icache_seq;
+        dcache_random_access_seq dcache_seq;
         memory_response_seq icache_mem_rsp_seq;
         memory_response_seq dcache_mem_rsp_seq;
 
@@ -29,11 +29,12 @@ class l1_basic_test extends cache_base_test;
         dcache_mem_rsp_seq = memory_response_seq::type_id::create("dcache_mem_rsp_seq");
 
         // sequences appear to gain context when started on some sequencer, but we provide it here just in case
-        icache_seq = random_access_seq::type_id::create(.name("icache_seq"), .contxt(mem_env.icache_creq_agent.creq_seqr.get_full_name()));
-        dcache_seq = random_access_seq::type_id::create(.name("dcache_seq"), .contxt(mem_env.dcache_creq_agent.creq_seqr.get_full_name()));
-        assert(icache_seq.randomize() with { num_blocks_to_access == 1; block_array[0] == 32'h1e69_f620; }) else `uvm_fatal(get_full_name(), "Couldn't randomize icache_seq")
-        assert(dcache_seq.randomize() with { num_blocks_to_access == 1; block_array[0] == 32'ha031_0a20; }) else `uvm_fatal(get_full_name(), "Couldn't randomize dcache_seq")
+        icache_seq = icache_random_access_seq::type_id::create(.name("icache_seq"), .contxt(mem_env.icache_creq_agent.creq_seqr.get_full_name()));
+        assert(icache_seq.randomize()) else `uvm_fatal(get_full_name(), "Couldn't randomize icache_seq")
         `uvm_info("icache_seq", icache_seq.sprint(), UVM_LOW)
+
+        dcache_seq = dcache_random_access_seq::type_id::create(.name("dcache_seq"), .contxt(mem_env.dcache_creq_agent.creq_seqr.get_full_name()));
+        assert(dcache_seq.randomize()) else `uvm_fatal(get_full_name(), "Couldn't randomize dcache_seq")
         `uvm_info("dcache_seq", dcache_seq.sprint(), UVM_LOW)
 
         fork
