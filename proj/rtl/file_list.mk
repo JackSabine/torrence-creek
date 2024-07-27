@@ -1,6 +1,5 @@
 SRC_FILES_RTL = \
-	interfaces/cache_if.sv \
-	interfaces/higher_memory_if.sv \
+	interfaces/memory_if.sv \
 	interfaces/reset_if.sv \
 	common/datalines.sv \
 	common/counter.sv \

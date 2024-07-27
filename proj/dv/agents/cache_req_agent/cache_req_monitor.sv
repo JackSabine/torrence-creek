@@ -3,7 +3,7 @@ class cache_req_monitor extends uvm_monitor;
 
     uvm_analysis_port #(memory_transaction) creq_ap;
 
-    virtual cache_if req_vi;
+    virtual memory_if req_vi;
 
     function new(string name, uvm_component parent);
         super.new(name, parent);
@@ -11,7 +11,7 @@ class cache_req_monitor extends uvm_monitor;
 
     function void build_phase(uvm_phase phase);
         super.build_phase(phase);
-        assert(uvm_config_db #(virtual cache_if)::get(
+        assert(uvm_config_db #(virtual memory_if)::get(
             .cntxt(this),
             .inst_name(""),
             .field_name("memory_requester_if"),

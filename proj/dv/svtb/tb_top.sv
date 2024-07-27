@@ -11,10 +11,10 @@ module tb_top;
 
     bit clk_enabled = 1'b0;
     logic clk = 1'b0;
-    cache_if         icache_req_if(clk);
-    higher_memory_if icache_rsp_if(clk);
-    cache_if         dcache_req_if(clk);
-    higher_memory_if dcache_rsp_if(clk);
+    memory_if icache_req_if(clk);
+    memory_if icache_rsp_if(clk);
+    memory_if dcache_req_if(clk);
+    memory_if dcache_rsp_if(clk);
     reset_if rst_if(clk);
 
     icache #(
@@ -59,25 +59,25 @@ module tb_top;
         `uvm_info("tb_top", clk_config.sprint(), UVM_LOW)
         clk_enabled = 1'b1;
 
-        uvm_config_db #(virtual cache_if)::set(
+        uvm_config_db #(virtual memory_if)::set(
             .cntxt(null),
             .inst_name("uvm_test_top.mem_env.icache_creq_agent.*"),
             .field_name("memory_requester_if"),
             .value(icache_req_if)
         );
-        uvm_config_db #(virtual higher_memory_if)::set(
+        uvm_config_db #(virtual memory_if)::set(
             .cntxt(null),
             .inst_name("uvm_test_top.mem_env.icache_mrsp_agent.*"),
             .field_name("memory_responder_if"),
             .value(icache_rsp_if)
         );
-        uvm_config_db #(virtual cache_if)::set(
+        uvm_config_db #(virtual memory_if)::set(
             .cntxt(null),
             .inst_name("uvm_test_top.mem_env.dcache_creq_agent.*"),
             .field_name("memory_requester_if"),
             .value(dcache_req_if)
         );
-        uvm_config_db #(virtual higher_memory_if)::set(
+        uvm_config_db #(virtual memory_if)::set(
             .cntxt(null),
             .inst_name("uvm_test_top.mem_env.dcache_mrsp_agent.*"),
             .field_name("memory_responder_if"),

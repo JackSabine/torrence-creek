@@ -3,7 +3,7 @@ class memory_rsp_monitor extends uvm_monitor;
 
     uvm_analysis_port #(memory_transaction) mrsp_ap;
 
-    virtual higher_memory_if rsp_vi;
+    virtual memory_if rsp_vi;
 
     main_memory dut_memory_model;
 
@@ -13,7 +13,7 @@ class memory_rsp_monitor extends uvm_monitor;
 
     function void build_phase(uvm_phase phase);
         super.build_phase(phase);
-        assert(uvm_config_db #(virtual higher_memory_if)::get(
+        assert(uvm_config_db #(virtual memory_if)::get(
             .cntxt(this),
             .inst_name(""),
             .field_name("memory_responder_if"),

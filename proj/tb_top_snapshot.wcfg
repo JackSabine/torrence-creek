@@ -14,13 +14,13 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="21 ns"></ZoomStartTime>
-      <ZoomEndTime time="41 ns"></ZoomEndTime>
+      <ZoomStartTime time="0 ns"></ZoomStartTime>
+      <ZoomEndTime time="971 ns"></ZoomEndTime>
       <Cursor1Time time="27 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="239"></NameColumnWidth>
-      <ValueColumnWidth column_width="102"></ValueColumnWidth>
+      <ValueColumnWidth column_width="98"></ValueColumnWidth>
    </column_width_setting>
    <WVObjectSize size="7" />
    <wvobject type="group" fp_name="group36">
@@ -39,6 +39,7 @@
    <wvobject type="group" fp_name="group53">
       <obj_property name="label">ireq</obj_property>
       <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
       <wvobject type="logic" fp_name="/tb_top/icache_req_if/clk">
          <obj_property name="ElementShortName">clk</obj_property>
          <obj_property name="ObjectShortName">clk</obj_property>
@@ -79,6 +80,7 @@
    <wvobject type="group" fp_name="group54">
       <obj_property name="label">irsp</obj_property>
       <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
       <wvobject type="logic" fp_name="/tb_top/icache_rsp_if/clk">
          <obj_property name="ElementShortName">clk</obj_property>
          <obj_property name="ObjectShortName">clk</obj_property>
@@ -90,6 +92,10 @@
       <wvobject type="array" fp_name="/tb_top/icache_rsp_if/req_operation">
          <obj_property name="ElementShortName">req_operation[1:0]</obj_property>
          <obj_property name="ObjectShortName">req_operation[1:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/tb_top/icache_rsp_if/req_size">
+         <obj_property name="ElementShortName">req_size[1:0]</obj_property>
+         <obj_property name="ObjectShortName">req_size[1:0]</obj_property>
       </wvobject>
       <wvobject type="array" fp_name="/tb_top/icache_rsp_if/req_store_word">
          <obj_property name="ElementShortName">req_store_word[31:0]</obj_property>
@@ -155,6 +161,7 @@
    <wvobject type="group" fp_name="group56">
       <obj_property name="label">drsp</obj_property>
       <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
       <wvobject type="logic" fp_name="/tb_top/dcache_rsp_if/clk">
          <obj_property name="ElementShortName">clk</obj_property>
          <obj_property name="ObjectShortName">clk</obj_property>
@@ -166,6 +173,10 @@
       <wvobject type="array" fp_name="/tb_top/dcache_rsp_if/req_operation">
          <obj_property name="ElementShortName">req_operation[1:0]</obj_property>
          <obj_property name="ObjectShortName">req_operation[1:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/tb_top/dcache_rsp_if/req_size">
+         <obj_property name="ElementShortName">req_size[1:0]</obj_property>
+         <obj_property name="ObjectShortName">req_size[1:0]</obj_property>
       </wvobject>
       <wvobject type="array" fp_name="/tb_top/dcache_rsp_if/req_store_word">
          <obj_property name="ElementShortName">req_store_word[31:0]</obj_property>

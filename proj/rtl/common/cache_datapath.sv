@@ -11,8 +11,8 @@ module cache_datapath import torrence_types::*; #(
     input wire clk,
     reset_if rst_if,
 
-    cache_if.cache req_if,
-    higher_memory_if hmem_if,
+    memory_if.server req_if,
+    memory_if.requester hmem_if,
 
     //// DATAPATH/CONTROLLER SIGNALS ////
     input wire miss_recovery_mode,

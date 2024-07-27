@@ -1,4 +1,4 @@
-interface cache_if import torrence_types::*; #(
+interface memory_if import torrence_types::*; #(
     parameter XLEN = 32
 ) (
     input bit clk
@@ -12,12 +12,12 @@ interface cache_if import torrence_types::*; #(
     logic [XLEN-1:0] req_loaded_word;
     logic req_fulfilled;
 
-    modport cache (
+    modport requester (
         input req_address, req_operation, req_size, req_store_word, req_valid,
         output req_loaded_word, req_fulfilled
     );
 
-    modport tb (
+    modport server (
         input req_loaded_word, req_fulfilled,
         output req_address, req_operation, req_size, req_store_word, req_valid
     );

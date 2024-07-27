@@ -1,7 +1,7 @@
 class memory_rsp_driver extends uvm_driver #(memory_transaction);
     `uvm_component_utils(memory_rsp_driver)
 
-    virtual higher_memory_if rsp_vi;
+    virtual memory_if rsp_vi;
 
     function new (string name, uvm_component parent);
         super.new(name, parent);
@@ -9,7 +9,7 @@ class memory_rsp_driver extends uvm_driver #(memory_transaction);
 
     function void build_phase(uvm_phase phase);
         super.build_phase(phase);
-        assert(uvm_config_db #(virtual higher_memory_if)::get(
+        assert(uvm_config_db #(virtual memory_if)::get(
             .cntxt(this),
             .inst_name(""),
             .field_name("memory_responder_if"),

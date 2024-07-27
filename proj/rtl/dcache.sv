@@ -5,8 +5,8 @@ module dcache import torrence_types::*; #(
 ) (
     input wire clk,
     reset_if rst_if,
-    cache_if req_if,
-    higher_memory_if hmem_if
+    memory_if.server req_if,
+    memory_if.requester hmem_if
 );
 
 ///////////////////////////////////////////////////////////////////
