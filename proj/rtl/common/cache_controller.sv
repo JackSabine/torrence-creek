@@ -6,21 +6,7 @@ module cache_controller import torrence_types::*; (
     memory_if.server req_if,
     memory_if.requester hmem_if,
 
-    //// DATAPATH/CONTROLLER SIGNALS ////
-    input wire counter_done,
-    input wire valid_block_match,
-    input wire valid_dirty_bit,
-
-    output logic miss_recovery_mode,
-    output logic clear_selected_dirty_bit,
-    output logic set_selected_dirty_bit,
-    output wire  perform_write,
-    output logic clear_selected_valid_bit,
-    output logic finish_new_line_install,
-    output logic set_hmem_block_address,
-    output logic use_victim_tag_for_hmem_block_address,
-    output logic reset_counter,
-    output logic decrement_counter
+    cache_internal_if.controller internal_if
 );
 
 typedef enum logic[1:0] {
@@ -35,64 +21,64 @@ cache_state_e state, next_state;
 
 logic mealy_perform_write, moore_perform_write;
 
-assign perform_write = mealy_perform_write | moore_perform_write;
+assign internal_if.perform_write = mealy_perform_write | moore_perform_write;
 
 //// NEXT STATE LOGIC AND MEALY OUTPUTS ////
 always_comb begin
     {
-        clear_selected_dirty_bit,
-        set_selected_dirty_bit,
+        internal_if.clear_selected_dirty_bit,
+        internal_if.set_selected_dirty_bit,
         mealy_perform_write,
-        clear_selected_valid_bit,
-        finish_new_line_install,
-        set_hmem_block_address,
-        use_victim_tag_for_hmem_block_address,
-        reset_counter,
+        internal_if.clear_selected_valid_bit,
+        internal_if.finish_new_line_install,
+        internal_if.set_hmem_block_address,
+        internal_if.use_victim_tag_for_hmem_block_address,
+        internal_if.reset_counter,
         req_if.req_fulfilled,
-        decrement_counter
+        internal_if.decrement_counter
     } = '0;
 
     case (state)
         ST_IDLE: begin
             if (req_if.req_valid) begin
                 if (req_if.req_operation == CLFLUSH) begin
-                    unique casez ({valid_block_match, valid_dirty_bit})
+                    unique casez ({internal_if.valid_block_match, internal_if.valid_dirty_bit})
                         2'b0?: begin : clflush_block_not_present
                             next_state = ST_IDLE;
                             req_if.req_fulfilled = 1'b1;
                         end
                         2'b10: begin : clflush_block_present_and_clean
                             next_state = ST_IDLE;
-                            clear_selected_valid_bit = 1'b1;
+                            internal_if.clear_selected_valid_bit = 1'b1;
                             req_if.req_fulfilled = 1'b1;
                         end
                         2'b11: begin : clflush_block_present_and_dirty
                             next_state = ST_FLUSH;
-                            use_victim_tag_for_hmem_block_address = 1'b1;
-                            set_hmem_block_address = 1'b1;
-                            reset_counter = 1'b1;
+                            internal_if.use_victim_tag_for_hmem_block_address = 1'b1;
+                            internal_if.set_hmem_block_address = 1'b1;
+                            internal_if.reset_counter = 1'b1;
                         end
                     endcase
                 end else begin
-                    unique casez ({valid_block_match, valid_dirty_bit})
+                    unique casez ({internal_if.valid_block_match, internal_if.valid_dirty_bit})
                         2'b00: begin : clean_miss
                             next_state = ST_ALLOCATE;
-                            set_hmem_block_address = 1'b1;
-                            reset_counter = 1'b1;
+                            internal_if.set_hmem_block_address = 1'b1;
+                            internal_if.reset_counter = 1'b1;
                         end
                         2'b1?: begin : hit
                             next_state = ST_IDLE;
                             req_if.req_fulfilled = 1'b1;
                             if (req_if.req_operation == STORE) begin
                                 mealy_perform_write = 1'b1;
-                                set_selected_dirty_bit = 1'b1;
+                                internal_if.set_selected_dirty_bit = 1'b1;
                             end
                         end
                         2'b01: begin : dirty_miss
                             next_state = ST_WRITEBACK;
-                            use_victim_tag_for_hmem_block_address = 1'b1;
-                            set_hmem_block_address = 1'b1;
-                            reset_counter = 1'b1;
+                            internal_if.use_victim_tag_for_hmem_block_address = 1'b1;
+                            internal_if.set_hmem_block_address = 1'b1;
+                            internal_if.reset_counter = 1'b1;
                         end
                     endcase
                 end
@@ -102,63 +88,63 @@ always_comb begin
         end
 
         ST_WRITEBACK: begin
-            if (counter_done & hmem_if.req_fulfilled) begin
+            if (internal_if.counter_done & hmem_if.req_fulfilled) begin
                 next_state = ST_ALLOCATE;
-                set_hmem_block_address = 1'b1;
-                reset_counter = 1'b1;
-                clear_selected_dirty_bit = 1'b1;
-                clear_selected_valid_bit = 1'b1;
+                internal_if.set_hmem_block_address = 1'b1;
+                internal_if.reset_counter = 1'b1;
+                internal_if.clear_selected_dirty_bit = 1'b1;
+                internal_if.clear_selected_valid_bit = 1'b1;
             end else begin
                 next_state = ST_WRITEBACK;
             end
 
             if (hmem_if.req_fulfilled) begin
-                decrement_counter = 1'b1;
+                internal_if.decrement_counter = 1'b1;
             end
         end
 
         ST_ALLOCATE: begin
-            if (counter_done & hmem_if.req_fulfilled) begin
+            if (internal_if.counter_done & hmem_if.req_fulfilled) begin
                 next_state = ST_IDLE;
-                finish_new_line_install = 1'b1;
-                clear_selected_dirty_bit = 1'b1;
+                internal_if.finish_new_line_install = 1'b1;
+                internal_if.clear_selected_dirty_bit = 1'b1;
             end else begin
                 next_state = ST_ALLOCATE;
             end
 
             if (hmem_if.req_fulfilled) begin
-                decrement_counter = 1'b1;
+                internal_if.decrement_counter = 1'b1;
             end
         end
 
         ST_FLUSH: begin
-            if (counter_done & hmem_if.req_fulfilled) begin
+            if (internal_if.counter_done & hmem_if.req_fulfilled) begin
                 next_state = ST_IDLE;
-                clear_selected_dirty_bit = 1'b1;
-                clear_selected_valid_bit = 1'b1;
+                internal_if.clear_selected_dirty_bit = 1'b1;
+                internal_if.clear_selected_valid_bit = 1'b1;
                 req_if.req_fulfilled = 1'b1;
             end else begin
                 next_state = ST_FLUSH;
             end
 
             if (hmem_if.req_fulfilled) begin
-                decrement_counter = 1'b1;
+                internal_if.decrement_counter = 1'b1;
             end
         end
 
         default: begin
             next_state = ST_UNKNOWN;
             {
-                clear_selected_dirty_bit,
-                set_selected_dirty_bit,
+                internal_if.clear_selected_dirty_bit,
+                internal_if.set_selected_dirty_bit,
                 mealy_perform_write,
-                clear_selected_valid_bit,
-                finish_new_line_install,
-                set_hmem_block_address,
-                use_victim_tag_for_hmem_block_address,
-                reset_counter,
+                internal_if.clear_selected_valid_bit,
+                internal_if.finish_new_line_install,
+                internal_if.set_hmem_block_address,
+                internal_if.use_victim_tag_for_hmem_block_address,
+                internal_if.reset_counter,
                 req_if.req_fulfilled,
-                decrement_counter
+                internal_if.decrement_counter
             } = 'x;
         end
     endcase
@@ -166,7 +152,7 @@ end
 
 //// MOORE OUTPUTS ////
 always_comb begin
-    miss_recovery_mode = 1'b0;
+    internal_if.miss_recovery_mode = 1'b0;
     hmem_if.req_operation = LOAD;
     hmem_if.req_valid = 1'b0;
     moore_perform_write = 1'b0;
@@ -177,21 +163,20 @@ always_comb begin
         end
 
         ST_ALLOCATE: begin
-            miss_recovery_mode = 1'b1;
+            internal_if.miss_recovery_mode = 1'b1;
             hmem_if.req_operation = LOAD;
             hmem_if.req_valid = 1'b1;
             moore_perform_write = 1'b1;
         end
 
         ST_FLUSH, ST_WRITEBACK: begin
-            miss_recovery_mode = 1'b1;
+            internal_if.miss_recovery_mode = 1'b1;
             hmem_if.req_operation = STORE;
             hmem_if.req_valid = 1'b1;
         end
 
         default: begin
-            miss_recovery_mode = 1'bx;
-            miss_recovery_mode = 1'bx;
+            internal_if.miss_recovery_mode = 1'bx;
             hmem_if.req_operation = MO_UNKNOWN;
             hmem_if.req_valid = 1'bx;
             moore_perform_write = 1'bx;

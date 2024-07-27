@@ -14,21 +14,7 @@ module cache_datapath import torrence_types::*; #(
     memory_if.server req_if,
     memory_if.requester hmem_if,
 
-    //// DATAPATH/CONTROLLER SIGNALS ////
-    input wire miss_recovery_mode,
-    input wire clear_selected_dirty_bit,
-    input wire set_selected_dirty_bit,
-    input wire perform_write,
-    input wire clear_selected_valid_bit,
-    input wire finish_new_line_install,
-    input wire set_hmem_block_address,
-    input wire use_victim_tag_for_hmem_block_address,
-    input wire reset_counter,
-    input wire decrement_counter,
-
-    output wire counter_done,
-    output logic valid_block_match,
-    output logic valid_dirty_bit
+    cache_internal_if.datapath internal_if
 );
 
 generate;
@@ -75,10 +61,10 @@ wire [TAG_SIZE-1:0] selected_tag;
 ///////////////////////////////////////////////////////////////////
 assign {req_tag, req_set, req_word_select, req_byte_select} = req_if.req_address;
 
-assign word_select   = miss_recovery_mode ? counter_out             : req_word_select;
-assign byte_select   = miss_recovery_mode ? '0                      : req_byte_select;
-assign word_to_store = miss_recovery_mode ? hmem_if.req_loaded_word : req_if.req_store_word;
-assign op_size       = miss_recovery_mode ? WORD                    : req_if.req_size;
+assign word_select   = internal_if.miss_recovery_mode ? counter_out             : req_word_select;
+assign byte_select   = internal_if.miss_recovery_mode ? '0                      : req_byte_select;
+assign word_to_store = internal_if.miss_recovery_mode ? hmem_if.req_loaded_word : req_if.req_store_word;
+assign op_size       = internal_if.miss_recovery_mode ? WORD                    : req_if.req_size;
 
 ///////////////////////////////////////////////////////////////////
 //                  Higher cache address logic                   //
@@ -86,16 +72,16 @@ assign op_size       = miss_recovery_mode ? WORD                    : req_if.req
 generate
     if (READ_ONLY == 0) begin
         always_ff @(posedge clk) begin
-            if (set_hmem_block_address) begin
+            if (internal_if.set_hmem_block_address) begin
                 hmem_block_address <= {
-                    use_victim_tag_for_hmem_block_address ? selected_tag : req_tag,
+                    internal_if.use_victim_tag_for_hmem_block_address ? selected_tag : req_tag,
                     req_set
                 };
             end
         end
     end else begin
         always_ff @(posedge clk) begin
-            if (set_hmem_block_address) begin
+            if (internal_if.set_hmem_block_address) begin
                 hmem_block_address <= {req_tag, req_set};
             end
         end
@@ -110,10 +96,18 @@ metadata #(
     .TAG_SIZE(TAG_SIZE),
     .READ_ONLY(READ_ONLY)
 ) metadata (
+    .clk(clk),
+    .reset(rst_if.reset),
     .set(req_set),
     .tag(req_tag),
-    .reset(rst_if.reset),
-    .*
+    .clear_selected_valid_bit(internal_if.clear_selected_valid_bit),
+    .finish_new_line_install(internal_if.finish_new_line_install),
+    .clear_selected_dirty_bit(internal_if.clear_selected_dirty_bit),
+    .set_selected_dirty_bit(internal_if.set_selected_dirty_bit),
+
+    .valid_dirty_bit(internal_if.valid_dirty_bit),
+    .valid_block_match(internal_if.valid_block_match),
+    .selected_tag(selected_tag)
 );
 
 datalines #(
@@ -124,17 +118,24 @@ datalines #(
     .WORD_SELECT_SIZE(WORD_SELECT_SIZE),
     .BYTE_SELECT_SIZE(BYTE_SELECT_SIZE)
 ) data (
+    .clk(clk),
     .set(req_set),
-    .*
+    .perform_write(internal_if.perform_write),
+    .op_size(op_size),
+    .word_select(word_select),
+    .byte_select(byte_select),
+
+    .word_to_store(word_to_store),
+    .fetched_word(fetched_word)
 );
 
 counter #(
     .WIDTH(WORD_SELECT_SIZE)
 ) count (
     .clk(clk),
-    .reset(reset_counter),
-    .count_down(decrement_counter),
-    .done(counter_done),
+    .reset(internal_if.reset_counter),
+    .count_down(internal_if.decrement_counter),
+    .done(internal_if.counter_done),
     .count(counter_out)
 );
 

@@ -38,6 +38,8 @@ generate
         end
 
         assign valid_dirty_bit = (valid_array[set] & dirty_array[set]);
+    end else begin
+        assign valid_dirty_bit = 1'b0;
     end
 endgenerate
 
