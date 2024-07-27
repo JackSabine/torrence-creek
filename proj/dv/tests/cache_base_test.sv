@@ -56,7 +56,7 @@ class cache_base_test extends uvm_test;
 
         mem_seq = random_access_seq::type_id::create(.name("mem_seq"));
         assert(mem_seq.randomize()) else `uvm_fatal(get_full_name(), "Couldn't randomize mem_seq")
-        `uvm_info("mem_seq", mem_seq.sprint(), UVM_NONE)
+        mem_seq.print();
 
         target = choose_active_agent();
 

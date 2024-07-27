@@ -31,11 +31,11 @@ class l1_basic_test extends cache_base_test;
         // sequences appear to gain context when started on some sequencer, but we provide it here just in case
         icache_seq = icache_random_access_seq::type_id::create(.name("icache_seq"), .contxt(mem_env.icache_creq_agent.creq_seqr.get_full_name()));
         assert(icache_seq.randomize()) else `uvm_fatal(get_full_name(), "Couldn't randomize icache_seq")
-        `uvm_info("icache_seq", icache_seq.sprint(), UVM_LOW)
+        icache_seq.print();
 
         dcache_seq = dcache_random_access_seq::type_id::create(.name("dcache_seq"), .contxt(mem_env.dcache_creq_agent.creq_seqr.get_full_name()));
         assert(dcache_seq.randomize()) else `uvm_fatal(get_full_name(), "Couldn't randomize dcache_seq")
-        `uvm_info("dcache_seq", dcache_seq.sprint(), UVM_LOW)
+        dcache_seq.print();
 
         fork
             fork // Both must complete
