@@ -1,30 +1,12 @@
-module l1_to_l2_cache_req_arbiter import xentry_types::*; #(
+module l1_to_l2_cache_req_arbiter import torrence_types::*; #(
     parameter XLEN = 32
 ) (
     input wire clk,
     input wire reset,
 
-    //// ICACHE Interface ////
-    input wire [XLEN-1:0] icache_req_address,
-    input wire icache_req_valid,
-    output wire [XLEN-1:0] icache_fetched_word,
-    output wire icache_req_fulfilled,
-
-    //// DCACHE Interface ////
-    input wire [XLEN-1:0] dcache_req_address,
-    input wire memory_operation_e dcache_req_type,
-    input wire dcache_req_valid,
-    input wire [XLEN-1:0] dcache_word_to_store,
-    output wire [XLEN-1:0] dcache_fetched_word,
-    output wire dcache_req_fulfilled,
-
-    //// L2 Interface ////
-    output wire [XLEN-1:0] req_address,
-    output wire memory_operation_e req_type,
-    output wire req_valid,
-    output wire [XLEN-1:0] word_to_store,
-    input wire [XLEN-1:0] fetched_word,
-    input wire req_fulfilled
+    memory_if.server icache_if,
+    memory_if.server dcache_if,
+    memory_if.requester l2_if
 );
 
 typedef enum logic[1:0] {
@@ -43,39 +25,50 @@ always_comb begin
 
     case (state)
         ST_IDLE: begin
-            if (icache_req_valid) begin
+            priority if (icache_if.req_valid) begin
                 next_state = ST_SERVING_ICACHE;
                 serve_icache = 1'b1;
-            end else if (dcache_req_valid) begin
+            end else if (dcache_if.req_valid) begin
                 next_state = ST_SERVING_DCACHE;
             end
         end
 
         ST_SERVING_ICACHE: begin
             serve_icache = 1'b1;
-            next_state = icache_req_fulfilled ? ST_IDLE : ST_SERVING_ICACHE;
+            if (l2_if.req_fulfilled) begin
+                next_state = ST_IDLE;
+            end else begin
+                next_state = ST_SERVING_ICACHE;
+            end
         end
 
         ST_SERVING_DCACHE: begin
-            next_state = dcache_req_fulfilled ? ST_IDLE : ST_SERVING_DCACHE;
+            if (l2_if.req_fulfilled) begin
+                next_state = ST_IDLE;
+            end else begin
+                next_state = ST_SERVING_DCACHE;
+            end
         end
 
         default: begin
-            next_state = ST_IDLE;
+            next_state = ST_UNKNOWN;
+            serve_icache = 1'bx;
         end
     endcase
 end
 
-assign icache_fetched_word  = serve_icache ? fetched_word  : '0;
-assign icache_req_fulfilled = serve_icache ? req_fulfilled : 1'b0;
+// Signals to pass up (to L1 caches)
+assign icache_if.req_loaded_word = l2_if.req_loaded_word;
+assign dcache_if.req_loaded_word = l2_if.req_loaded_word;
 
-assign dcache_fetched_word  = serve_icache ? '0   : fetched_word;
-assign dcache_req_fulfilled = serve_icache ? 1'b0 : req_fulfilled;
+assign icache_if.req_fulfilled = ( serve_icache) & l2_if.req_fulfilled;
+assign dcache_if.req_fulfilled = (~serve_icache) & l2_if.req_fulfilled;
 
-assign req_address   = serve_icache ? icache_req_address : dcache_req_address;
-assign req_type      = serve_icache ? LOAD               : dcache_req_type;
-assign req_valid     = serve_icache ? icache_req_valid   : dcache_req_valid;
-assign word_to_store = serve_icache ? '0                 : dcache_word_to_store;
+// Signals to pass down (to higher memory)
+assign l2_if.req_address    = serve_icache ? icache_if.req_address : dcache_if.req_address;
+assign l2_if.req_operation  = serve_icache ? LOAD                  : dcache_if.req_operation;
+assign l2_if.req_store_word = serve_icache ? '0                    : dcache_if.req_store_word;
+assign l2_if.req_valid      = serve_icache ? icache_if.req_valid   : dcache_if.req_valid;
 
 //// STATE REGISTER ////
 always_ff @(posedge clk) begin

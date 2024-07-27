@@ -45,14 +45,12 @@ class cache_base_test extends uvm_test;
 
     virtual task main_phase(uvm_phase phase);
         random_access_seq mem_seq;
-        memory_response_seq icache_mem_rsp_seq;
-        memory_response_seq dcache_mem_rsp_seq;
+        memory_response_seq mem_rsp_seq;
         l1_type_e target;
 
         phase.raise_objection(this);
 
-        icache_mem_rsp_seq = memory_response_seq::type_id::create(.name("icache_mem_rsp_seq"));
-        dcache_mem_rsp_seq = memory_response_seq::type_id::create(.name("dcache_mem_rsp_seq"));
+        mem_rsp_seq = memory_response_seq::type_id::create(.name("mem_rsp_seq"));
 
         mem_seq = random_access_seq::type_id::create(.name("mem_seq"));
         assert(mem_seq.randomize()) else `uvm_fatal(get_full_name(), "Couldn't randomize mem_seq")
@@ -67,8 +65,7 @@ class cache_base_test extends uvm_test;
                 DCACHE: mem_seq.start(mem_env.dcache_creq_agent.creq_seqr);
                 endcase
             end
-            icache_mem_rsp_seq.start(mem_env.icache_mrsp_agent.mrsp_seqr); // Runs forever
-            dcache_mem_rsp_seq.start(mem_env.dcache_mrsp_agent.mrsp_seqr); // Runs forever
+            mem_rsp_seq.start(mem_env.mem_rsp_agent.mrsp_seqr); // Runs forever
         join_any
 
         phase.drop_objection(this);

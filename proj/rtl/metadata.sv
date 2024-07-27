@@ -27,17 +27,19 @@ wire tag_match;
 
 generate
     if (READ_ONLY == 0) begin
-        logic [NUM_SETS-1:0] dirty_array;
+        wire selected_dirty_bit;
 
-        always_ff @(posedge clk) begin
-            unique0 if (clear_selected_dirty_bit) begin
-                dirty_array[set] <= 1'b0;
-            end else if (set_selected_dirty_bit) begin
-                dirty_array[set] <= 1'b1;
-            end
-        end
+        dirty_bits #(
+            .NUM_SETS(NUM_SETS)
+        ) dirty_bits (
+            .clk(clk),
+            .set(set),
+            .clear_selected_dirty_bit(clear_selected_dirty_bit),
+            .set_selected_dirty_bit(set_selected_dirty_bit),
+            .selected_dirty_bit(selected_dirty_bit)
+        );
 
-        assign valid_dirty_bit = (valid_array[set] & dirty_array[set]);
+        assign valid_dirty_bit = (valid_array[set] & selected_dirty_bit);
     end else begin
         assign valid_dirty_bit = 1'b0;
     end

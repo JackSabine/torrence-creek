@@ -2,9 +2,8 @@ class environment extends uvm_env;
     `uvm_component_utils(environment)
 
     cache_req_agent  icache_creq_agent;
-    memory_rsp_agent icache_mrsp_agent;
     cache_req_agent  dcache_creq_agent;
-    memory_rsp_agent dcache_mrsp_agent;
+    memory_rsp_agent mem_rsp_agent;
     reset_agent rst_agent;
     scoreboard sb;
 
@@ -25,9 +24,8 @@ class environment extends uvm_env;
         );
 
         icache_creq_agent  = cache_req_agent::type_id::create(.name("icache_creq_agent"), .parent(this));
-        icache_mrsp_agent = memory_rsp_agent::type_id::create(.name("icache_mrsp_agent"), .parent(this));
         dcache_creq_agent  = cache_req_agent::type_id::create(.name("dcache_creq_agent"), .parent(this));
-        dcache_mrsp_agent = memory_rsp_agent::type_id::create(.name("dcache_mrsp_agent"), .parent(this));
+        mem_rsp_agent = memory_rsp_agent::type_id::create(.name("mem_rsp_agent"), .parent(this));
         rst_agent  = reset_agent::type_id::create(.name("rst_agent"), .parent(this));
         sb         = scoreboard::type_id::create(.name("sb"), .parent(this));
     endfunction

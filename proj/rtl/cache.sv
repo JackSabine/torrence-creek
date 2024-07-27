@@ -1,7 +1,9 @@
-module icache import torrence_types::*; #(
+module cache import torrence_types::*; #(
     parameter LINE_SIZE = 32, // 32 Bytes per block
     parameter CACHE_SIZE = 1024, // Bytes
-    parameter XLEN = 32 // bits
+    parameter XLEN = 32, // bits
+
+    parameter READ_ONLY = 0
 ) (
     input wire clk,
     reset_if rst_if,
@@ -15,7 +17,7 @@ cache_datapath #(
     .LINE_SIZE(LINE_SIZE),
     .CACHE_SIZE(CACHE_SIZE),
     .XLEN(XLEN),
-    .READ_ONLY(1)
+    .READ_ONLY(READ_ONLY)
 ) datapath (.*);
 
 cache_controller controller (.*);

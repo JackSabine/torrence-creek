@@ -2,10 +2,13 @@ SRC_FILES_RTL = \
 	interfaces/memory_if.sv \
 	interfaces/reset_if.sv \
 	interfaces/cache_internal_if.sv \
-	common/datalines.sv \
+	datalines.sv \
 	common/counter.sv \
-	common/metadata.sv \
-	common/cache_controller.sv \
-	common/cache_datapath.sv \
-	icache.sv \
-	dcache.sv
+	common/onehot0_to_binary.sv \
+	dirty_bits.sv \
+	metadata.sv \
+	cache_controller.sv \
+	cache_datapath.sv \
+	cache.sv \
+	l1_to_l2_cache_req_arbiter.sv \
+	memory_system.sv
