@@ -30,23 +30,25 @@ always_comb begin
                 serve_icache = 1'b1;
             end else if (dcache_if.req_valid) begin
                 next_state = ST_SERVING_DCACHE;
+            end else begin
+                next_state = ST_IDLE;
             end
         end
 
         ST_SERVING_ICACHE: begin
             serve_icache = 1'b1;
-            if (l2_if.req_fulfilled) begin
-                next_state = ST_IDLE;
-            end else begin
+            if (icache_if.req_valid) begin
                 next_state = ST_SERVING_ICACHE;
+            end else begin
+                next_state = ST_IDLE;
             end
         end
 
         ST_SERVING_DCACHE: begin
-            if (l2_if.req_fulfilled) begin
-                next_state = ST_IDLE;
-            end else begin
+            if (dcache_if.req_valid) begin
                 next_state = ST_SERVING_DCACHE;
+            end else begin
+                next_state = ST_IDLE;
             end
         end
 
