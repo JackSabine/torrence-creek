@@ -59,7 +59,7 @@ always_comb begin : write_matrix_logic
 
     case (op_size)
         BYTE:    w_byte_active = (4'b0001 << byte_select);
-        HALF:    w_byte_active = (4'b0011 << byte_select[1]);
+        HALF:    w_byte_active = (4'b0011 << {byte_select[1], 1'b0});
         WORD:    w_byte_active = (4'b1111);
         default: w_byte_active = 'x;
     endcase
