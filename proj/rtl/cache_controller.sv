@@ -58,6 +58,9 @@ always_comb begin
                             internal_if.set_hmem_block_address = 1'b1;
                             internal_if.reset_counter = 1'b1;
                         end
+                        default: begin
+                            next_state = ST_UNKNOWN;
+                        end
                     endcase
                 end else begin
                     unique casez ({internal_if.valid_block_match, internal_if.valid_dirty_bit})
@@ -79,6 +82,9 @@ always_comb begin
                             internal_if.use_victim_tag_for_hmem_block_address = 1'b1;
                             internal_if.set_hmem_block_address = 1'b1;
                             internal_if.reset_counter = 1'b1;
+                        end
+                        default: begin
+                            next_state = ST_UNKNOWN;
                         end
                     endcase
                 end
