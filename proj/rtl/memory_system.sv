@@ -2,7 +2,9 @@ module memory_system import torrence_types::*; #(
     parameter XLEN = 32,
     parameter LINE_SIZE = 32,
     parameter ICACHE_SIZE = 1024,
+    parameter ICACHE_ASSOC = 1,
     parameter DCACHE_SIZE = 1024,
+    parameter DCACHE_ASSOC = 1,
     parameter L2_SIZE = 4096,
     parameter L2_ASSOC = 4
 ) (

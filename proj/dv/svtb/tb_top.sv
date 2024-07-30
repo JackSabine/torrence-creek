@@ -3,8 +3,11 @@ module tb_top;
     import torrence_pkg::*;
 
     parameter LINE_SIZE = 32;
-    parameter L1_CACHE_SIZE = 1024;
-    parameter L2_CACHE_SIZE = 4096;
+    parameter ICACHE_SIZE = 1024;
+    parameter ICACHE_ASSOC = 1;
+    parameter DCACHE_SIZE = 1024;
+    parameter DCACHE_ASSOC = 1;
+    parameter L2_SIZE = 4096;
     parameter L2_ASSOC = 4;
     parameter XLEN = 32;
 
@@ -21,9 +24,14 @@ module tb_top;
     memory_system #(
         .XLEN(XLEN),
         .LINE_SIZE(LINE_SIZE),
-        .ICACHE_SIZE(L1_CACHE_SIZE),
-        .DCACHE_SIZE(L1_CACHE_SIZE),
-        .L2_SIZE(L2_CACHE_SIZE),
+
+        .ICACHE_SIZE(ICACHE_SIZE),
+        .ICACHE_ASSOC(ICACHE_ASSOC),
+
+        .DCACHE_SIZE(DCACHE_SIZE),
+        .DCACHE_ASSOC(DCACHE_ASSOC),
+
+        .L2_SIZE(L2_SIZE),
         .L2_ASSOC(L2_ASSOC)
     ) dut (
         .clk(clk),
@@ -77,7 +85,15 @@ module tb_top;
 
         // DUT configuration
         dut_config = cache_config::type_id::create("dut_config");
-        dut_config.set(LINE_SIZE, L1_CACHE_SIZE, L2_CACHE_SIZE, L2_ASSOC);
+        dut_config.set(
+            LINE_SIZE,
+            ICACHE_SIZE,
+            ICACHE_ASSOC,
+            DCACHE_SIZE,
+            DCACHE_ASSOC,
+            L2_SIZE,
+            L2_ASSOC
+        );
         dut_config.print();
 
         uvm_config_db #(cache_config)::set(
