@@ -3,7 +3,8 @@ module cache import torrence_types::*; #(
     parameter CACHE_SIZE = 1024, // Bytes
     parameter XLEN = 32, // bits
 
-    parameter READ_ONLY = 0
+    parameter READ_ONLY = 0,
+    parameter ASSOC = 1
 ) (
     input wire clk,
     reset_if rst_if,
@@ -17,7 +18,8 @@ cache_datapath #(
     .LINE_SIZE(LINE_SIZE),
     .CACHE_SIZE(CACHE_SIZE),
     .XLEN(XLEN),
-    .READ_ONLY(READ_ONLY)
+    .READ_ONLY(READ_ONLY),
+    .ASSOC(ASSOC)
 ) datapath (.*);
 
 cache_controller controller (.*);

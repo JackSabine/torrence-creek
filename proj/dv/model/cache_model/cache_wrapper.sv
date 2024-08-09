@@ -2,10 +2,10 @@ class cache_wrapper;
     local cache icache, dcache;
     local main_memory memory;
 
-    function new (uint32_t l1_size, uint32_t l1_block_size, uint32_t l1_assoc);
+    function new (cache_config cfg);
         memory = new;
-        icache = new(l1_size, l1_block_size, l1_assoc, memory);
-        dcache = new(l1_size, l1_block_size, l1_assoc, memory);
+        icache = new(cfg.icache_size, cfg.line_size, cfg.icache_assoc, memory);
+        dcache = new(cfg.dcache_size, cfg.line_size, cfg.dcache_assoc, memory);
     endfunction
 
     local function uint32_t gen_bitmask(uint8_t width);

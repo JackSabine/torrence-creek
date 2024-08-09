@@ -1,5 +1,6 @@
 interface cache_internal_if;
     logic miss_recovery_mode;
+    logic process_lru_counters;
     logic clear_selected_dirty_bit;
     logic set_selected_dirty_bit;
     logic perform_write;
@@ -17,6 +18,7 @@ interface cache_internal_if;
     modport datapath (
         input
             miss_recovery_mode,
+            process_lru_counters,
             clear_selected_dirty_bit,
             set_selected_dirty_bit,
             perform_write,
@@ -36,6 +38,7 @@ interface cache_internal_if;
     modport controller (
         output
             miss_recovery_mode,
+            process_lru_counters,
             clear_selected_dirty_bit,
             set_selected_dirty_bit,
             perform_write,

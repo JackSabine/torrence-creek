@@ -5,7 +5,8 @@ module cache_datapath import torrence_types::*; #(
     parameter CACHE_SIZE = 1024,
     parameter XLEN = 32,
 
-    parameter READ_ONLY = 0
+    parameter READ_ONLY = 0,
+    parameter ASSOC = 1
 ) (
     //// TOP LEVEL ////
     input wire clk,
@@ -36,6 +37,8 @@ localparam WORDS_PER_LINE = LINE_SIZE / `BYTES_PER_WORD;
 localparam BYTE_SELECT_SIZE = $clog2(`BYTES_PER_WORD);
 localparam WORD_SELECT_SIZE = OFS_SIZE - BYTE_SELECT_SIZE;
 
+localparam ASSOC_WIDTH = $clog2(ASSOC);
+
 ///////////////////////////////////////////////////////////////////
 //                   Implementation structures                   //
 ///////////////////////////////////////////////////////////////////
@@ -55,6 +58,8 @@ wire [XLEN-1:0] fetched_word;
 wire [WORD_SELECT_SIZE-1:0] counter_out;
 
 wire [TAG_SIZE-1:0] selected_tag;
+
+wire [ASSOC_WIDTH-1:0] selected_way;
 
 ///////////////////////////////////////////////////////////////////
 //                        Steering logic                         //
@@ -94,12 +99,15 @@ metadata #(
     .NUM_SETS(NUM_SETS),
     .SET_SIZE(SET_SIZE),
     .TAG_SIZE(TAG_SIZE),
-    .READ_ONLY(READ_ONLY)
+    .READ_ONLY(READ_ONLY),
+    .ASSOC(ASSOC)
 ) metadata (
     .clk(clk),
     .reset(rst_if.reset),
     .set(req_set),
     .tag(req_tag),
+    .miss_recovery_mode(internal_if.miss_recovery_mode),
+    .process_lru_counters(internal_if.process_lru_counters),
     .clear_selected_valid_bit(internal_if.clear_selected_valid_bit),
     .finish_new_line_install(internal_if.finish_new_line_install),
     .clear_selected_dirty_bit(internal_if.clear_selected_dirty_bit),
@@ -107,7 +115,8 @@ metadata #(
 
     .valid_dirty_bit(internal_if.valid_dirty_bit),
     .valid_block_match(internal_if.valid_block_match),
-    .selected_tag(selected_tag)
+    .selected_tag(selected_tag),
+    .selected_way(selected_way)
 );
 
 datalines #(
@@ -116,7 +125,8 @@ datalines #(
     .SET_SIZE(SET_SIZE),
     .WORDS_PER_LINE(WORDS_PER_LINE),
     .WORD_SELECT_SIZE(WORD_SELECT_SIZE),
-    .BYTE_SELECT_SIZE(BYTE_SELECT_SIZE)
+    .BYTE_SELECT_SIZE(BYTE_SELECT_SIZE),
+    .ASSOC(ASSOC)
 ) data (
     .clk(clk),
     .set(req_set),
@@ -124,6 +134,7 @@ datalines #(
     .op_size(op_size),
     .word_select(word_select),
     .byte_select(byte_select),
+    .selected_way(selected_way),
 
     .word_to_store(word_to_store),
     .fetched_word(fetched_word)
