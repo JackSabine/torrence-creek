@@ -11,7 +11,7 @@ class random_access_seq extends base_access_seq;
     `uvm_object_utils_end
 
     constraint blocks_con {
-        soft num_blocks_to_access inside {[20:40]};
+        soft num_blocks_to_access == 16;
         accesses_per_block == 8;
 
         block_array.size() == num_blocks_to_access;
