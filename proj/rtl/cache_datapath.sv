@@ -141,11 +141,13 @@ datalines #(
 );
 
 counter #(
-    .WIDTH(WORD_SELECT_SIZE)
+    .WIDTH(WORD_SELECT_SIZE),
+    .COUNT_UP(0),
+    .CHECK_FOR_DONE(1)
 ) count (
     .clk(clk),
     .reset(internal_if.reset_counter),
-    .count_down(internal_if.decrement_counter),
+    .counter_tick(internal_if.decrement_counter),
     .done(internal_if.counter_done),
     .count(counter_out)
 );
