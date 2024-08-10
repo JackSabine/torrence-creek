@@ -12,7 +12,11 @@ module memory_system import torrence_types::*; #(
     reset_if rst_if,
     memory_if.server icache_req_if,
     memory_if.server dcache_req_if,
-    memory_if.requester hmem_if
+    memory_if.requester hmem_if,
+
+    cache_performance_if.server icache_perf_if,
+    cache_performance_if.server dcache_perf_if,
+    cache_performance_if.server l2_perf_if
 );
 
 memory_if icache_rsp_if(clk);
@@ -30,7 +34,8 @@ cache #(
     .clk(clk),
     .rst_if(rst_if),
     .req_if(icache_req_if),
-    .hmem_if(icache_rsp_if)
+    .hmem_if(icache_rsp_if),
+    .perf_if(icache_perf_if)
 );
 
 cache #(
@@ -44,7 +49,8 @@ cache #(
     .clk(clk),
     .rst_if(rst_if),
     .req_if(dcache_req_if),
-    .hmem_if(dcache_rsp_if)
+    .hmem_if(dcache_rsp_if),
+    .perf_if(dcache_perf_if)
 );
 
 l1_to_l2_cache_req_arbiter #(
@@ -71,7 +77,8 @@ cache #(
     .clk(clk),
     .rst_if(rst_if),
     .req_if(l2_if),
-    .hmem_if(hmem_if)
+    .hmem_if(hmem_if),
+    .perf_if(l2_perf_if)
 );
 
 endmodule

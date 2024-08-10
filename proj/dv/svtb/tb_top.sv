@@ -1,6 +1,7 @@
 module tb_top;
     import uvm_pkg::*;
     import torrence_pkg::*;
+    import torrence_types::*;
 
     parameter LINE_SIZE = 32;
     parameter ICACHE_SIZE = 1024;
@@ -21,6 +22,10 @@ module tb_top;
     memory_if hmem_if(clk);
     reset_if rst_if(clk);
 
+    cache_performance_if icache_perf_if(clk);
+    cache_performance_if dcache_perf_if(clk);
+    cache_performance_if l2_perf_if(clk);
+
     memory_system #(
         .XLEN(XLEN),
         .LINE_SIZE(LINE_SIZE),
@@ -38,7 +43,10 @@ module tb_top;
         .rst_if(rst_if),
         .icache_req_if(icache_req_if),
         .dcache_req_if(dcache_req_if),
-        .hmem_if(hmem_if)
+        .hmem_if(hmem_if),
+        .icache_perf_if(icache_perf_if),
+        .dcache_perf_if(dcache_perf_if),
+        .l2_perf_if(l2_perf_if)
     );
 
     initial begin
@@ -59,12 +67,50 @@ module tb_top;
             .value(icache_req_if)
         );
 
+        // Instruction Cache performance counter interface
+        uvm_config_db #(virtual cache_performance_if)::set(
+            .cntxt(null),
+            .inst_name("uvm_test_top.mem_env.icache_perf_agent.*"),
+            .field_name("cache_perf_if"),
+            .value(icache_perf_if)
+        );
+
+        uvm_config_db #(l1_type_e)::set(
+            .cntxt(null),
+            .inst_name("uvm_test_top.mem_env.icache_perf_agent.*"),
+            .field_name("l1_type"),
+            .value(ICACHE)
+        );
+
         // Data Cache request interface
         uvm_config_db #(virtual memory_if)::set(
             .cntxt(null),
             .inst_name("uvm_test_top.mem_env.dcache_creq_agent.*"),
             .field_name("memory_requester_if"),
             .value(dcache_req_if)
+        );
+
+        // Data Cache performance counter interface
+        uvm_config_db #(virtual cache_performance_if)::set(
+            .cntxt(null),
+            .inst_name("uvm_test_top.mem_env.dcache_perf_agent.*"),
+            .field_name("cache_perf_if"),
+            .value(dcache_perf_if)
+        );
+
+        uvm_config_db #(l1_type_e)::set(
+            .cntxt(null),
+            .inst_name("uvm_test_top.mem_env.dcache_perf_agent.*"),
+            .field_name("l1_type"),
+            .value(DCACHE)
+        );
+
+        // L2 Cache performance counter interface
+        uvm_config_db #(virtual cache_performance_if)::set(
+            .cntxt(null),
+            .inst_name("uvm_test_top.mem_env.l2_perf_agent.*"),
+            .field_name("cache_perf_if"),
+            .value(l2_perf_if)
         );
 
         // Higher Memory response interface

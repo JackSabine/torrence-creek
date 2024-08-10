@@ -17,7 +17,7 @@ typedef enum logic[1:0] {
     ST_UNKNOWN = 2'bxx
 } cache_state_e;
 
-cache_state_e state, next_state;
+cache_state_e state, next_state, prev_state;
 
 logic mealy_perform_write, moore_perform_write;
 
@@ -36,7 +36,11 @@ always_comb begin
         internal_if.reset_counter,
         req_if.req_fulfilled,
         internal_if.decrement_counter,
-        internal_if.process_lru_counters
+        internal_if.process_lru_counters,
+        internal_if.count_hit,
+        internal_if.count_miss,
+        internal_if.count_read,
+        internal_if.count_write
     } = '0;
 
     case (state)
@@ -69,6 +73,7 @@ always_comb begin
                             next_state = ST_ALLOCATE;
                             internal_if.set_hmem_block_address = 1'b1;
                             internal_if.reset_counter = 1'b1;
+                            internal_if.count_miss = 1'b1;
                         end
                         2'b1?: begin : hit
                             next_state = ST_IDLE;
@@ -77,6 +82,14 @@ always_comb begin
                             if (req_if.req_operation == STORE) begin
                                 mealy_perform_write = 1'b1;
                                 internal_if.set_selected_dirty_bit = 1'b1;
+                                internal_if.count_write = 1'b1;
+                            end else if (req_if.req_operation == LOAD) begin
+                                internal_if.count_read = 1'b1;
+                            end
+
+                            if (prev_state != ST_ALLOCATE) begin
+                                // A hit only counts if we didn't come from ST_ALLOCATE (was a miss when first requested)
+                                internal_if.count_hit = 1'b1;
                             end
                         end
                         2'b01: begin : dirty_miss
@@ -84,6 +97,7 @@ always_comb begin
                             internal_if.use_victim_tag_for_hmem_block_address = 1'b1;
                             internal_if.set_hmem_block_address = 1'b1;
                             internal_if.reset_counter = 1'b1;
+                            internal_if.count_miss = 1'b1;
                         end
                         default: begin
                             next_state = ST_UNKNOWN;
@@ -198,8 +212,10 @@ end
 always_ff @(posedge clk) begin
     if (rst_if.reset) begin
         state <= ST_IDLE;
+        prev_state <= ST_IDLE;
     end else begin
         state <= next_state;
+        prev_state <= state;
     end
 end
 
