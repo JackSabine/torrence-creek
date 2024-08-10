@@ -10,6 +10,10 @@ interface cache_internal_if;
     logic use_victim_tag_for_hmem_block_address;
     logic reset_counter;
     logic decrement_counter;
+    logic count_hit;
+    logic count_miss;
+    logic count_read;
+    logic count_write;
 
     logic counter_done;
     logic valid_block_match;
@@ -28,6 +32,10 @@ interface cache_internal_if;
             use_victim_tag_for_hmem_block_address,
             reset_counter,
             decrement_counter,
+            count_hit,
+            count_miss,
+            count_read,
+            count_write,
 
         output
             counter_done,
@@ -48,6 +56,10 @@ interface cache_internal_if;
             use_victim_tag_for_hmem_block_address,
             reset_counter,
             decrement_counter,
+            count_hit,
+            count_miss,
+            count_read,
+            count_write,
 
         input
             counter_done,

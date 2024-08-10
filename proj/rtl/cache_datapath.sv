@@ -15,7 +15,9 @@ module cache_datapath import torrence_types::*; #(
     memory_if.server req_if,
     memory_if.requester hmem_if,
 
-    cache_internal_if.datapath internal_if
+    cache_internal_if.datapath internal_if,
+
+    cache_performance_if.server perf_if
 );
 
 generate;
@@ -154,5 +156,20 @@ counter #(
 
 assign req_if.req_loaded_word = fetched_word;
 assign hmem_if.req_store_word = fetched_word;
+
+perf_counters #(
+    .COUNTER_WIDTHS(XLEN)
+) perf (
+    .clk(clk),
+    .reset(rst_if.reset),
+    .count_hit(internal_if.count_hit),
+    .count_miss(internal_if.count_miss),
+    .count_read(internal_if.count_read),
+    .count_write(internal_if.count_write),
+    .hit_value(perf_if.hit_value),
+    .miss_value(perf_if.miss_value),
+    .read_value(perf_if.read_value),
+    .write_value(perf_if.write_value)
+);
 
 endmodule

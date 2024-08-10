@@ -9,7 +9,8 @@ module cache import torrence_types::*; #(
     input wire clk,
     reset_if rst_if,
     memory_if.server req_if,
-    memory_if.requester hmem_if
+    memory_if.requester hmem_if,
+    cache_performance_if.server perf_if
 );
 
 cache_internal_if internal_if();

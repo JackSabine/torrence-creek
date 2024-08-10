@@ -21,6 +21,10 @@ module tb_top;
     memory_if hmem_if(clk);
     reset_if rst_if(clk);
 
+    cache_performance_if icache_perf_if(clk);
+    cache_performance_if dcache_perf_if(clk);
+    cache_performance_if l2_perf_if(clk);
+
     memory_system #(
         .XLEN(XLEN),
         .LINE_SIZE(LINE_SIZE),
@@ -38,7 +42,10 @@ module tb_top;
         .rst_if(rst_if),
         .icache_req_if(icache_req_if),
         .dcache_req_if(dcache_req_if),
-        .hmem_if(hmem_if)
+        .hmem_if(hmem_if),
+        .icache_perf_if(icache_perf_if),
+        .dcache_perf_if(dcache_perf_if),
+        .l2_perf_if(l2_perf_if)
     );
 
     initial begin
