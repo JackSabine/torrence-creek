@@ -1,5 +1,3 @@
-import torrence_types::*;
-
 class memory_transaction extends uvm_sequence_item;
     `uvm_object_utils(memory_transaction)
 
@@ -13,7 +11,7 @@ class memory_transaction extends uvm_sequence_item;
     time t_fulfilled;
     logic expect_hit;
 
-    rand l1_type_e origin;
+    l1_type_e origin;
 
     constraint operation {
         req_operation inside {STORE, LOAD};
@@ -29,10 +27,6 @@ class memory_transaction extends uvm_sequence_item;
         }
     }
 
-    constraint origin_con {
-        soft origin == UNASSIGNED;
-    }
-
     function void post_randomize();
         case (req_size)
         WORD: req_address &= ~32'b11;
@@ -42,6 +36,7 @@ class memory_transaction extends uvm_sequence_item;
 
     function new(string name = "");
         super.new(name);
+        origin = UNASSIGNED;
     endfunction
 
     function string convert2string();
@@ -99,10 +94,6 @@ endclass
 class icache_transaction extends word_memory_transaction;
     `uvm_object_utils(icache_transaction)
 
-    constraint origin_con {
-        origin == ICACHE;
-    }
-
     constraint read_only_con {
         req_operation == LOAD;
     }
@@ -119,10 +110,6 @@ endclass
 
 class dcache_transaction extends word_memory_transaction;
     `uvm_object_utils(dcache_transaction)
-
-    constraint origin_con {
-        origin == DCACHE;
-    }
 
     constraint ro_rw_boundary {
         req_address >= `RO_RW_MEMORY_BOUNDARY;
