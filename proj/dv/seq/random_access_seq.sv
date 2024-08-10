@@ -4,14 +4,10 @@ class random_access_seq extends base_access_seq;
 
     rand uint32_t block_array[];
 
-    cache_config dut_config;
-
     `uvm_object_utils_begin(random_access_seq)
         `uvm_field_int(num_blocks_to_access, UVM_ALL_ON | UVM_DEC)
         `uvm_field_int(accesses_per_block,   UVM_ALL_ON | UVM_DEC)
         `uvm_field_array_int(block_array,    UVM_ALL_ON | UVM_HEX)
-        `uvm_field_int(block_mask,           UVM_ALL_ON | UVM_HEX)
-        `uvm_field_int(offset_mask,          UVM_ALL_ON | UVM_HEX)
     `uvm_object_utils_end
 
     constraint blocks_con {
@@ -27,8 +23,6 @@ class random_access_seq extends base_access_seq;
     endfunction
 
     function void post_randomize();
-        super.post_randomize();
-
         foreach (block_array[i]) begin
             block_array[i] &= block_mask;
 
@@ -63,12 +57,9 @@ endclass
 class icache_random_access_seq extends random_access_seq;
     `uvm_object_utils(icache_random_access_seq)
 
-    constraint cache_type_con {
-        cache_type == ICACHE;
-    }
-
     function new(string name = "");
         super.new(name);
+        cache_type = ICACHE;
     endfunction
 endclass
 
@@ -77,11 +68,8 @@ endclass
 class dcache_random_access_seq extends random_access_seq;
     `uvm_object_utils(dcache_random_access_seq)
 
-    constraint cache_type_con {
-        cache_type == DCACHE;
-    }
-
     function new(string name = "");
         super.new(name);
+        cache_type = DCACHE;
     endfunction
 endclass

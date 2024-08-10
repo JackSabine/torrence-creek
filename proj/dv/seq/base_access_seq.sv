@@ -1,18 +1,20 @@
 class base_access_seq extends uvm_sequence #(memory_transaction);
-    `uvm_object_utils(base_access_seq)
-
-    rand l1_type_e cache_type;
+    l1_type_e cache_type;
 
     uint32_t block_mask;
     uint32_t offset_mask;
     uint32_t set_mask;
 
-    constraint cache_type_con {
-        soft cache_type == UNASSIGNED;
-    }
+    `uvm_object_utils_begin(base_access_seq)
+        `uvm_field_enum(l1_type_e, cache_type, UVM_ALL_ON)
+        `uvm_field_int(set_mask,    UVM_ALL_ON | UVM_HEX)
+        `uvm_field_int(block_mask,  UVM_ALL_ON | UVM_HEX)
+        `uvm_field_int(offset_mask, UVM_ALL_ON | UVM_HEX)
+    `uvm_object_utils_end
 
     function new(string name = "");
         super.new(name);
+        cache_type = UNASSIGNED;
     endfunction
 
     local function void generate_masks();
@@ -30,7 +32,7 @@ class base_access_seq extends uvm_sequence #(memory_transaction);
         cfg.generate_set_mask(cache_type, set_mask);
     endfunction
 
-    function void post_randomize();
+    function void pre_randomize();
         generate_masks();
     endfunction
 
