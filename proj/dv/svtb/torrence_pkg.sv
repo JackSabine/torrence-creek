@@ -13,6 +13,7 @@ package torrence_pkg;
 
     `include "../seq/memory_transaction.sv"
     `include "../seq/reset_transaction.sv"
+    `include "../seq/cache_perf_transaction.sv"
 
     `include "../seq/base_access_seq.sv"
     `include "../seq/random_access_seq.sv"
@@ -32,6 +33,9 @@ package torrence_pkg;
     `include "../agents/reset_agent/reset_sequencer.sv"
     `include "../agents/reset_agent/reset_driver.sv"
     `include "../agents/reset_agent/reset_agent.sv"
+
+    `include "../agents/cache_perf_agent/cache_perf_monitor.sv"
+    `include "../agents/cache_perf_agent/cache_perf_agent.sv"
 
     `include "scoreboard.sv"
     `include "environment.sv"

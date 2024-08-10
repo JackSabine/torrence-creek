@@ -15,18 +15,17 @@
    </db_ref_list>
    <zoom_setting>
       <ZoomStartTime time="0 ns"></ZoomStartTime>
-      <ZoomEndTime time="88 ns"></ZoomEndTime>
+      <ZoomEndTime time="106 ns"></ZoomEndTime>
       <Cursor1Time time="38 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="287"></NameColumnWidth>
-      <ValueColumnWidth column_width="116"></ValueColumnWidth>
+      <ValueColumnWidth column_width="112"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="7" />
+   <WVObjectSize size="8" />
    <wvobject type="group" fp_name="group36">
       <obj_property name="label">rst_vi</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="isExpanded"></obj_property>
       <wvobject type="logic" fp_name="/tb_top/rst_if/reset">
          <obj_property name="ElementShortName">reset</obj_property>
          <obj_property name="ObjectShortName">reset</obj_property>
@@ -39,7 +38,6 @@
    <wvobject type="group" fp_name="group59">
       <obj_property name="label">ireq</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="isExpanded"></obj_property>
       <wvobject type="logic" fp_name="/tb_top/dut/icache_req_if/clk">
          <obj_property name="ElementShortName">clk</obj_property>
          <obj_property name="ObjectShortName">clk</obj_property>
@@ -220,6 +218,64 @@
    <wvobject type="group" fp_name="group63">
       <obj_property name="label">ICACHE</obj_property>
       <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject type="group" fp_name="group171">
+         <obj_property name="label">perf</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+         <wvobject type="logic" fp_name="/tb_top/dut/icache/datapath/perf/clk">
+            <obj_property name="ElementShortName">clk</obj_property>
+            <obj_property name="ObjectShortName">clk</obj_property>
+         </wvobject>
+         <wvobject type="logic" fp_name="/tb_top/dut/icache/datapath/perf/reset">
+            <obj_property name="ElementShortName">reset</obj_property>
+            <obj_property name="ObjectShortName">reset</obj_property>
+         </wvobject>
+         <wvobject type="logic" fp_name="/tb_top/dut/icache/datapath/perf/count_hit">
+            <obj_property name="ElementShortName">count_hit</obj_property>
+            <obj_property name="ObjectShortName">count_hit</obj_property>
+         </wvobject>
+         <wvobject type="logic" fp_name="/tb_top/dut/icache/datapath/perf/count_miss">
+            <obj_property name="ElementShortName">count_miss</obj_property>
+            <obj_property name="ObjectShortName">count_miss</obj_property>
+         </wvobject>
+         <wvobject type="logic" fp_name="/tb_top/dut/icache/datapath/perf/count_read">
+            <obj_property name="ElementShortName">count_read</obj_property>
+            <obj_property name="ObjectShortName">count_read</obj_property>
+         </wvobject>
+         <wvobject type="logic" fp_name="/tb_top/dut/icache/datapath/perf/count_write">
+            <obj_property name="ElementShortName">count_write</obj_property>
+            <obj_property name="ObjectShortName">count_write</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/tb_top/dut/icache/datapath/perf/hit_value">
+            <obj_property name="ElementShortName">hit_value[31:0]</obj_property>
+            <obj_property name="ObjectShortName">hit_value[31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/tb_top/dut/icache/datapath/perf/miss_value">
+            <obj_property name="ElementShortName">miss_value[31:0]</obj_property>
+            <obj_property name="ObjectShortName">miss_value[31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/tb_top/dut/icache/datapath/perf/read_value">
+            <obj_property name="ElementShortName">read_value[31:0]</obj_property>
+            <obj_property name="ObjectShortName">read_value[31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/tb_top/dut/icache/datapath/perf/write_value">
+            <obj_property name="ElementShortName">write_value[31:0]</obj_property>
+            <obj_property name="ObjectShortName">write_value[31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/tb_top/dut/icache/datapath/perf/count_controls">
+            <obj_property name="ElementShortName">count_controls[3:0]</obj_property>
+            <obj_property name="ObjectShortName">count_controls[3:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/tb_top/dut/icache/datapath/perf/count_values">
+            <obj_property name="ElementShortName">count_values[3:0][31:0]</obj_property>
+            <obj_property name="ObjectShortName">count_values[3:0][31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/tb_top/dut/icache/datapath/perf/COUNTER_WIDTHS">
+            <obj_property name="ElementShortName">COUNTER_WIDTHS[31:0]</obj_property>
+            <obj_property name="ObjectShortName">COUNTER_WIDTHS[31:0]</obj_property>
+         </wvobject>
+      </wvobject>
       <wvobject type="array" fp_name="/tb_top/dut/icache/controller/state">
          <obj_property name="ElementShortName">state[1:0]</obj_property>
          <obj_property name="ObjectShortName">state[1:0]</obj_property>
@@ -296,7 +352,6 @@
    <wvobject type="group" fp_name="group118">
       <obj_property name="label">L2</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="isExpanded"></obj_property>
       <wvobject type="group" fp_name="group148">
          <obj_property name="label">req</obj_property>
          <obj_property name="DisplayName">label</obj_property>
@@ -569,6 +624,97 @@
       <wvobject type="array" fp_name="/tb_top/dut/l2_cache/controller/state">
          <obj_property name="ElementShortName">state[1:0]</obj_property>
          <obj_property name="ObjectShortName">state[1:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="group" fp_name="group136">
+      <obj_property name="label">perf_ifs</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject type="group" fp_name="group137">
+         <obj_property name="label">icache_perf</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+         <wvobject type="logic" fp_name="/tb_top/icache_perf_if/clk">
+            <obj_property name="ElementShortName">clk</obj_property>
+            <obj_property name="ObjectShortName">clk</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/tb_top/icache_perf_if/hit_value">
+            <obj_property name="ElementShortName">hit_value[31:0]</obj_property>
+            <obj_property name="ObjectShortName">hit_value[31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/tb_top/icache_perf_if/miss_value">
+            <obj_property name="ElementShortName">miss_value[31:0]</obj_property>
+            <obj_property name="ObjectShortName">miss_value[31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/tb_top/icache_perf_if/read_value">
+            <obj_property name="ElementShortName">read_value[31:0]</obj_property>
+            <obj_property name="ObjectShortName">read_value[31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/tb_top/icache_perf_if/write_value">
+            <obj_property name="ElementShortName">write_value[31:0]</obj_property>
+            <obj_property name="ObjectShortName">write_value[31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/tb_top/icache_perf_if/XLEN">
+            <obj_property name="ElementShortName">XLEN[31:0]</obj_property>
+            <obj_property name="ObjectShortName">XLEN[31:0]</obj_property>
+         </wvobject>
+      </wvobject>
+      <wvobject type="group" fp_name="group138">
+         <obj_property name="label">dcache_perf</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+         <wvobject type="logic" fp_name="/tb_top/dcache_perf_if/clk">
+            <obj_property name="ElementShortName">clk</obj_property>
+            <obj_property name="ObjectShortName">clk</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/tb_top/dcache_perf_if/hit_value">
+            <obj_property name="ElementShortName">hit_value[31:0]</obj_property>
+            <obj_property name="ObjectShortName">hit_value[31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/tb_top/dcache_perf_if/miss_value">
+            <obj_property name="ElementShortName">miss_value[31:0]</obj_property>
+            <obj_property name="ObjectShortName">miss_value[31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/tb_top/dcache_perf_if/read_value">
+            <obj_property name="ElementShortName">read_value[31:0]</obj_property>
+            <obj_property name="ObjectShortName">read_value[31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/tb_top/dcache_perf_if/write_value">
+            <obj_property name="ElementShortName">write_value[31:0]</obj_property>
+            <obj_property name="ObjectShortName">write_value[31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/tb_top/dcache_perf_if/XLEN">
+            <obj_property name="ElementShortName">XLEN[31:0]</obj_property>
+            <obj_property name="ObjectShortName">XLEN[31:0]</obj_property>
+         </wvobject>
+      </wvobject>
+      <wvobject type="group" fp_name="group139">
+         <obj_property name="label">l2_perf</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+         <wvobject type="logic" fp_name="/tb_top/l2_perf_if/clk">
+            <obj_property name="ElementShortName">clk</obj_property>
+            <obj_property name="ObjectShortName">clk</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/tb_top/l2_perf_if/hit_value">
+            <obj_property name="ElementShortName">hit_value[31:0]</obj_property>
+            <obj_property name="ObjectShortName">hit_value[31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/tb_top/l2_perf_if/miss_value">
+            <obj_property name="ElementShortName">miss_value[31:0]</obj_property>
+            <obj_property name="ObjectShortName">miss_value[31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/tb_top/l2_perf_if/read_value">
+            <obj_property name="ElementShortName">read_value[31:0]</obj_property>
+            <obj_property name="ObjectShortName">read_value[31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/tb_top/l2_perf_if/write_value">
+            <obj_property name="ElementShortName">write_value[31:0]</obj_property>
+            <obj_property name="ObjectShortName">write_value[31:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/tb_top/l2_perf_if/XLEN">
+            <obj_property name="ElementShortName">XLEN[31:0]</obj_property>
+            <obj_property name="ObjectShortName">XLEN[31:0]</obj_property>
+         </wvobject>
       </wvobject>
    </wvobject>
 </wave_config>
