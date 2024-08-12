@@ -40,7 +40,7 @@ class cache_config extends uvm_object;
     endfunction
 
     function void generate_block_mask_and_offset_mask(
-        input l1_type_e cache_type,
+        input cache_type_e cache_type,
         output uint32_t block_mask,
         output uint32_t offset_mask
     );
@@ -52,7 +52,7 @@ class cache_config extends uvm_object;
     endfunction
 
     function void generate_set_mask(
-        input l1_type_e cache_type,
+        input cache_type_e cache_type,
         output uint32_t set_mask
     );
         uint32_t set_count;
@@ -60,6 +60,7 @@ class cache_config extends uvm_object;
         case (cache_type)
             ICACHE:  set_count = icache_size / (icache_assoc * line_size);
             DCACHE:  set_count = dcache_size / (dcache_assoc * line_size);
+            L2CACHE: set_count = l2_size / (l2_assoc * line_size);
             default: set_count = 0;
         endcase
 

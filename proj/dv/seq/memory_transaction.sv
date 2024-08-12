@@ -11,7 +11,7 @@ class memory_transaction extends uvm_sequence_item;
     time t_fulfilled;
     logic expect_hit;
 
-    l1_type_e origin;
+    cache_type_e origin;
 
     constraint operation {
         req_operation inside {STORE, LOAD};

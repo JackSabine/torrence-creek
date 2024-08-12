@@ -26,7 +26,7 @@ class cache_base_test extends uvm_test;
 
     endfunction
 
-    virtual function l1_type_e choose_active_agent();
+    virtual function cache_type_e choose_active_agent();
         return UNASSIGNED;
     endfunction
 
@@ -46,7 +46,7 @@ class cache_base_test extends uvm_test;
     virtual task main_phase(uvm_phase phase);
         random_access_seq mem_seq;
         memory_response_seq mem_rsp_seq;
-        l1_type_e target;
+        cache_type_e target;
 
         phase.raise_objection(this);
 
@@ -63,6 +63,7 @@ class cache_base_test extends uvm_test;
                 case (target)
                 ICACHE: mem_seq.start(mem_env.icache_creq_agent.creq_seqr);
                 DCACHE: mem_seq.start(mem_env.dcache_creq_agent.creq_seqr);
+                default: `uvm_fatal(get_full_name(), $sformatf("unimplemented target %s", target.name()))
                 endcase
             end
             mem_rsp_seq.start(mem_env.mem_rsp_agent.mrsp_seqr); // Runs forever

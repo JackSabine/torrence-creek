@@ -44,7 +44,7 @@ class cache_wrapper;
         return read_data;
     endfunction
 
-    function cache_response_t read(uint32_t addr, l1_type_e cache_type);
+    function cache_response_t read(uint32_t addr, cache_type_e cache_type);
         cache_response_t resp;
 
         case (cache_type)
@@ -58,7 +58,7 @@ class cache_wrapper;
         return resp;
     endfunction
 
-    function cache_response_t write(uint32_t addr, uint32_t data, l1_type_e cache_type);
+    function cache_response_t write(uint32_t addr, uint32_t data, cache_type_e cache_type);
         cache_response_t read_resp, write_resp;
         uint32_t read_data, data_to_write;
 

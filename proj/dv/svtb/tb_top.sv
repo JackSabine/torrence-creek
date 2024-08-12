@@ -75,10 +75,10 @@ module tb_top;
             .value(icache_perf_if)
         );
 
-        uvm_config_db #(l1_type_e)::set(
+        uvm_config_db #(cache_type_e)::set(
             .cntxt(null),
             .inst_name("uvm_test_top.mem_env.icache_perf_agent.*"),
-            .field_name("l1_type"),
+            .field_name("cache_type"),
             .value(ICACHE)
         );
 
@@ -98,10 +98,10 @@ module tb_top;
             .value(dcache_perf_if)
         );
 
-        uvm_config_db #(l1_type_e)::set(
+        uvm_config_db #(cache_type_e)::set(
             .cntxt(null),
             .inst_name("uvm_test_top.mem_env.dcache_perf_agent.*"),
-            .field_name("l1_type"),
+            .field_name("cache_type"),
             .value(DCACHE)
         );
 

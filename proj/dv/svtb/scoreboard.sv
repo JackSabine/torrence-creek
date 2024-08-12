@@ -34,7 +34,7 @@ class scoreboard extends uvm_scoreboard;
     uint32_t vector_count, pass_count, fail_count;
     uint32_t load_count, store_count, clflush_count;
     uint32_t perf_vector_count, perf_pass_count, perf_fail_count;
-    uint32_t icache_count, dcache_count;
+    uint32_t icache_count, dcache_count, l2cache_count;
 
     uvm_tlm_fifo #(cache_perf_transaction) icache_perf_observed_fifo;
     uvm_tlm_fifo #(cache_perf_transaction) dcache_perf_observed_fifo;
@@ -85,7 +85,7 @@ class scoreboard extends uvm_scoreboard;
         )) else `uvm_fatal(get_full_name(), "Couldn't get clock_config from config db")
     endfunction
 
-    function void predictor(memory_transaction tr, ref uvm_tlm_fifo #(memory_transaction) expected_fifo, input l1_type_e cache_type);
+    function void predictor(memory_transaction tr, ref uvm_tlm_fifo #(memory_transaction) expected_fifo, input cache_type_e cache_type);
         // tr has t_issued
         // use to predict t_fulfilled
 
@@ -174,7 +174,7 @@ class scoreboard extends uvm_scoreboard;
         void'(dcache_perf_observed_fifo.try_put(tr));
     endfunction
 
-    task comparer(ref uvm_tlm_fifo #(memory_transaction) expected_fifo, ref uvm_tlm_fifo #(memory_transaction) observed_fifo, input l1_type_e cache_type);
+    task comparer(ref uvm_tlm_fifo #(memory_transaction) expected_fifo, ref uvm_tlm_fifo #(memory_transaction) observed_fifo, input cache_type_e cache_type);
         memory_transaction expected_tx, observed_tx;
         bit pass;
         string printout_str;
@@ -216,11 +216,12 @@ class scoreboard extends uvm_scoreboard;
             case(cache_type)
                 ICACHE: icache_count++;
                 DCACHE: dcache_count++;
+                L2CACHE: l2cache_count++;
             endcase
         end
     endtask
 
-    task performance_comparer(ref uvm_tlm_fifo #(cache_perf_transaction) observed_fifo, input cache_perf_transaction expected_tx, input l1_type_e cache_type);
+    task performance_comparer(ref uvm_tlm_fifo #(cache_perf_transaction) observed_fifo, input cache_perf_transaction expected_tx, input cache_type_e cache_type);
         cache_perf_transaction observed_tx;
         bit pass;
         string printout_str;
@@ -306,13 +307,15 @@ class scoreboard extends uvm_scoreboard;
                     "* store_count:   %0d\n",
                     "* clflush_count: %0d\n",
                     "* icache transactions: %0d\n",
-                    "* dcache transactions: %0d\n"
+                    "* dcache transactions: %0d\n",
+                    "* l2cache transactions: %0d\n"
                 },
                 load_count,
                 store_count,
                 clflush_count,
                 icache_count,
-                dcache_count
+                dcache_count,
+                l2cache_count
             )
         };
 

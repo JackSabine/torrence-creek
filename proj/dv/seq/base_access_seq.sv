@@ -1,12 +1,12 @@
 class base_access_seq extends uvm_sequence #(memory_transaction);
-    l1_type_e cache_type;
+    cache_type_e cache_type;
 
     uint32_t block_mask;
     uint32_t offset_mask;
     uint32_t set_mask;
 
     `uvm_object_utils_begin(base_access_seq)
-        `uvm_field_enum(l1_type_e, cache_type, UVM_ALL_ON)
+        `uvm_field_enum(cache_type_e, cache_type, UVM_ALL_ON)
         `uvm_field_int(set_mask,    UVM_ALL_ON | UVM_HEX)
         `uvm_field_int(block_mask,  UVM_ALL_ON | UVM_HEX)
         `uvm_field_int(offset_mask, UVM_ALL_ON | UVM_HEX)

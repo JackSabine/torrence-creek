@@ -5,7 +5,7 @@ class cache_perf_monitor extends uvm_monitor;
 
     virtual cache_performance_if perf_vi;
 
-    l1_type_e cache_type;
+    cache_type_e cache_type;
 
     function new(string name, uvm_component parent);
         super.new(name, parent);
@@ -21,12 +21,12 @@ class cache_perf_monitor extends uvm_monitor;
             .value(perf_vi)
         )) else `uvm_fatal(get_full_name(), "Couldn't get cache_perf_if from config db")
 
-        assert(uvm_config_db #(l1_type_e)::get(
+        assert(uvm_config_db #(cache_type_e)::get(
             .cntxt(this),
             .inst_name(""),
-            .field_name("l1_type"),
+            .field_name("cache_type"),
             .value(cache_type)
-        )) else `uvm_fatal(get_full_name(), "Couldn't get l1_type from config db")
+        )) else `uvm_fatal(get_full_name(), "Couldn't get cache_type from config db")
 
         perf_ap = new(.name("perf_ap"), .parent(this));
     endfunction

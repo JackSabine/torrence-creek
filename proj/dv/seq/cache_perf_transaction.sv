@@ -6,7 +6,7 @@ class cache_perf_transaction extends uvm_sequence_item;
     uint32_t reads;
     uint32_t writes;
 
-    l1_type_e origin;
+    cache_type_e origin;
 
     function new(string name = "");
         super.new(name);
