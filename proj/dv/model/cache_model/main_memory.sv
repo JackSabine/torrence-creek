@@ -1,8 +1,8 @@
 class main_memory extends memory_element;
     local uint32_t memory [uint32_t];
 
-    function new ();
-
+    function new();
+        super.new();
     endfunction
 
     local function uint32_t compute_default_value(uint32_t addr);
@@ -25,6 +25,8 @@ class main_memory extends memory_element;
             memory[addr] :
             compute_default_value(addr);
 
+        this.stats.reads++;
+
         return resp;
     endfunction
 
@@ -38,6 +40,8 @@ class main_memory extends memory_element;
             compute_default_value(addr);
 
         memory[addr] = data;
+
+        this.stats.writes++;
 
         return resp;
     endfunction

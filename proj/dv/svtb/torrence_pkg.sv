@@ -7,13 +7,13 @@ package torrence_pkg;
 
     `include "dpi-c.sv"
 
-    `include "../model/cache_model/files.sv"
-    `include "../configs/cache_config.sv"
-    `include "../configs/clock_config.sv"
-
     `include "../seq/memory_transaction.sv"
     `include "../seq/reset_transaction.sv"
     `include "../seq/cache_perf_transaction.sv"
+
+    `include "../model/cache_model/files.sv"
+    `include "../configs/cache_config.sv"
+    `include "../configs/clock_config.sv"
 
     `include "../seq/base_access_seq.sv"
     `include "../seq/random_access_seq.sv"
