@@ -1,11 +1,19 @@
 class cache_wrapper;
     local cache icache, dcache;
+    local cache l2cache;
     local main_memory memory;
+
+    local memory_element cache_handles[cache_type_e];
 
     function new (cache_config cfg);
         memory = new;
-        icache = new(cfg.icache_size, cfg.line_size, cfg.icache_assoc, memory);
-        dcache = new(cfg.dcache_size, cfg.line_size, cfg.dcache_assoc, memory);
+        l2cache = new(L2CACHE, cfg.l2_size, cfg.line_size, cfg.l2_assoc, memory);
+        icache = new(ICACHE, cfg.icache_size, cfg.line_size, cfg.icache_assoc, l2cache);
+        dcache = new(DCACHE, cfg.dcache_size, cfg.line_size, cfg.dcache_assoc, l2cache);
+
+        cache_handles[ICACHE] = icache;
+        cache_handles[DCACHE] = dcache;
+        cache_handles[L2CACHE] = l2cache;
     endfunction
 
     local function uint32_t gen_bitmask(uint8_t width);
@@ -81,4 +89,15 @@ class cache_wrapper;
         return write_resp;
     endfunction
 
+    function cache_perf_transaction get_stats(input cache_type_e cache_type);
+        if (!cache_handles.exists(cache_type)) begin
+            `uvm_fatal("cache_wrapper::get_stats", {"tried to index a cache_type ", cache_type.name(), " that wasn't in cache_handles"})
+        end
+
+        return cache_handles[cache_type].get_stats();
+    endfunction
+
+    function uint32_t get_num_caches();
+        return cache_handles.size();
+    endfunction
 endclass

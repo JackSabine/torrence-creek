@@ -24,7 +24,7 @@ module tb_top;
 
     cache_performance_if icache_perf_if(clk);
     cache_performance_if dcache_perf_if(clk);
-    cache_performance_if l2_perf_if(clk);
+    cache_performance_if l2cache_perf_if(clk);
 
     memory_system #(
         .XLEN(XLEN),
@@ -46,7 +46,7 @@ module tb_top;
         .hmem_if(hmem_if),
         .icache_perf_if(icache_perf_if),
         .dcache_perf_if(dcache_perf_if),
-        .l2_perf_if(l2_perf_if)
+        .l2_perf_if(l2cache_perf_if)
     );
 
     initial begin
@@ -108,9 +108,16 @@ module tb_top;
         // L2 Cache performance counter interface
         uvm_config_db #(virtual cache_performance_if)::set(
             .cntxt(null),
-            .inst_name("uvm_test_top.mem_env.l2_perf_agent.*"),
+            .inst_name("uvm_test_top.mem_env.l2cache_perf_agent.*"),
             .field_name("cache_perf_if"),
-            .value(l2_perf_if)
+            .value(l2cache_perf_if)
+        );
+
+        uvm_config_db #(cache_type_e)::set(
+            .cntxt(null),
+            .inst_name("uvm_test_top.mem_env.l2cache_perf_agent.*"),
+            .field_name("cache_type"),
+            .value(L2CACHE)
         );
 
         // Higher Memory response interface

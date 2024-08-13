@@ -9,8 +9,10 @@ class cache extends memory_element;
 
     local const uint8_t words_per_block;
 
-    function new (uint32_t cache_size, uint32_t block_size, uint8_t associativity, memory_element lower_memory);
+    function new (cache_type_e cache_type, uint32_t cache_size, uint32_t block_size, uint8_t associativity, memory_element lower_memory);
         uint32_t num_sets;
+
+        super.new();
 
         num_sets = cache_size / (block_size * associativity);
 
@@ -26,6 +28,8 @@ class cache extends memory_element;
         foreach (this.sets[i]) begin
             this.sets[i] = new(associativity, this.words_per_block);
         end
+
+        this.stats.origin = cache_type;
     endfunction
 
     local function uint32_t get_set(uint32_t addr);
@@ -101,14 +105,19 @@ class cache extends memory_element;
         cache_response_t resp;
         uint32_t set, tag, ofs;
 
+        this.stats.reads++;
+
         set = get_set(addr);
         tag = get_tag(addr);
         ofs = get_ofs(addr);
 
         resp.is_hit = this.sets[set].is_cached(tag);
 
-        if (!resp.is_hit) begin
+        if (resp.is_hit) begin
+            this.stats.hits++;
+        end else begin
             this.handle_miss(tag, set);
+            this.stats.misses++;
         end
 
         resp.req_word = this.sets[set].read_word(tag, ofs);
@@ -126,14 +135,19 @@ class cache extends memory_element;
         cache_response_t resp;
         uint32_t set, tag, ofs;
 
+        this.stats.writes++;
+
         set = get_set(addr);
         tag = get_tag(addr);
         ofs = get_ofs(addr);
 
         resp.is_hit = this.sets[set].is_cached(tag);
 
-        if (!resp.is_hit) begin
+        if (resp.is_hit) begin
+            this.stats.hits++;
+        end else begin
             this.handle_miss(tag, set);
+            this.stats.misses++;
         end
 
         resp.req_word = this.sets[set].read_word(tag, ofs);

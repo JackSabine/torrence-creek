@@ -5,6 +5,7 @@
 
 `uvm_analysis_imp_decl( _icache_perf )
 `uvm_analysis_imp_decl( _dcache_perf )
+`uvm_analysis_imp_decl( _l2cache_perf )
 
 class scoreboard extends uvm_scoreboard;
     `uvm_component_utils(scoreboard)
@@ -16,6 +17,7 @@ class scoreboard extends uvm_scoreboard;
 
     uvm_analysis_imp_icache_perf #(cache_perf_transaction, scoreboard) aport_icache_perf;
     uvm_analysis_imp_dcache_perf #(cache_perf_transaction, scoreboard) aport_dcache_perf;
+    uvm_analysis_imp_l2cache_perf #(cache_perf_transaction, scoreboard) aport_l2cache_perf;
 
     local function void __highlight_reset(); endfunction
 
@@ -36,12 +38,12 @@ class scoreboard extends uvm_scoreboard;
     uint32_t perf_vector_count, perf_pass_count, perf_fail_count;
     uint32_t icache_count, dcache_count, l2cache_count;
 
-    uvm_tlm_fifo #(cache_perf_transaction) icache_perf_observed_fifo;
-    uvm_tlm_fifo #(cache_perf_transaction) dcache_perf_observed_fifo;
-
-    cache_perf_transaction expected_icache_perf, expected_dcache_perf;
+    uvm_tlm_fifo #(cache_perf_transaction) cache_performance_observed_fifos[cache_type_e];
 
     function void build_phase(uvm_phase phase);
+        cache_type_e c;
+        string cache_name;
+
         super.build_phase(phase);
 
         aport_icache_drv = new("aport_icache_drv", this);
@@ -58,13 +60,21 @@ class scoreboard extends uvm_scoreboard;
 
         aport_icache_perf = new("aport_icache_perf", this);
         aport_dcache_perf = new("aport_dcache_perf", this);
-        icache_perf_observed_fifo = new("icache_perf_observed_fifo", this);
-        dcache_perf_observed_fifo = new("dcache_perf_observed_fifo", this);
+        aport_l2cache_perf = new("aport_l2cache_perf", this);
 
-        expected_icache_perf = new;
-        expected_icache_perf.origin = ICACHE;
-        expected_dcache_perf = new;
-        expected_dcache_perf.origin = DCACHE;
+        c = c.first();
+        do begin
+            if (c != UNASSIGNED) begin
+                // Don't try to combine these lines with c.name().tolower() because xelab segfaults over it
+                cache_name = c.name();
+                cache_name = cache_name.tolower();
+                //
+
+                cache_performance_observed_fifos[c] = new({cache_name, "_performance_observed_fifo"}, this);
+            end
+
+            c = c.next();
+        end while (c != c.first());
     endfunction
 
     function new (string name, uvm_component parent);
@@ -117,24 +127,6 @@ class scoreboard extends uvm_scoreboard;
             end
         endcase
 
-        case (cache_type)
-            ICACHE: begin
-                if (tr.expect_hit) expected_icache_perf.hits++;
-                else               expected_icache_perf.misses++;
-
-                if      (tr.req_operation == LOAD)  expected_icache_perf.reads++;
-                else if (tr.req_operation == STORE) expected_icache_perf.writes++;
-            end
-
-            DCACHE: begin
-                if (tr.expect_hit) expected_dcache_perf.hits++;
-                else               expected_dcache_perf.misses++;
-
-                if      (tr.req_operation == LOAD)  expected_dcache_perf.reads++;
-                else if (tr.req_operation == STORE) expected_dcache_perf.writes++;
-            end
-        endcase
-
         tr.t_issued    += clk_config.t_period;
         tr.t_fulfilled += clk_config.t_period;
 
@@ -164,14 +156,26 @@ class scoreboard extends uvm_scoreboard;
         observer(tr, dcache_observed_fifo);
     endfunction
 
+    function void write_to_cache_performance_observed_fifos(cache_perf_transaction tr);
+        if (!cache_performance_observed_fifos.exists(tr.origin)) begin
+            `uvm_error(get_full_name(), {"write_to_cache_performance_observed_fifos tried to find a fifo with origin ", tr.origin.name(), ", but cache_performance_observed_fifos didn't contain a matching entry"})
+            return;
+        end
+
+        `uvm_info("write_to_cache_performance_observed_fifos OUT ", tr.convert2string, UVM_HIGH)
+        void'(cache_performance_observed_fifos[tr.origin].try_put(tr));
+    endfunction
+
     function void write_icache_perf(cache_perf_transaction tr);
-        `uvm_info("write_icache_perf OUT ", tr.convert2string(), UVM_HIGH)
-        void'(icache_perf_observed_fifo.try_put(tr));
+        write_to_cache_performance_observed_fifos(tr);
     endfunction
 
     function void write_dcache_perf(cache_perf_transaction tr);
-        `uvm_info("write_dcache_perf OUT ", tr.convert2string(), UVM_HIGH)
-        void'(dcache_perf_observed_fifo.try_put(tr));
+        write_to_cache_performance_observed_fifos(tr);
+    endfunction
+
+    function void write_l2cache_perf(cache_perf_transaction tr);
+        write_to_cache_performance_observed_fifos(tr);
     endfunction
 
     task comparer(ref uvm_tlm_fifo #(memory_transaction) expected_fifo, ref uvm_tlm_fifo #(memory_transaction) observed_fifo, input cache_type_e cache_type);
@@ -221,19 +225,25 @@ class scoreboard extends uvm_scoreboard;
         end
     endtask
 
-    task performance_comparer(ref uvm_tlm_fifo #(cache_perf_transaction) observed_fifo, input cache_perf_transaction expected_tx, input cache_type_e cache_type);
-        cache_perf_transaction observed_tx;
+    task performance_comparer(input cache_type_e cache_type);
+        cache_perf_transaction observed_tx, expected_tx;
         bit pass;
         string printout_str;
         string name;
+
+        if (!cache_performance_observed_fifos.exists(cache_type)) begin
+            `uvm_error(get_full_name(), {"performance_comparer tried to find a fifo with cache_type ", cache_type.name(), ", but cache_performance_observed_fifos didn't contain a matching entry"})
+            return;
+        end
 
         name = $sformatf("scoreboard performance_comparer<%s>", cache_type.name());
 
         forever begin
             pass = 1'b1;
 
-            `uvm_info(name, "WAITING for observed output", UVM_DEBUG)
-            observed_fifo.get(observed_tx);
+            `uvm_info(name, "WAITING for observed performance output", UVM_DEBUG)
+            cache_performance_observed_fifos[cache_type].get(observed_tx);
+            expected_tx = cache_model.get_stats(cache_type);
 
             pass &= observed_tx.compare(expected_tx);
             pass &= observed_tx.origin == cache_type;
@@ -265,8 +275,9 @@ class scoreboard extends uvm_scoreboard;
         fork
             comparer(icache_expected_fifo, icache_observed_fifo, ICACHE);
             comparer(dcache_expected_fifo, dcache_observed_fifo, DCACHE);
-            performance_comparer(icache_perf_observed_fifo, expected_icache_perf, ICACHE);
-            performance_comparer(dcache_perf_observed_fifo, expected_dcache_perf, DCACHE);
+            performance_comparer(ICACHE);
+            performance_comparer(DCACHE);
+            performance_comparer(L2CACHE);
         join
     endtask
 
@@ -280,7 +291,7 @@ class scoreboard extends uvm_scoreboard;
         test_passed = 1'b1;
 
         // Performance vector checks
-        test_passed &= (perf_vector_count == 2) && (perf_fail_count == 0);
+        test_passed &= (perf_vector_count == cache_model.get_num_caches()) && (perf_fail_count == 0);
 
         // Runtime vector checks
         test_passed &= (vector_count != 0) && (fail_count == 0);
@@ -326,14 +337,16 @@ class scoreboard extends uvm_scoreboard;
             "--- EXPECTED CACHE PERFORMANCE COUNTERS ---\n",
             "-------------------------------------------\n",
             "\n",
-            expected_icache_perf.convert2string(),
+            cache_model.get_stats(ICACHE).convert2string(),
             "\n",
-            expected_dcache_perf.convert2string()
+            cache_model.get_stats(DCACHE).convert2string(),
+            "\n",
+            cache_model.get_stats(L2CACHE).convert2string()
         };
 
         report_str = {
             $sformatf("* Runtime vectors: %0d ran, %0d passed, %0d failed\n", vector_count, pass_count, fail_count),
-            $sformatf("* Performance vectors: %0d ran, %0d passed, %0d failed\n", perf_vector_count, perf_pass_count, perf_fail_count),
+            $sformatf("* Performance vectors: %0d compared (%0d expected), %0d passed, %0d failed\n", perf_vector_count, cache_model.get_num_caches(), perf_pass_count, perf_fail_count),
             report_str
         };
 
