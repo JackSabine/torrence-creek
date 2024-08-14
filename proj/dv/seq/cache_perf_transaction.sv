@@ -5,6 +5,7 @@ class cache_perf_transaction extends uvm_sequence_item;
     uint32_t misses;
     uint32_t reads;
     uint32_t writes;
+    uint32_t writebacks;
 
     cache_type_e origin;
 
@@ -17,16 +18,18 @@ class cache_perf_transaction extends uvm_sequence_item;
         s = $sformatf(
             {
                 "%0s performance counters:\n",
-                "* hits  : %0d\n",
-                "* misses: %0d\n",
-                "* reads : %0d\n",
-                "* writes: %0d\n"
+                "* hits      : %0d\n",
+                "* misses    : %0d\n",
+                "* reads     : %0d\n",
+                "* writes    : %0d\n",
+                "* writebacks: %0d\n"
             },
             origin.name(),
             hits,
             misses,
             reads,
-            writes
+            writes,
+            writebacks
         );
         return s;
     endfunction
@@ -35,11 +38,12 @@ class cache_perf_transaction extends uvm_sequence_item;
         cache_perf_transaction _obj;
         $cast(_obj, rhs);
 
-        hits   = _obj.hits;
-        misses = _obj.misses;
-        reads  = _obj.reads;
-        writes = _obj.writes;
-        origin = _obj.origin;
+        hits       = _obj.hits;
+        misses     = _obj.misses;
+        reads      = _obj.reads;
+        writes     = _obj.writes;
+        origin     = _obj.origin;
+        writebacks = _obj.writebacks;
     endfunction
 
     virtual function bit do_compare(uvm_object rhs, uvm_comparer comparer);
@@ -47,10 +51,11 @@ class cache_perf_transaction extends uvm_sequence_item;
         $cast(_obj, rhs);
 
         return
-            hits   == _obj.hits   &
-            misses == _obj.misses &
-            reads  == _obj.reads  &
-            writes == _obj.writes &
-            origin == _obj.origin ;
+            hits       == _obj.hits   &
+            misses     == _obj.misses &
+            reads      == _obj.reads  &
+            writes     == _obj.writes &
+            origin     == _obj.origin &
+            writebacks == _obj.writebacks;
     endfunction
 endclass

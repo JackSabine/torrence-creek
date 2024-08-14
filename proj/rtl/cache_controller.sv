@@ -40,7 +40,8 @@ always_comb begin
         internal_if.count_hit,
         internal_if.count_miss,
         internal_if.count_read,
-        internal_if.count_write
+        internal_if.count_write,
+        internal_if.count_writeback
     } = '0;
 
     case (state)
@@ -98,6 +99,7 @@ always_comb begin
                             internal_if.set_hmem_block_address = 1'b1;
                             internal_if.reset_counter = 1'b1;
                             internal_if.count_miss = 1'b1;
+                            internal_if.count_writeback = 1'b1;
                         end
                         default: begin
                             next_state = ST_UNKNOWN;

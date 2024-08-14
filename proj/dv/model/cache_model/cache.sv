@@ -117,6 +117,7 @@ class cache extends memory_element;
             end
 
             this.sets[set].evict_victim();
+            this.stats.writebacks++;
         end
 
         for (int i = 0; i < this.words_per_block; i++) begin

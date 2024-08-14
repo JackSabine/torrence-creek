@@ -14,6 +14,7 @@ interface cache_internal_if;
     logic count_miss;
     logic count_read;
     logic count_write;
+    logic count_writeback;
 
     logic counter_done;
     logic valid_block_match;
@@ -36,6 +37,7 @@ interface cache_internal_if;
             count_miss,
             count_read,
             count_write,
+            count_writeback,
 
         output
             counter_done,
@@ -60,6 +62,7 @@ interface cache_internal_if;
             count_miss,
             count_read,
             count_write,
+            count_writeback,
 
         input
             counter_done,

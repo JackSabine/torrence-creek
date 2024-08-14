@@ -42,6 +42,7 @@ class cache_perf_monitor extends uvm_monitor;
         perf_tx.misses = perf_vi.miss_value;
         perf_tx.reads = perf_vi.read_value;
         perf_tx.writes = perf_vi.write_value;
+        perf_tx.writebacks = perf_vi.writeback_value;
 
         perf_tx.origin = this.cache_type;
 
