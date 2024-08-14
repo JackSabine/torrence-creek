@@ -6,6 +6,7 @@ package torrence_pkg;
     import torrence_types::*;
 
     `include "dpi-c.sv"
+    `include "../common/randomizable_2d_array.sv"
 
     `include "../seq/memory_transaction.sv"
     `include "../seq/reset_transaction.sv"
@@ -17,6 +18,7 @@ package torrence_pkg;
 
     `include "../seq/base_access_seq.sv"
     `include "../seq/random_access_seq.sv"
+    `include "../seq/thrashing_seq.sv"
     `include "../seq/memory_response_seq.sv"
     `include "../seq/reset_seq.sv"
 

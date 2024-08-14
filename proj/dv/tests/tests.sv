@@ -2,3 +2,4 @@
 `include "icache_basic_test.sv"
 `include "dcache_basic_test.sv"
 `include "l1_basic_test.sv"
+`include "l1_thrashing_test.sv"
