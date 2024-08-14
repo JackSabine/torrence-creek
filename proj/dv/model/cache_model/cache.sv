@@ -60,6 +60,42 @@ class cache extends memory_element;
         return addr;
     endfunction
 
+    local function uint32_t gen_bitmask(uint8_t width);
+        return (1 << width) - 1;
+    endfunction
+
+    local function uint32_t select_read_data(uint32_t read_data, memory_operation_size_e op_size, uint8_t byte_offset);
+        uint32_t mask;
+
+        unique case (op_size)
+            BYTE: mask = gen_bitmask(8);
+            HALF: mask = gen_bitmask(16);
+            WORD: mask = gen_bitmask(32);
+        endcase
+
+        return mask & (read_data >> (8 * byte_offset));
+    endfunction
+
+    local function uint32_t insert_write_data(uint32_t read_data, uint32_t write_data, memory_operation_size_e op_size, uint8_t byte_offset);
+        uint32_t mask;
+
+        unique case (op_size)
+            BYTE: mask = gen_bitmask(8);
+            HALF: mask = gen_bitmask(16);
+            WORD: mask = gen_bitmask(32);
+        endcase
+
+        write_data &= mask;
+
+        mask <<= (8 * byte_offset);
+        write_data <<= (8 * byte_offset);
+
+        read_data &= ~mask;
+        read_data |= write_data;
+
+        return read_data;
+    endfunction
+
     // Cache miss recovery
     //  1. Handles writebacks if needed, then evict the victim
     //  2. Fetch data from lower memory
