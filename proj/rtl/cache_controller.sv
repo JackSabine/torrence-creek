@@ -26,6 +26,7 @@ assign internal_if.perform_write = mealy_perform_write | moore_perform_write;
 //// NEXT STATE LOGIC AND MEALY OUTPUTS ////
 always_comb begin
     {
+        internal_if.miss_recovery_mode,
         internal_if.clear_selected_dirty_bit,
         internal_if.set_selected_dirty_bit,
         mealy_perform_write,
@@ -75,6 +76,7 @@ always_comb begin
                             internal_if.set_hmem_block_address = 1'b1;
                             internal_if.reset_counter = 1'b1;
                             internal_if.count_miss = 1'b1;
+                            internal_if.miss_recovery_mode = 1'b1;
                         end
                         2'b1?: begin : hit
                             next_state = ST_IDLE;
@@ -100,6 +102,7 @@ always_comb begin
                             internal_if.reset_counter = 1'b1;
                             internal_if.count_miss = 1'b1;
                             internal_if.count_writeback = 1'b1;
+                            internal_if.miss_recovery_mode = 1'b1;
                         end
                         default: begin
                             next_state = ST_UNKNOWN;
@@ -125,6 +128,8 @@ always_comb begin
             if (hmem_if.req_fulfilled) begin
                 internal_if.decrement_counter = 1'b1;
             end
+
+            internal_if.miss_recovery_mode = 1'b1;
         end
 
         ST_ALLOCATE: begin
@@ -140,6 +145,8 @@ always_comb begin
             if (hmem_if.req_fulfilled) begin
                 internal_if.decrement_counter = 1'b1;
             end
+
+            internal_if.miss_recovery_mode = 1'b1;
         end
 
         ST_FLUSH: begin
@@ -155,11 +162,14 @@ always_comb begin
             if (hmem_if.req_fulfilled) begin
                 internal_if.decrement_counter = 1'b1;
             end
+
+            internal_if.miss_recovery_mode = 1'b1;
         end
 
         default: begin
             next_state = ST_UNKNOWN;
             {
+                internal_if.miss_recovery_mode,
                 internal_if.clear_selected_dirty_bit,
                 internal_if.set_selected_dirty_bit,
                 mealy_perform_write,
@@ -178,7 +188,6 @@ end
 
 //// MOORE OUTPUTS ////
 always_comb begin
-    internal_if.miss_recovery_mode = 1'b0;
     hmem_if.req_operation = LOAD;
     hmem_if.req_valid = 1'b0;
     moore_perform_write = 1'b0;
@@ -189,20 +198,17 @@ always_comb begin
         end
 
         ST_ALLOCATE: begin
-            internal_if.miss_recovery_mode = 1'b1;
             hmem_if.req_operation = LOAD;
             hmem_if.req_valid = 1'b1;
             moore_perform_write = 1'b1;
         end
 
         ST_FLUSH, ST_WRITEBACK: begin
-            internal_if.miss_recovery_mode = 1'b1;
             hmem_if.req_operation = STORE;
             hmem_if.req_valid = 1'b1;
         end
 
         default: begin
-            internal_if.miss_recovery_mode = 1'bx;
             hmem_if.req_operation = MO_UNKNOWN;
             hmem_if.req_valid = 1'bx;
             moore_perform_write = 1'bx;
