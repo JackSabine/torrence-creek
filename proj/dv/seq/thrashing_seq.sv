@@ -51,6 +51,8 @@ class thrashing_seq extends base_access_seq;
 
         for (uint32_t row = 0; row < num_batches_to_access; row++) begin
             for (uint32_t col = 0; col < num_blocks_per_batch; col++) begin
+                block_array.set(row, col, block_array.at(row, col) & block_mask);
+
                 case (cache_type)
                     ICACHE: block_array.set(row, col, block_array.at(row, col) & ~`RO_RW_MEMORY_BOUNDARY);
                     DCACHE: block_array.set(row, col, block_array.at(row, col) |  `RO_RW_MEMORY_BOUNDARY);
@@ -86,15 +88,15 @@ class thrashing_seq extends base_access_seq;
             repeat (num_repetitions_per_batch) begin
                 for (uint32_t i = 0; i < num_blocks_per_batch; i++) begin
                     block = block_array.at(batch, i);
-                end
 
-                repeat(num_accesses_per_block) begin
-                    // Must create with a context in case of instance overriding
-                    req = memory_transaction::type_id::create(.name("req"), .contxt(get_full_name()));
-                    start_item(req);
-                    assert(req.randomize() with { req_address inside {[block : block+offset_mask]}; })
-                        else `uvm_fatal(get_full_name(), "Couldn't randomize req")
-                    finish_item(req);
+                    repeat(num_accesses_per_block) begin
+                        // Must create with a context in case of instance overriding
+                        req = memory_transaction::type_id::create(.name("req"), .contxt(get_full_name()));
+                        start_item(req);
+                        assert(req.randomize() with { req_address inside {[block : block+offset_mask]}; })
+                            else `uvm_fatal(get_full_name(), "Couldn't randomize req")
+                        finish_item(req);
+                    end
                 end
             end
         end

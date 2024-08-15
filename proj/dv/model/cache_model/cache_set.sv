@@ -25,6 +25,30 @@ class cache_set;
         this.words_per_block = words_per_block;
     endfunction
 
+    function string convert2string();
+        string s;
+
+        s = "\n-------------------------------------------------\n";
+
+        foreach (blocks[i]) begin
+            s = {
+                s,
+                $sformatf(
+                    "WAY %0d : valid(%b) : dirty(%b) : tag(%8x) : recency(%2d)\n",
+                    i,
+                    blocks[i].valid,
+                    blocks[i].dirty,
+                    blocks[i].tag,
+                    blocks[i].recency
+                )
+            };
+        end
+
+        s = {s, "\n", "-------------------------------------------------\n"};
+
+        return s;
+    endfunction
+
     local function uint8_t get_victim_way();
         foreach (this.blocks[i]) begin
             if (this.blocks[i].recency == (associativity - 1)) begin
@@ -87,6 +111,7 @@ class cache_set;
         victim_way = this.get_victim_way();
         this.blocks[victim_way].tag = tag;
         this.blocks[victim_way].valid = 1'b1;
+        this.update_recency_counters(victim_way);
     endfunction
 
     function bit is_cached(uint32_t tag);

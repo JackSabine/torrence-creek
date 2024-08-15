@@ -30,24 +30,31 @@ class cache extends memory_element;
         end
 
         this.stats.origin = cache_type;
+
+        `uvm_info(
+            $sformatf("cache<%s>", cache_type.name()),
+            $sformatf(
+                "cache_size: %0d - block_size: %0d - assoc: %0d - tag bits: %0d - set bits: %0d - ofs bits: %0d",
+                cache_size, block_size, associativity, this.num_tag_bits, this.num_set_bits, this.num_offset_bits
+            ),
+            UVM_HIGH
+        )
     endfunction
 
-    local function uint32_t get_set(uint32_t addr);
-        uint32_t mask;
-
-        mask = (1 << num_set_bits) - 1;
-        return (addr >> this.num_offset_bits) & mask;
+    local function uint32_t gen_bitmask(uint8_t width);
+        return (1 << width) - 1;
     endfunction
 
     local function uint32_t get_tag(uint32_t addr);
         return addr >> (this.num_offset_bits + this.num_set_bits);
     endfunction
 
-    local function uint32_t get_ofs(uint32_t addr);
-        uint32_t mask;
+    local function uint32_t get_set(uint32_t addr);
+        return (addr >> this.num_offset_bits) & gen_bitmask(this.num_set_bits);
+    endfunction
 
-        mask = (1 << num_offset_bits) - 1;
-        return addr & mask;
+    local function uint32_t get_ofs(uint32_t addr);
+        return addr & gen_bitmask(this.num_offset_bits);
     endfunction
 
     local function uint32_t construct_addr(uint32_t tag, uint32_t set, uint32_t ofs);
@@ -58,10 +65,6 @@ class cache extends memory_element;
         addr = (addr | set) << num_offset_bits;
         addr = (addr | ofs);
         return addr;
-    endfunction
-
-    local function uint32_t gen_bitmask(uint8_t width);
-        return (1 << width) - 1;
     endfunction
 
     local function uint32_t select_read_data(uint32_t read_data, memory_operation_size_e op_size, uint8_t byte_offset);
