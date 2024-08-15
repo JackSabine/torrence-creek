@@ -29,7 +29,7 @@ endgenerate
 ///////////////////////////////////////////////////////////////////
 //                        Setup variables                        //
 ///////////////////////////////////////////////////////////////////
-localparam NUM_SETS = CACHE_SIZE / (LINE_SIZE);
+localparam NUM_SETS = CACHE_SIZE / (LINE_SIZE * ASSOC);
 
 localparam OFS_SIZE = $clog2(LINE_SIZE),
            SET_SIZE = $clog2(NUM_SETS),
