@@ -32,7 +32,6 @@ class reset_seq extends uvm_sequence #(reset_transaction);
                 post_reset_delay         == local::post_reset_delay;
             }
         ) else `uvm_fatal(get_full_name(), "Couldn't successfully randomize rst_tx")
-        rst_tx.print();
         finish_item(rst_tx);
     endtask
 endclass
