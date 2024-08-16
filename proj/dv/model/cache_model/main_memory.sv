@@ -1,8 +1,8 @@
 class main_memory extends memory_element;
     local uint32_t memory [uint32_t];
 
-    function new();
-        super.new();
+    function new(string name = "");
+        super.new(name);
     endfunction
 
     local function uint32_t compute_default_value(uint32_t addr);

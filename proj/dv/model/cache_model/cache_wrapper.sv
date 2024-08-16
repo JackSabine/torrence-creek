@@ -6,7 +6,7 @@ class cache_wrapper;
     local memory_element cache_handles[cache_type_e];
 
     function new (cache_config cfg);
-        memory = new;
+        memory = new("cache_model<MAIN MEMORY>");
         l2cache = new(L2CACHE, cfg.l2_size, cfg.line_size, cfg.l2_assoc, memory);
         icache = new(ICACHE, cfg.icache_size, cfg.line_size, cfg.icache_assoc, l2cache);
         dcache = new(DCACHE, cfg.dcache_size, cfg.line_size, cfg.dcache_assoc, l2cache);
@@ -47,6 +47,10 @@ class cache_wrapper;
         end
 
         return cache_handles[cache_type].get_stats();
+    endfunction
+
+    function cache_perf_transaction get_main_memory_stats();
+        return memory.get_stats();
     endfunction
 
     function uint32_t get_num_caches();

@@ -12,7 +12,7 @@ class cache extends memory_element;
     function new (cache_type_e cache_type, uint32_t cache_size, uint32_t block_size, uint8_t associativity, memory_element lower_memory);
         uint32_t num_sets;
 
-        super.new();
+        super.new({"cache_model<", cache_type.name(), ">"});
 
         num_sets = cache_size / (block_size * associativity);
 

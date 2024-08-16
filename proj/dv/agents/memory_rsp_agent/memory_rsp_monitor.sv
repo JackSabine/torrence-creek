@@ -30,6 +30,11 @@ class memory_rsp_monitor extends uvm_monitor;
 
     task run_phase(uvm_phase phase);
         memory_transaction mem_tx;
+        memory_transaction prev_mem_tx;
+
+        bit first_tx;
+
+        first_tx = 1'b1;
 
         forever begin
             @(negedge rsp_vi.clk);
@@ -41,6 +46,16 @@ class memory_rsp_monitor extends uvm_monitor;
                 mem_tx.req_operation  = memory_operation_e'(rsp_vi.req_operation);
                 mem_tx.req_size       = WORD;
                 mem_tx.req_store_word = rsp_vi.req_store_word;
+
+                if (!first_tx) begin
+                    // Skip cases where the previous transaction is the same
+                    // If there is a delay in fulfilling the req, we don't want to
+                    // query the dut's memory model and trigger any statistics counters
+                    if (mem_tx.compare_req_inputs(prev_mem_tx)) begin
+                        `uvm_info(get_full_name(), "Previous tx was same as current tx, skipping it", UVM_DEBUG)
+                        continue;
+                    end
+                end
 
                 if (mem_tx.req_operation == STORE) begin
                     void'(dut_memory_model.write(mem_tx.req_address, mem_tx.req_store_word));
@@ -56,6 +71,9 @@ class memory_rsp_monitor extends uvm_monitor;
                     UVM_DEBUG
                 )
                 mrsp_ap.write(mem_tx);
+
+                first_tx = 1'b0;
+                prev_mem_tx = mem_tx;
             end
         end
    endtask

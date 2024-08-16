@@ -1,7 +1,8 @@
-virtual class memory_element;
+virtual class memory_element extends uvm_object;
     protected cache_perf_transaction stats;
 
-    function new();
+    function new(string name = "");
+        super.new(name);
         this.stats = cache_perf_transaction::type_id::create("memory_element_stats");
     endfunction
 

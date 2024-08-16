@@ -225,11 +225,15 @@ class scoreboard extends uvm_scoreboard;
         end
     endtask
 
+    uint32_t num_performance_comparisons;
+
     task performance_comparer(input cache_type_e cache_type);
         cache_perf_transaction observed_tx, expected_tx;
         bit pass;
         string printout_str;
         string name;
+
+        num_performance_comparisons++;
 
         if (!cache_performance_observed_fifos.exists(cache_type)) begin
             `uvm_error(get_full_name(), {"performance_comparer tried to find a fifo with cache_type ", cache_type.name(), ", but cache_performance_observed_fifos didn't contain a matching entry"})
@@ -268,8 +272,45 @@ class scoreboard extends uvm_scoreboard;
             assert (observed_tx.origin == cache_type)
                 else `uvm_error(name, $sformatf("Received performance transaction from incorrect origin (%s)", observed_tx.origin.name()))
         end
-
     endtask
+
+    function void performance_comparer_main_memory();
+        cache_perf_transaction observed_tx, expected_tx;
+        bit pass;
+        main_memory dut_memory_model;
+        string printout_str;
+
+        num_performance_comparisons++;
+
+        assert(uvm_config_db #(main_memory)::get(
+            .cntxt(this),
+            .inst_name(""),
+            .field_name("dut_memory_model"),
+            .value(dut_memory_model)
+        )) else `uvm_error(get_full_name(), "Couldn't get dut_memory_model in performance_comparer_main_memory")
+
+        observed_tx = dut_memory_model.get_stats();
+        expected_tx = cache_model.get_main_memory_stats();
+
+        pass = observed_tx.compare(expected_tx);
+
+        printout_str = $sformatf(
+            {
+                "\n",
+                "*** OBSERVED ***\n%s\n",
+                "*** EXPECTED ***\n%s\n"
+            },
+            observed_tx.convert2string(), expected_tx.convert2string()
+        );
+
+        if (pass) begin
+            performance_pass();
+            `uvm_info("MAIN MEMORY PERF PASS: ", printout_str, UVM_HIGH)
+        end else begin
+            performance_fail();
+            `uvm_error("MAIN MEMORY PERF FAIL: ", printout_str)
+        end
+    endfunction
 
     task run_phase(uvm_phase phase);
         fork
@@ -281,6 +322,10 @@ class scoreboard extends uvm_scoreboard;
         join
     endtask
 
+    function void extract_phase(uvm_phase phase);
+        performance_comparer_main_memory();
+    endfunction
+
     bit test_passed;
 
     function void check_phase(uvm_phase phase);
@@ -291,7 +336,7 @@ class scoreboard extends uvm_scoreboard;
         test_passed = 1'b1;
 
         // Performance vector checks
-        test_passed &= (perf_vector_count == cache_model.get_num_caches()) && (perf_fail_count == 0);
+        test_passed &= (perf_vector_count == num_performance_comparisons) && (perf_fail_count == 0);
 
         // Runtime vector checks
         test_passed &= (vector_count != 0) && (fail_count == 0);
@@ -318,15 +363,13 @@ class scoreboard extends uvm_scoreboard;
                     "* store_count:   %0d\n",
                     "* clflush_count: %0d\n",
                     "* icache transactions: %0d\n",
-                    "* dcache transactions: %0d\n",
-                    "* l2cache transactions: %0d\n"
+                    "* dcache transactions: %0d\n"
                 },
                 load_count,
                 store_count,
                 clflush_count,
                 icache_count,
-                dcache_count,
-                l2cache_count
+                dcache_count
             )
         };
 
@@ -341,12 +384,15 @@ class scoreboard extends uvm_scoreboard;
             "\n",
             cache_model.get_stats(DCACHE).convert2string(),
             "\n",
-            cache_model.get_stats(L2CACHE).convert2string()
+            cache_model.get_stats(L2CACHE).convert2string(),
+            "\n",
+            "(UNASSIGNED === main memory)\n",
+            cache_model.get_main_memory_stats().convert2string()
         };
 
         report_str = {
             $sformatf("* Runtime vectors: %0d ran, %0d passed, %0d failed\n", vector_count, pass_count, fail_count),
-            $sformatf("* Performance vectors: %0d compared (%0d expected), %0d passed, %0d failed\n", perf_vector_count, cache_model.get_num_caches(), perf_pass_count, perf_fail_count),
+            $sformatf("* Performance vectors: %0d compared (%0d expected), %0d passed, %0d failed\n", perf_vector_count, num_performance_comparisons, perf_pass_count, perf_fail_count),
             report_str
         };
 

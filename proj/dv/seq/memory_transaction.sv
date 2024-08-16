@@ -77,6 +77,26 @@ class memory_transaction extends uvm_sequence_item;
             t_issued        == _obj.t_issued        &
             origin          == _obj.origin          ;
     endfunction
+
+    virtual function bit compare_req_inputs(uvm_object rhs);
+        memory_transaction _obj;
+        bit match;
+
+        $cast(_obj, rhs);
+
+        `uvm_info("compare_tb_inputs", {"\n", this.convert2string(), "\n", _obj.convert2string()}, UVM_DEBUG)
+        match =
+            req_address    == _obj.req_address     &
+            req_operation  == _obj.req_operation   &
+            req_size       == _obj.req_size        &
+            origin         == _obj.origin          ;
+
+        if (match && (req_operation == STORE)) begin
+            match &= (req_store_word == _obj.req_store_word);
+        end
+
+        return match;
+    endfunction
 endclass
 
 class word_memory_transaction extends memory_transaction;

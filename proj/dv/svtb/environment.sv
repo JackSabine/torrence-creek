@@ -18,7 +18,7 @@ class environment extends uvm_env;
 
     function void build_phase(uvm_phase phase);
         super.build_phase(phase);
-        dut_memory_model = new;
+        dut_memory_model = new("dut_memory_model");
         uvm_config_db #(main_memory)::set(
             .cntxt(this),
             .inst_name("*"),
