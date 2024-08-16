@@ -29,7 +29,7 @@ endgenerate
 ///////////////////////////////////////////////////////////////////
 //                        Setup variables                        //
 ///////////////////////////////////////////////////////////////////
-localparam NUM_SETS = CACHE_SIZE / (LINE_SIZE);
+localparam NUM_SETS = CACHE_SIZE / (LINE_SIZE * ASSOC);
 
 localparam OFS_SIZE = $clog2(LINE_SIZE),
            SET_SIZE = $clog2(NUM_SETS),
@@ -166,10 +166,12 @@ perf_counters #(
     .count_miss(internal_if.count_miss),
     .count_read(internal_if.count_read),
     .count_write(internal_if.count_write),
+    .count_writeback(internal_if.count_writeback),
     .hit_value(perf_if.hit_value),
     .miss_value(perf_if.miss_value),
     .read_value(perf_if.read_value),
-    .write_value(perf_if.write_value)
+    .write_value(perf_if.write_value),
+    .writeback_value(perf_if.writeback_value)
 );
 
 endmodule
