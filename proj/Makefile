@@ -85,23 +85,28 @@ COMPILE_LIST += $(SRC_FILES_DV_ABS_PATH)
 HDL_SENSITIVITY_LIST := $(shell find ${PROJECT_ROOT}/ -type f \( -name "*.sv" -o -name "*.svh" -o -name "*.mk" \))
 
 ####################################################################
+# Vivado output/rule aliases
+XVLOG_WORK_FILE = $(WORKDIR)/xsim.dir/$(WORK)/$(WORK).rlx
+XSIM_BINARY = $(WORKDIR)/xsim.dir/$(TB_TOP)_snapshot/xsimk
+
+####################################################################
 # Rules
 
 $(WORKDIR)/%.so: $(DV_DPI_C)/%.c | work
 	@echo "----- Compiling DPI-C -----"
 	cd $(WORKDIR) && $(CC) $< -o $@ $(CFLAGS)
 
-$(WORKDIR)/xsim.dir/$(WORK)/$(WORK).rlx: $(HDL_SENSITIVITY_LIST) | work
+$(XVLOG_WORK_FILE): $(HDL_SENSITIVITY_LIST) | work
 	@echo "----- Compiling HDL -----"
 	cd $(WORKDIR) && xvlog $(UVM_XVLOG_FLAGS) $(COMPILE_LIST) $(XVLOG_FLAGS)
 
-$(WORKDIR)/xsim.dir/$(TB_TOP)_snapshot/xsimk: $(DPIC_SHARED_OBJECTS) $(WORKDIR)/xsim.dir/$(WORK)/$(WORK).rlx
+$(XSIM_BINARY): $(DPIC_SHARED_OBJECTS) $(XVLOG_WORK_FILE)
 	@echo "----- Elaborating HDL -----"
 	cd $(WORKDIR) && xelab -top $(TB_TOP) -snapshot $(TB_TOP)_snapshot -debug all $(UVM_XELAB_FLAGS) $(XELAB_FLAGS)
 
 # (c)ompile (o)nly
 .PHONY: co
-co: $(WORKDIR)/xsim.dir/$(TB_TOP)_snapshot/xsimk
+co: $(XSIM_BINARY)
 	@echo "----- Compilation complete -----"
 
 .PHONY: sim
