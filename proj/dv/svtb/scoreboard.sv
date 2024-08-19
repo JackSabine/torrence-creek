@@ -406,7 +406,6 @@ class scoreboard extends uvm_scoreboard;
             };
 
             report_str = {
-                pass_fail_str,
                 report_str,
                 pass_fail_str
             };
@@ -422,7 +421,6 @@ class scoreboard extends uvm_scoreboard;
             };
 
             report_str = {
-                pass_fail_str,
                 report_str,
                 pass_fail_str
             };
