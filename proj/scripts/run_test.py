@@ -7,8 +7,11 @@ import pathlib
 import os
 import sys
 import re
+from enum import Enum
 
-class Args:
+
+
+class TestRunnerArguments:
     test_name: str
     run_dir: str
     build_dir: str
@@ -17,30 +20,35 @@ class Args:
     print_stdout: bool
     highlight_stdout: bool
 
+def add_arguments_to_argument_parser(parser: argparse.ArgumentParser) -> None:
+    parser.add_argument("test_name", type=str,
+                        help="Specify the UVM test to run")
+
+    parser.add_argument("run_dir", type=str, nargs="?",
+                        default=os.environ["WORKDIR"] + "/runs",
+                        help="Optionally specify the base run directory (defaults to work dir)")
+
+    parser.add_argument("build_dir", type=str, nargs="?",
+                        default=os.environ["WORKDIR"],
+                        help="Optionally specify where to find the built project (defaults to work dir)")
+
+    parser.add_argument("--seed", type=int,
+                        help="Specify the simulation seed")
+
+    parser.add_argument("--uvm_verbosity", type=str, default="UVM_LOW",
+                        help="Specify the UVM_VERBOSITY level")
+
+    parser.add_argument("--print", action='store_true', dest="print_stdout",
+                        help="Print output to STDOUT")
+
+    parser.add_argument("--highlight", action='store_true', dest="highlight_stdout", default=True,
+                        help="Apply highlighting to keywords on stdout (pair with --print)")
+
+
+
 parser = argparse.ArgumentParser(description="Run a UVM test using Vivado xsim")
+add_arguments_to_argument_parser(parser)
 
-parser.add_argument("test_name", type=str,
-                    help="Specify the UVM test to run")
-
-parser.add_argument("run_dir", type=str, nargs="?",
-                    default=os.environ["WORKDIR"] + "/runs",
-                    help="Optionally specify the base run directory (defaults to work dir)")
-
-parser.add_argument("build_dir", type=str, nargs="?",
-                    default=os.environ["WORKDIR"],
-                    help="Optionally specify where to find the built project (defaults to work dir)")
-
-parser.add_argument("--seed", type=int,
-                    help="Specify the simulation seed")
-
-parser.add_argument("--uvm_verbosity", type=str, default="UVM_LOW",
-                    help="Specify the UVM_VERBOSITY level")
-
-parser.add_argument("--print", action='store_true', dest="print_stdout",
-                    help="Print output to STDOUT")
-
-parser.add_argument("--highlight", action='store_true', dest="highlight_stdout", default=True,
-                    help="Apply highlighting to keywords on stdout (pair with --print)")
 
 
 class bcolors:
@@ -50,6 +58,12 @@ class bcolors:
     WARNING = '\033[01;93m'
     FAIL = '\033[01;91m'
     ENDC = '\033[0m'
+
+
+class TestResult(Enum):
+    PASS = 0
+    FAIL = 1
+    TIMEOUT = 2
 
 
 
@@ -84,13 +98,12 @@ def create_test_run_directory(build_dir: str, run_dir: str, test_name: str, seed
 
 
 
-def run_test(test_path: pathlib.Path, seed: int, test_name: str, uvm_verbosity: str, print_stdout: bool, highlight_stdout: bool):
+def run_simulation(test_path: pathlib.Path, seed: int, test_name: str, uvm_verbosity: str, print_stdout: bool, highlight_stdout: bool):
     output_path: pathlib.Path
 
     output_path = test_path / "output.txt"
 
     os.chdir(f"{test_path}")
-    print(os.getcwd())
     cmd = [
         "xsim",
         "tb_top_snapshot",
@@ -109,27 +122,30 @@ def run_test(test_path: pathlib.Path, seed: int, test_name: str, uvm_verbosity: 
             if print_stdout:
                 print_test_output(line.decode("utf-8"), highlight_stdout)
 
-    print(f"Process finished with a {process.poll()} return code")
-
     return
 
 
-def determine_test_pass_fail(test_path: pathlib.Path) -> None:
+def determine_test_pass_fail(test_path: pathlib.Path) -> TestResult:
     output_path: pathlib.Path
     fail_count: int
     pass_string_found: bool
     fail_string_found: bool
+    timeout_occurred: bool
 
     output_path = test_path / "output.txt"
 
     fail_count = 0
     pass_string_found = False
     fail_string_found = False
+    timeout_occurred = False
 
     with output_path.open("r", encoding="utf-8") as output_file:
         for line in output_file:
             if re.search(r"uvm_(?:error|fatal)\s+(?!:)", line, re.IGNORECASE):
                 fail_count += 1
+
+            if re.search(r"PH_TIMEOUT", line):
+                timeout_occurred = True
 
             if re.search(r"TEST PASSED", line):
                 pass_string_found = True
@@ -137,28 +153,35 @@ def determine_test_pass_fail(test_path: pathlib.Path) -> None:
             if re.search(r"TEST FAILED", line):
                 fail_string_found = True
 
+    if (timeout_occurred):
+        return TestResult.TIMEOUT
+
     if (fail_count == 0) and (pass_string_found) and (not fail_string_found):
-        print("Test passed! :)")
+        return TestResult.PASS
     else:
-        print(f"Test failed\n{fail_count} errors/fatals detected")
+        return TestResult.FAIL
 
 
 
+def run_test(args: TestRunnerArguments) -> TestResult:
+    test_path: pathlib.Path
+    seed: int
+
+    seed = args.seed if args.seed != None else randint(0, 4294967295)
+    test_path = create_test_run_directory(args.build_dir, args.run_dir, args.test_name, seed)
+    run_simulation(test_path, seed, args.test_name, args.uvm_verbosity, args.print_stdout, args.highlight_stdout)
+    return determine_test_pass_fail(test_path)
 
 
 
 def main() -> None:
-    args: Args
-    test_path: pathlib.Path
-    seed: int
+    args: TestRunnerArguments
+    result: TestResult
 
-    args = parser.parse_args(namespace=Args())
-    seed = args.seed if args.seed != None else randint(0, 4294967295)
-    test_path = create_test_run_directory(args.build_dir, args.run_dir, args.test_name, seed)
-    run_test(test_path, seed, args.test_name, args.uvm_verbosity, args.print_stdout, args.highlight_stdout)
-    determine_test_pass_fail(test_path)
-
-    return
+    args = parser.parse_args(namespace=TestRunnerArguments())
+    result = run_test(args)
+    print(f"Test finished with status {result.name}")
+    exit(result.value)
 
 
 
