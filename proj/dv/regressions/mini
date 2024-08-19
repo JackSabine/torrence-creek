@@ -1,0 +1,5 @@
+# Format:
+# test_name [optional arguments]
+# Check arguments of test runner script for remaining optional arguments
+icache_basic_test
+dcache_basic_test
