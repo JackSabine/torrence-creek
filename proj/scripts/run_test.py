@@ -8,6 +8,7 @@ import os
 import sys
 import re
 from enum import Enum
+import shutil
 
 
 
@@ -87,12 +88,10 @@ def create_test_run_directory(build_dir: str, run_dir: str, test_name: str, seed
 
     test_path.mkdir(parents=True)
 
-    (test_path / pathlib.Path("xsim.dir")).symlink_to(
-        (build_path / pathlib.Path("xsim.dir")), target_is_directory=True
-    )
+    shutil.copytree(build_path / pathlib.Path("xsim.dir"), test_path / pathlib.Path("xsim.dir"))
 
     for so_binary in build_path.glob("*.so"):
-        (test_path / so_binary.name).symlink_to(so_binary)
+        shutil.copyfile(so_binary, test_path / so_binary.name)
 
     return test_path
 

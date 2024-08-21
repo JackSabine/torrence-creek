@@ -6,6 +6,7 @@ import pathlib
 import time
 import re
 from random import randint
+from multiprocessing import Process, Queue
 
 import run_test
 
@@ -75,6 +76,12 @@ def parse_regression_file(regressions_dir: str, regression_name: str, regression
     return test_args
 
 
+def run_test_wrapper(q: Queue, args: run_test.TestRunnerArguments) -> None:
+    result = run_test.run_test(args)
+    q.put((args.test_name, args.seed, result))
+    print(f"{args.test_name} finished with {result} code")
+
+
 def main() -> None:
     args: RegressionRunnerArguments
     regression_run_path: pathlib.Path
@@ -86,15 +93,39 @@ def main() -> None:
     test_results: list[run_test.TestResult] = []
 
     summary_file_path: pathlib.Path = regression_run_path / "results.txt"
-    result = run_test.TestResult
+
+    jobs: list[Process] = []
+    queue: Queue = Queue()
+
+    print("----------------------------")
+    print(f"{args.regression_name} regression tests")
+    print("----------------------------")
+
+    test_list: list[tuple[str, int]] = [(c.test_name, c.seed) for c in tests_and_arguments_to_run]
+    for test_name, seed in test_list:
+        print(f"{test_name}({seed})")
+    print("")
+
+    for cmd in tests_and_arguments_to_run:
+        p = Process(target=run_test_wrapper, args=(queue, cmd))
+        jobs.append(p)
+        p.start()
+
+    for j in jobs:
+        j.join()
+
+    print("")
+
+    print("----------------------------")
+    print("     ALL JOBS FINISHED      ")
+    print("----------------------------")
 
     with summary_file_path.open("w", encoding="utf-8") as s:
-        for cmd in tests_and_arguments_to_run:
-            print(f"Starting test {cmd.test_name}")
-            result = run_test.run_test(cmd)
-            test_results.append(result)
-            print(f"{cmd.test_name} finished with {result} code")
-            s.write(f"{cmd.test_name:<20}({cmd.seed:>10d}) : {result.name}\n")
+        while not queue.empty():
+            test_name, seed, result = queue.get()
+            result_str = f"{test_name:<20}({seed:>10d}) : {result.name}"
+            print(result_str)
+            s.write(result_str)
 
     if all(r == run_test.TestResult.PASS for r in test_results):
         print("PASS")
