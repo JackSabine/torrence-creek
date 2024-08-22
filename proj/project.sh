@@ -11,3 +11,4 @@ export DV_DPI_C="${DV_MODELS}/dpi-c"
 
 export WORKDIR="${PROJECT_ROOT}/work"
 export REGRDIR="${PROJECT_ROOT}/regr"
+export PATH="${SCRIPTS_ROOT}:${PATH}"

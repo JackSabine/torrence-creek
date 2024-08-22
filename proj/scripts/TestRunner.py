@@ -25,11 +25,11 @@ def add_arguments_to_argument_parser(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("test_name", type=str,
                         help="Specify the UVM test to run")
 
-    parser.add_argument("run_dir", type=str, nargs="?",
+    parser.add_argument("--run_dir", type=str,
                         default=os.environ["WORKDIR"] + "/runs",
                         help="Optionally specify the base run directory (defaults to work dir)")
 
-    parser.add_argument("build_dir", type=str, nargs="?",
+    parser.add_argument("--build_dir", type=str,
                         default=os.environ["WORKDIR"],
                         help="Optionally specify where to find the built project (defaults to work dir)")
 
