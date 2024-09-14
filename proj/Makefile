@@ -52,9 +52,8 @@ WORKDIR := $(PROJECT_ROOT)/$(WORK)
 # DPI-C compilation settings
 CC := xsc
 
-INC := -I/usr/include/x86_64-linux-gnu
-LIB := -L/usr/lib/x86_64-linux-gnu
-CFLAGS := $(addprefix --gcc_compile_options ",$(addsuffix ",$(INC))) $(addprefix --gcc_compile_options ",$(addsuffix ",$(LIB)))
+SEARCH := -B/usr/lib/x86_64-linux-gnu
+CFLAGS := $(addprefix --gcc_compile_options ",$(addsuffix ",$(INC) $(LIB) $(SEARCH)))
 
 # Auto-generate shared object paths
 DPIC_SHARED_OBJECTS := $(addsuffix .so,$(addprefix $(WORKDIR)/,$(DPIC_SOURCES)))
