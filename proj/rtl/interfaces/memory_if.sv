@@ -13,12 +13,12 @@ interface memory_if import torrence_types::*; #(
     logic req_fulfilled;
 
     modport requester (
-        input req_address, req_operation, req_size, req_store_word, req_valid,
-        output req_loaded_word, req_fulfilled
+        input req_loaded_word, req_fulfilled,
+        output req_address, req_operation, req_size, req_store_word, req_valid
     );
 
     modport server (
-        input req_loaded_word, req_fulfilled,
-        output req_address, req_operation, req_size, req_store_word, req_valid
+        input req_address, req_operation, req_size, req_store_word, req_valid,
+        output req_loaded_word, req_fulfilled
     );
 endinterface
