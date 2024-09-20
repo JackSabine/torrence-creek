@@ -81,6 +81,7 @@ end
 
 
 always_comb begin : write_bus_logic
+    // Only repeat the lower 8/16 bits
     unique casez (op_size)
         BYTE:    write_bus = {`BYTES_PER_WORD{word_to_store[`BYTE-1:0]}};
         HALF:    write_bus = {`HALFS_PER_WORD{word_to_store[`HALF-1:0]}};

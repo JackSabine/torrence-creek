@@ -88,6 +88,7 @@ class cache extends memory_element;
             WORD: mask = gen_bitmask(32);
         endcase
 
+        // Mask the lower n bits
         write_data &= mask;
 
         mask <<= (8 * byte_offset);
@@ -198,6 +199,7 @@ class cache extends memory_element;
         resp.req_word = this.sets[set].read_word(tag, ofs);
 
         word_to_write = this.insert_write_data(resp.req_word, data, op_size, addr[1:0]);
+        resp.req_word = this.select_read_data(resp.req_word, op_size, addr[1:0]); // Read data must reflect RTL
 
         this.sets[set].write_word(tag, ofs, word_to_write);
 
