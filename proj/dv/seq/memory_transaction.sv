@@ -128,7 +128,7 @@ class icache_transaction extends word_memory_transaction;
     endfunction
 endclass
 
-class dcache_transaction extends word_memory_transaction;
+class dcache_transaction extends memory_transaction;
     `uvm_object_utils(dcache_transaction)
 
     constraint ro_rw_boundary {
