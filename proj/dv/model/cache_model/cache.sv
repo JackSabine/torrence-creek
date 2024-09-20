@@ -114,6 +114,7 @@ class cache extends memory_element;
                 void'( // resp is not needed
                     this.lower_memory.write(
                         this.construct_addr(this.sets[set].get_victim_tag(), set, 4*i),
+                        WORD,
                         this.sets[set].get_indexed_victim_word(i)
                     )
                 );
@@ -125,7 +126,8 @@ class cache extends memory_element;
 
         for (int i = 0; i < this.words_per_block; i++) begin
             resp = this.lower_memory.read(
-                this.construct_addr(tag, set, 4*i)
+                this.construct_addr(tag, set, 4*i),
+                WORD
             );
 
             this.sets[set].set_indexed_victim_word(i, resp.req_word);
@@ -141,7 +143,7 @@ class cache extends memory_element;
     //    b. If missed, handle it
     // 2. Perform the read and return the word
     //
-    virtual function cache_response_t read(uint32_t addr);
+    virtual function cache_response_t read(uint32_t addr, memory_operation_size_e op_size);
         cache_response_t resp;
         uint32_t set, tag, ofs;
 
@@ -161,6 +163,8 @@ class cache extends memory_element;
         end
 
         resp.req_word = this.sets[set].read_word(tag, ofs);
+        resp.req_word = this.select_read_data(resp.req_word, op_size, addr[1:0]);
+
         `uvm_info("cache", $sformatf("cache::read(%H) is returning %H", addr, resp.req_word), UVM_HIGH)
 
         return resp;
@@ -171,9 +175,10 @@ class cache extends memory_element;
     //    b. If missed, handle it
     // 2. Perform the write
     //
-    virtual function cache_response_t write(uint32_t addr, uint32_t data);
+    virtual function cache_response_t write(uint32_t addr, memory_operation_size_e op_size, uint32_t data);
         cache_response_t resp;
         uint32_t set, tag, ofs;
+        uint32_t word_to_write;
 
         this.stats.writes++;
 
@@ -192,7 +197,9 @@ class cache extends memory_element;
 
         resp.req_word = this.sets[set].read_word(tag, ofs);
 
-        this.sets[set].write_word(tag, ofs, data);
+        word_to_write = this.insert_write_data(resp.req_word, data, op_size, addr[1:0]);
+
+        this.sets[set].write_word(tag, ofs, word_to_write);
 
         return resp;
     endfunction

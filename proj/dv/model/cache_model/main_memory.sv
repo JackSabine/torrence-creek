@@ -17,7 +17,7 @@ class main_memory extends memory_element;
         return result;
     endfunction
 
-    virtual function cache_response_t read(uint32_t addr);
+    virtual function cache_response_t read(uint32_t addr, memory_operation_size_e op_size);
         cache_response_t resp;
 
         resp.is_hit = 1'b1;
@@ -31,7 +31,7 @@ class main_memory extends memory_element;
     endfunction
 
 
-    virtual function cache_response_t write(uint32_t addr, uint32_t data);
+    virtual function cache_response_t write(uint32_t addr, memory_operation_size_e op_size, uint32_t data);
         cache_response_t resp;
 
         resp.is_hit = 1'b1;

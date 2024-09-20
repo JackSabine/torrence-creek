@@ -104,12 +104,12 @@ class scoreboard extends uvm_scoreboard;
         case (tr.req_operation)
             LOAD: begin
                 load_count++;
-                resp = cache_model.read(tr.req_address, cache_type);
+                resp = cache_model.read(tr.req_address, tr.req_size, cache_type);
             end
 
             STORE: begin
                 store_count++;
-                resp = cache_model.write(tr.req_address, tr.req_store_word, cache_type);
+                resp = cache_model.write(tr.req_address, tr.req_size, tr.req_store_word, cache_type);
             end
 
             CLFLUSH: begin

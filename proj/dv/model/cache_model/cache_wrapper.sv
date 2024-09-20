@@ -16,12 +16,12 @@ class cache_wrapper;
         cache_handles[L2CACHE] = l2cache;
     endfunction
 
-    function cache_response_t read(uint32_t addr, cache_type_e cache_type);
+    function cache_response_t read(uint32_t addr, memory_operation_size_e op_size, cache_type_e cache_type);
         cache_response_t resp;
 
         case (cache_type)
-            ICACHE: resp = icache.read(addr);
-            DCACHE: resp = dcache.read(addr);
+            ICACHE: resp = icache.read(addr, op_size);
+            DCACHE: resp = dcache.read(addr, op_size);
             default: `uvm_fatal("cache_wrapper::read", $sformatf("unimplemented cache_type %s", cache_type.name()))
         endcase
 
@@ -29,12 +29,12 @@ class cache_wrapper;
         return resp;
     endfunction
 
-    function cache_response_t write(uint32_t addr, uint32_t data, cache_type_e cache_type);
+    function cache_response_t write(uint32_t addr, memory_operation_size_e op_size, uint32_t data, cache_type_e cache_type);
         cache_response_t resp;
 
         case (cache_type)
-            ICACHE: resp = icache.write(addr, data);
-            DCACHE: resp = dcache.write(addr, data);
+            ICACHE: resp = icache.write(addr, op_size, data);
+            DCACHE: resp = dcache.write(addr, op_size, data);
             default: `uvm_fatal("cache_wrapper::write", $sformatf("unimplemented cache_type %s", cache_type.name()))
         endcase
 
