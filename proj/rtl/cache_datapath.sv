@@ -6,6 +6,7 @@ module cache_datapath import torrence_types::*; #(
     parameter XLEN = 32,
 
     parameter READ_ONLY = 0,
+    parameter FIXED_OP_SIZE = 0,
     parameter ASSOC = 1
 ) (
     //// TOP LEVEL ////
@@ -126,6 +127,7 @@ datalines #(
     .NUM_SETS(NUM_SETS),
     .SET_SIZE(SET_SIZE),
     .WORDS_PER_LINE(WORDS_PER_LINE),
+    .FIXED_OP_SIZE(FIXED_OP_SIZE),
     .ASSOC(ASSOC)
 ) data (
     .clk(clk),

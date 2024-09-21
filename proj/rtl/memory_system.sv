@@ -29,6 +29,7 @@ cache #(
     .XLEN(XLEN),
 
     .READ_ONLY(1),
+    .FIXED_OP_SIZE(`WORD),
     .ASSOC(1)
 ) icache (
     .clk(clk),
@@ -63,15 +64,13 @@ l1_to_l2_cache_req_arbiter #(
     .l2_if(l2_if)
 );
 
-// FIXME
-assign l2_if.req_size = WORD;
-
 cache #(
     .LINE_SIZE(LINE_SIZE),
     .CACHE_SIZE(L2_SIZE),
     .XLEN(XLEN),
 
     .READ_ONLY(0),
+    .FIXED_OP_SIZE(`WORD),
     .ASSOC(L2_ASSOC)
 ) l2_cache (
     .clk(clk),

@@ -4,6 +4,7 @@ module cache import torrence_types::*; #(
     parameter XLEN = 32, // bits
 
     parameter READ_ONLY = 0,
+    parameter FIXED_OP_SIZE = 0,
     parameter ASSOC = 1
 ) (
     input wire clk,
@@ -20,6 +21,7 @@ cache_datapath #(
     .CACHE_SIZE(CACHE_SIZE),
     .XLEN(XLEN),
     .READ_ONLY(READ_ONLY),
+    .FIXED_OP_SIZE(FIXED_OP_SIZE),
     .ASSOC(ASSOC)
 ) datapath (.*);
 
