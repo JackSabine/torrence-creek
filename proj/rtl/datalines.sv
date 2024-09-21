@@ -5,24 +5,38 @@ module datalines import torrence_types::*; #(
     parameter NUM_SETS = 4,
     parameter SET_SIZE = 2,
     parameter WORDS_PER_LINE = 8,
-    parameter WORD_SELECT_SIZE = 2,
-    parameter BYTE_SELECT_SIZE = 2,
-    parameter ASSOC = 1,
-    parameter ASSOC_WIDTH = $clog2(ASSOC)
+    parameter ASSOC = 1
 ) (
-    input wire clk,
+    clk,
 
-    input wire perform_write,
+    perform_write,
 
-    input wire [SET_SIZE-1:0] set,
-    input wire memory_operation_size_e op_size,
-    input wire [WORD_SELECT_SIZE-1:0] word_select,
-    input wire [BYTE_SELECT_SIZE-1:0] byte_select,
-    input wire [ASSOC_WIDTH-1:0] selected_way,
+    set,
+    op_size,
+    word_select,
+    byte_select,
+    selected_way,
 
-    input wire [XLEN-1:0] word_to_store,
-    output logic [XLEN-1:0] fetched_word
+    word_to_store,
+    fetched_word
 );
+
+localparam WORD_SELECT_SIZE = $clog2(WORDS_PER_LINE);
+localparam BYTE_SELECT_SIZE = $clog2(`BYTES_PER_WORD);
+localparam ASSOC_SIZE = $clog2(ASSOC);
+
+input wire clk;
+
+input wire perform_write;
+
+input wire [SET_SIZE-1:0] set;
+input wire memory_operation_size_e op_size;
+input wire [WORD_SELECT_SIZE-1:0] word_select;
+input wire [BYTE_SELECT_SIZE-1:0] byte_select;
+input wire [ASSOC_SIZE-1:0] selected_way;
+
+input wire [XLEN-1:0] word_to_store;
+output logic [XLEN-1:0] fetched_word;
 
 logic [NUM_SETS-1:0][ASSOC-1:0][WORDS_PER_LINE-1:0][`BYTES_PER_WORD-1:0][`BYTE-1:0] data_lines;
 

@@ -126,8 +126,6 @@ datalines #(
     .NUM_SETS(NUM_SETS),
     .SET_SIZE(SET_SIZE),
     .WORDS_PER_LINE(WORDS_PER_LINE),
-    .WORD_SELECT_SIZE(WORD_SELECT_SIZE),
-    .BYTE_SELECT_SIZE(BYTE_SELECT_SIZE),
     .ASSOC(ASSOC)
 ) data (
     .clk(clk),

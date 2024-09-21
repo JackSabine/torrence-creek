@@ -4,28 +4,46 @@ module metadata #(
     parameter TAG_SIZE = 30,
 
     parameter READ_ONLY = 0,
-    parameter ASSOC = 1,
-
-    parameter ASSOC_WIDTH = $clog2(ASSOC)
+    parameter ASSOC = 1
 ) (
-    input wire clk,
-    input wire reset,
-    input wire [SET_SIZE-1:0] set,
-    input wire [TAG_SIZE-1:0] tag,
+    clk,
+    reset,
+    set,
+    tag,
 
-    input wire miss_recovery_mode,
-    input wire process_lru_counters,
+    miss_recovery_mode,
+    process_lru_counters,
 
-    input wire clear_selected_valid_bit,
-    input wire finish_new_line_install,
-    input wire clear_selected_dirty_bit,
-    input wire set_selected_dirty_bit,
+    clear_selected_valid_bit,
+    finish_new_line_install,
+    clear_selected_dirty_bit,
+    set_selected_dirty_bit,
 
-    output wire valid_dirty_bit,
-    output wire valid_block_match,
-    output wire [TAG_SIZE-1:0] selected_tag,
-    output wire [ASSOC_WIDTH-1:0] selected_way
+    valid_dirty_bit,
+    valid_block_match,
+    selected_tag,
+    selected_way
 );
+
+localparam ASSOC_SIZE = $clog2(ASSOC);
+
+input wire clk;
+input wire reset;
+input wire [SET_SIZE-1:0] set;
+input wire [TAG_SIZE-1:0] tag;
+
+input wire miss_recovery_mode;
+input wire process_lru_counters;
+
+input wire clear_selected_valid_bit;
+input wire finish_new_line_install;
+input wire clear_selected_dirty_bit;
+input wire set_selected_dirty_bit;
+
+output wire valid_dirty_bit;
+output wire valid_block_match;
+output wire [TAG_SIZE-1:0] selected_tag;
+output wire [ASSOC_SIZE-1:0] selected_way;
 
 logic [NUM_SETS-1:0][ASSOC-1:0] valid_array;
 logic [NUM_SETS-1:0][ASSOC-1:0][TAG_SIZE-1:0] tag_array;
@@ -78,8 +96,8 @@ generate;
     end
 
     if (ASSOC > 1) begin
-        wire [ASSOC_WIDTH-1:0] matching_way;
-        wire [ASSOC_WIDTH-1:0] victim_way;
+        wire [ASSOC_SIZE-1:0] matching_way;
+        wire [ASSOC_SIZE-1:0] victim_way;
 
         lru_counters #(
             .NUM_SETS(NUM_SETS),
