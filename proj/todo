@@ -1,0 +1,1 @@
+* Add configurable L2<->L1 bus size (in multiples of WORD)
