@@ -16,7 +16,7 @@
 
 .DEFAULT_GOAL := all
 
-ifndef PROJECT_ROOT
+ifndef WORKAREA
   $(error You must define the project root by sourcing project.sh)
 endif
 
@@ -46,7 +46,7 @@ include $(DV_ROOT)/file_list.mk
 ####################################################################
 # Output directory configuration
 WORK := work
-WORKDIR := $(PROJECT_ROOT)/$(WORK)
+WORKDIR := $(WORKAREA)/$(WORK)
 
 ####################################################################
 # DPI-C compilation settings
@@ -80,7 +80,7 @@ COMPILE_LIST += ${DV_ROOT}/svtb/torrence_types.sv
 COMPILE_LIST += $(SRC_FILES_RTL_ABS_PATH)
 COMPILE_LIST += $(SRC_FILES_DV_ABS_PATH)
 
-HDL_SENSITIVITY_LIST := $(shell find ${PROJECT_ROOT}/ -type f \( -name "*.sv" -o -name "*.svh" -o -name "*.mk" \))
+HDL_SENSITIVITY_LIST := $(shell find ${WORKAREA}/ -type f \( -name "*.sv" -o -name "*.svh" -o -name "*.mk" \))
 
 ####################################################################
 # Vivado output/rule aliases

@@ -106,7 +106,7 @@ def run_simulation(test_path: pathlib.Path, seed: int, test_name: str, uvm_verbo
     cmd = [
         "xsim",
         "tb_top_snapshot",
-        "--tclbatch",  f"{os.environ['PROJECT_ROOT']}/xsim_cfg.tcl",
+        "--tclbatch",  f"{os.environ['WORKAREA']}/xsim_cfg.tcl",
         "--sv_seed", f"{seed}",
         "--testplusarg", f"UVM_TESTNAME={test_name}",
         "--testplusarg", f"UVM_VERBOSITY={uvm_verbosity}"
