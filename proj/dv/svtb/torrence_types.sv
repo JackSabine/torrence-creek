@@ -20,5 +20,5 @@ package torrence_types;
     } cache_type_e;
 
     typedef int unsigned uint32_t;
-    typedef byte uint8_t;
+    typedef byte unsigned uint8_t;
 endpackage

@@ -19,8 +19,6 @@ class scoreboard extends uvm_scoreboard;
     uvm_analysis_imp_dcache_perf #(cache_perf_transaction, scoreboard) aport_dcache_perf;
     uvm_analysis_imp_l2cache_perf #(cache_perf_transaction, scoreboard) aport_l2cache_perf;
 
-    local function void __highlight_reset(); endfunction
-
     uvm_tlm_fifo #(memory_transaction) icache_expected_fifo;
     uvm_tlm_fifo #(memory_transaction) icache_observed_fifo;
     uvm_tlm_fifo #(memory_transaction) dcache_expected_fifo;
