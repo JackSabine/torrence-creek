@@ -1,5 +1,5 @@
-`ifndef MACROS__SVH
-  `define MACROS__SVH
+`ifndef TORRENCE_MACROS__SVH
+  `define TORRENCE_MACROS__SVH
 
 `define WORD        (32)
 `define HALF        (16)

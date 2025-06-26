@@ -1,5 +1,5 @@
 `include "uvm_macros.svh"
-`include "macros.svh"
+`include "torrence_macros.svh"
 
 package torrence_pkg;
     import uvm_pkg::*;

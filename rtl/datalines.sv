@@ -1,4 +1,4 @@
-`include "macros.svh"
+`include "torrence_macros.svh"
 
 module datalines import torrence_params::*; #(
     parameter XLEN = 32,
