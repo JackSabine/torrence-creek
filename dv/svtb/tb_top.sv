@@ -2,15 +2,7 @@ module tb_top;
     import uvm_pkg::*;
     import torrence_pkg::*;
     import torrence_types::*;
-
-    parameter LINE_SIZE = 32;
-    parameter ICACHE_SIZE = 1024;
-    parameter ICACHE_ASSOC = 1;
-    parameter DCACHE_SIZE = 1024;
-    parameter DCACHE_ASSOC = 1;
-    parameter L2_SIZE = 4096;
-    parameter L2_ASSOC = 4;
-    parameter XLEN = 32;
+    import torrence_params::*;
 
     cache_config dut_config;
     clock_config clk_config;

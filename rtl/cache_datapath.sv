@@ -1,6 +1,6 @@
 `include "macros.svh"
 
-module cache_datapath import torrence_types::*; #(
+module cache_datapath import torrence_params::*; #(
     parameter LINE_SIZE = 32, // 32 Bytes per block
     parameter CACHE_SIZE = 1024,
     parameter XLEN = 32,

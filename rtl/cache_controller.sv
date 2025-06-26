@@ -1,4 +1,4 @@
-module cache_controller import torrence_types::*; (
+module cache_controller import torrence_params::*; (
     //// TOP LEVEL ////
     input wire clk,
     reset_if rst_if,

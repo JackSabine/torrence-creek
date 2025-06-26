@@ -1,6 +1,6 @@
 `include "macros.svh"
 
-module datalines import torrence_types::*; #(
+module datalines import torrence_params::*; #(
     parameter XLEN = 32,
     parameter NUM_SETS = 4,
     parameter SET_SIZE = 2,

@@ -1,4 +1,4 @@
-module l1_to_l2_cache_req_arbiter import torrence_types::*; #(
+module l1_to_l2_cache_req_arbiter import torrence_params::*; #(
     parameter XLEN = 32
 ) (
     input wire clk,

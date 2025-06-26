@@ -4,6 +4,7 @@
 package torrence_pkg;
     import uvm_pkg::*;
     import torrence_types::*;
+    import torrence_params::*;
 
     `include "dpi-c.sv"
     `include "../common/randomizable_2d_array.sv"

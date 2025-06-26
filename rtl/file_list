@@ -1,3 +1,4 @@
+torrence_params.sv
 interfaces/memory_if.sv
 interfaces/reset_if.sv
 interfaces/cache_internal_if.sv

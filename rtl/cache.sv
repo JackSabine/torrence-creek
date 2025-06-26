@@ -1,4 +1,4 @@
-module cache import torrence_types::*; #(
+module cache import torrence_params::*; #(
     parameter LINE_SIZE = 32, // 32 Bytes per block
     parameter CACHE_SIZE = 1024, // Bytes
     parameter XLEN = 32, // bits

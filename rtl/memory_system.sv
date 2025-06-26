@@ -1,4 +1,4 @@
-module memory_system import torrence_types::*; #(
+module memory_system import torrence_params::*; #(
     parameter XLEN = 32,
     parameter LINE_SIZE = 32,
     parameter ICACHE_SIZE = 1024,
