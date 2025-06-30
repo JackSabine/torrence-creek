@@ -20,7 +20,7 @@ class environment extends uvm_env;
         super.build_phase(phase);
         dut_memory_model = new("dut_memory_model");
         uvm_config_db #(main_memory)::set(
-            .cntxt(this),
+            .cntxt(null),
             .inst_name("*"),
             .field_name("dut_memory_model"),
             .value(dut_memory_model)

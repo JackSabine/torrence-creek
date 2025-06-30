@@ -45,4 +45,8 @@ class main_memory extends memory_element;
 
         return resp;
     endfunction
+
+    function void tb_write(uint32_t addr, uint32_t data);
+        memory[addr] = data;
+    endfunction
 endclass
