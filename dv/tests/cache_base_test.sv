@@ -45,12 +45,12 @@ class cache_base_test extends uvm_test;
 
     virtual task main_phase(uvm_phase phase);
         random_access_seq mem_seq;
-        memory_response_seq mem_rsp_seq;
+        base_memory_response_seq mem_rsp_seq;
         cache_type_e target;
 
         phase.raise_objection(this);
 
-        mem_rsp_seq = memory_response_seq::type_id::create(.name("mem_rsp_seq"));
+        mem_rsp_seq = base_memory_response_seq::type_id::create(.name("mem_rsp_seq"));
 
         mem_seq = random_access_seq::type_id::create(.name("mem_seq"));
         assert(mem_seq.randomize()) else `uvm_fatal(get_full_name(), "Couldn't randomize mem_seq")

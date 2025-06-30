@@ -38,11 +38,11 @@ class l1_thrashing_test extends cache_base_test;
     virtual task main_phase(uvm_phase phase);
         icache_thrashing_seq icache_seq;
         dcache_thrashing_seq dcache_seq;
-        memory_response_seq mem_rsp_seq;
+        base_memory_response_seq mem_rsp_seq;
 
         phase.raise_objection(this);
 
-        mem_rsp_seq = memory_response_seq::type_id::create(.name("mem_rsp_seq"));
+        mem_rsp_seq = base_memory_response_seq::type_id::create(.name("mem_rsp_seq"));
 
         // sequences appear to gain context when started on some sequencer, but we provide it here just in case
         icache_seq = icache_thrashing_seq::type_id::create(.name("icache_seq"), .contxt(mem_env.icache_creq_agent.creq_seqr.get_full_name()));

@@ -20,7 +20,7 @@ package torrence_pkg;
     `include "../seq/base_access_seq.sv"
     `include "../seq/random_access_seq.sv"
     `include "../seq/thrashing_seq.sv"
-    `include "../seq/memory_response_seq.sv"
+    `include "../seq/base_memory_response_seq.sv"
     `include "../seq/reset_seq.sv"
 
     `include "../agents/cache_req_agent/cache_req_sequencer.sv"

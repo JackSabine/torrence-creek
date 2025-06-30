@@ -1,5 +1,5 @@
-class memory_response_seq extends uvm_sequence #(memory_transaction);
-    `uvm_object_utils(memory_response_seq)
+class base_memory_response_seq extends uvm_sequence #(memory_transaction);
+    `uvm_object_utils(base_memory_response_seq)
 
     memory_rsp_sequencer p_sequencer;
     memory_transaction mem_tx;
