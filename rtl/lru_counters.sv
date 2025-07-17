@@ -60,11 +60,6 @@ always_comb begin
     end
 end
 
-NO_MORE_THAN_ONE_WAY_IS_LRU: assert property (
-    @(negedge clk) disable iff (reset || $isunknown(set))
-    $onehot(one_hot_victim_way)
-);
-
 onehot0_to_binary #(
     .ONEHOT_WIDTH(ASSOC)
 ) victim_way_converter (

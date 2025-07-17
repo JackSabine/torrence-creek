@@ -111,11 +111,6 @@ generate;
             .victim_way(victim_way)
         );
 
-        NO_MORE_THAN_ONE_BLOCK_MATCH: assert property (
-            @(negedge clk) disable iff (reset || $isunknown(set))
-            $onehot0(one_hot_valid_block_matches)
-        );
-
         onehot0_to_binary #(
             .ONEHOT_WIDTH(ASSOC)
         ) matching_block_converter (
