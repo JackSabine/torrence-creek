@@ -327,6 +327,7 @@ class scoreboard extends uvm_scoreboard;
     bit test_passed;
 
     function void check_phase(uvm_phase phase);
+        uvm_report_server server;
         cache_perf_transaction observed_tx;
 
         super.check_phase(phase);
@@ -338,6 +339,10 @@ class scoreboard extends uvm_scoreboard;
 
         // Runtime vector checks
         test_passed &= (vector_count != 0) && (fail_count == 0);
+
+        // UVM Report Server Checks
+        server = uvm_report_server::get_server();
+        test_passed &= (server.get_severity_count(UVM_ERROR) == 0);
     endfunction
 
     function void report_phase(uvm_phase phase);
