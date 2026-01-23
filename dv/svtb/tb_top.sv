@@ -41,6 +41,14 @@ module tb_top;
         .l2_perf_if(l2cache_perf_if)
     );
 
+    higher_memory_bfm #(
+        .XLEN(XLEN)
+    ) hmem_bfm (
+        .clk(clk),
+        .rst(rst_if.reset),
+        .hmem_if(hmem_if)
+    );
+
     initial begin
         @(posedge clk_enabled);
 

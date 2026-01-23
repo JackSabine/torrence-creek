@@ -7,6 +7,7 @@
          <top_modules>
             <top_module name="std" />
             <top_module name="tb_top" />
+            <top_module name="torrence_params" />
             <top_module name="torrence_pkg" />
             <top_module name="torrence_types" />
             <top_module name="uvm_pkg" />
@@ -14,13 +15,13 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="3,797 ns"></ZoomStartTime>
-      <ZoomEndTime time="3,811 ns"></ZoomEndTime>
-      <Cursor1Time time="3,801 ns"></Cursor1Time>
+      <ZoomStartTime time="0 ns"></ZoomStartTime>
+      <ZoomEndTime time="700 ns"></ZoomEndTime>
+      <Cursor1Time time="85 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="287"></NameColumnWidth>
-      <ValueColumnWidth column_width="100"></ValueColumnWidth>
+      <ValueColumnWidth column_width="85"></ValueColumnWidth>
    </column_width_setting>
    <WVObjectSize size="9" />
    <wvobject type="group" fp_name="group36">
@@ -175,46 +176,6 @@
          <obj_property name="ObjectShortName">XLEN[31:0]</obj_property>
       </wvobject>
    </wvobject>
-   <wvobject type="group" fp_name="group39">
-      <obj_property name="label">hmem</obj_property>
-      <obj_property name="DisplayName">label</obj_property>
-      <wvobject type="logic" fp_name="/tb_top/hmem_if/clk">
-         <obj_property name="ElementShortName">clk</obj_property>
-         <obj_property name="ObjectShortName">clk</obj_property>
-      </wvobject>
-      <wvobject type="array" fp_name="/tb_top/hmem_if/req_address">
-         <obj_property name="ElementShortName">req_address[31:0]</obj_property>
-         <obj_property name="ObjectShortName">req_address[31:0]</obj_property>
-      </wvobject>
-      <wvobject type="array" fp_name="/tb_top/hmem_if/req_operation">
-         <obj_property name="ElementShortName">req_operation[1:0]</obj_property>
-         <obj_property name="ObjectShortName">req_operation[1:0]</obj_property>
-      </wvobject>
-      <wvobject type="array" fp_name="/tb_top/hmem_if/req_size">
-         <obj_property name="ElementShortName">req_size[1:0]</obj_property>
-         <obj_property name="ObjectShortName">req_size[1:0]</obj_property>
-      </wvobject>
-      <wvobject type="array" fp_name="/tb_top/hmem_if/req_store_word">
-         <obj_property name="ElementShortName">req_store_word[31:0]</obj_property>
-         <obj_property name="ObjectShortName">req_store_word[31:0]</obj_property>
-      </wvobject>
-      <wvobject type="logic" fp_name="/tb_top/hmem_if/req_valid">
-         <obj_property name="ElementShortName">req_valid</obj_property>
-         <obj_property name="ObjectShortName">req_valid</obj_property>
-      </wvobject>
-      <wvobject type="array" fp_name="/tb_top/hmem_if/req_loaded_word">
-         <obj_property name="ElementShortName">req_loaded_word[31:0]</obj_property>
-         <obj_property name="ObjectShortName">req_loaded_word[31:0]</obj_property>
-      </wvobject>
-      <wvobject type="logic" fp_name="/tb_top/hmem_if/req_fulfilled">
-         <obj_property name="ElementShortName">req_fulfilled</obj_property>
-         <obj_property name="ObjectShortName">req_fulfilled</obj_property>
-      </wvobject>
-      <wvobject type="array" fp_name="/tb_top/hmem_if/XLEN">
-         <obj_property name="ElementShortName">XLEN[31:0]</obj_property>
-         <obj_property name="ObjectShortName">XLEN[31:0]</obj_property>
-      </wvobject>
-   </wvobject>
    <wvobject type="group" fp_name="group63">
       <obj_property name="label">ICACHE</obj_property>
       <obj_property name="DisplayName">label</obj_property>
@@ -358,141 +319,11 @@
          <obj_property name="ElementShortName">tag_array[31:0][0:0][21:0]</obj_property>
          <obj_property name="ObjectShortName">tag_array[31:0][0:0][21:0]</obj_property>
          <obj_property name="isExpanded"></obj_property>
-         <wvobject type="array" fp_name="/tb_top/dut/dcache/datapath/metadata/tag_array[31]">
-            <obj_property name="ElementShortName">[31][0:0][21:0]</obj_property>
-            <obj_property name="ObjectShortName">[31][0:0][21:0]</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/tb_top/dut/dcache/datapath/metadata/tag_array[30]">
-            <obj_property name="ElementShortName">[30][0:0][21:0]</obj_property>
-            <obj_property name="ObjectShortName">[30][0:0][21:0]</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/tb_top/dut/dcache/datapath/metadata/tag_array[29]">
-            <obj_property name="ElementShortName">[29][0:0][21:0]</obj_property>
-            <obj_property name="ObjectShortName">[29][0:0][21:0]</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/tb_top/dut/dcache/datapath/metadata/tag_array[28]">
-            <obj_property name="ElementShortName">[28][0:0][21:0]</obj_property>
-            <obj_property name="ObjectShortName">[28][0:0][21:0]</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/tb_top/dut/dcache/datapath/metadata/tag_array[27]">
-            <obj_property name="ElementShortName">[27][0:0][21:0]</obj_property>
-            <obj_property name="ObjectShortName">[27][0:0][21:0]</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/tb_top/dut/dcache/datapath/metadata/tag_array[26]">
-            <obj_property name="ElementShortName">[26][0:0][21:0]</obj_property>
-            <obj_property name="ObjectShortName">[26][0:0][21:0]</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/tb_top/dut/dcache/datapath/metadata/tag_array[25]">
-            <obj_property name="ElementShortName">[25][0:0][21:0]</obj_property>
-            <obj_property name="ObjectShortName">[25][0:0][21:0]</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/tb_top/dut/dcache/datapath/metadata/tag_array[24]">
-            <obj_property name="ElementShortName">[24][0:0][21:0]</obj_property>
-            <obj_property name="ObjectShortName">[24][0:0][21:0]</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/tb_top/dut/dcache/datapath/metadata/tag_array[23]">
-            <obj_property name="ElementShortName">[23][0:0][21:0]</obj_property>
-            <obj_property name="ObjectShortName">[23][0:0][21:0]</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/tb_top/dut/dcache/datapath/metadata/tag_array[22]">
-            <obj_property name="ElementShortName">[22][0:0][21:0]</obj_property>
-            <obj_property name="ObjectShortName">[22][0:0][21:0]</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/tb_top/dut/dcache/datapath/metadata/tag_array[21]">
-            <obj_property name="ElementShortName">[21][0:0][21:0]</obj_property>
-            <obj_property name="ObjectShortName">[21][0:0][21:0]</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/tb_top/dut/dcache/datapath/metadata/tag_array[20]">
-            <obj_property name="ElementShortName">[20][0:0][21:0]</obj_property>
-            <obj_property name="ObjectShortName">[20][0:0][21:0]</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/tb_top/dut/dcache/datapath/metadata/tag_array[19]">
-            <obj_property name="ElementShortName">[19][0:0][21:0]</obj_property>
-            <obj_property name="ObjectShortName">[19][0:0][21:0]</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/tb_top/dut/dcache/datapath/metadata/tag_array[18]">
-            <obj_property name="ElementShortName">[18][0:0][21:0]</obj_property>
-            <obj_property name="ObjectShortName">[18][0:0][21:0]</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/tb_top/dut/dcache/datapath/metadata/tag_array[17]">
-            <obj_property name="ElementShortName">[17][0:0][21:0]</obj_property>
-            <obj_property name="ObjectShortName">[17][0:0][21:0]</obj_property>
-            <obj_property name="isExpanded"></obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/tb_top/dut/dcache/datapath/metadata/tag_array[16]">
-            <obj_property name="ElementShortName">[16][0:0][21:0]</obj_property>
-            <obj_property name="ObjectShortName">[16][0:0][21:0]</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/tb_top/dut/dcache/datapath/metadata/tag_array[15]">
-            <obj_property name="ElementShortName">[15][0:0][21:0]</obj_property>
-            <obj_property name="ObjectShortName">[15][0:0][21:0]</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/tb_top/dut/dcache/datapath/metadata/tag_array[14]">
-            <obj_property name="ElementShortName">[14][0:0][21:0]</obj_property>
-            <obj_property name="ObjectShortName">[14][0:0][21:0]</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/tb_top/dut/dcache/datapath/metadata/tag_array[13]">
-            <obj_property name="ElementShortName">[13][0:0][21:0]</obj_property>
-            <obj_property name="ObjectShortName">[13][0:0][21:0]</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/tb_top/dut/dcache/datapath/metadata/tag_array[12]">
-            <obj_property name="ElementShortName">[12][0:0][21:0]</obj_property>
-            <obj_property name="ObjectShortName">[12][0:0][21:0]</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/tb_top/dut/dcache/datapath/metadata/tag_array[11]">
-            <obj_property name="ElementShortName">[11][0:0][21:0]</obj_property>
-            <obj_property name="ObjectShortName">[11][0:0][21:0]</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/tb_top/dut/dcache/datapath/metadata/tag_array[10]">
-            <obj_property name="ElementShortName">[10][0:0][21:0]</obj_property>
-            <obj_property name="ObjectShortName">[10][0:0][21:0]</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/tb_top/dut/dcache/datapath/metadata/tag_array[9]">
-            <obj_property name="ElementShortName">[9][0:0][21:0]</obj_property>
-            <obj_property name="ObjectShortName">[9][0:0][21:0]</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/tb_top/dut/dcache/datapath/metadata/tag_array[8]">
-            <obj_property name="ElementShortName">[8][0:0][21:0]</obj_property>
-            <obj_property name="ObjectShortName">[8][0:0][21:0]</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/tb_top/dut/dcache/datapath/metadata/tag_array[7]">
-            <obj_property name="ElementShortName">[7][0:0][21:0]</obj_property>
-            <obj_property name="ObjectShortName">[7][0:0][21:0]</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/tb_top/dut/dcache/datapath/metadata/tag_array[6]">
-            <obj_property name="ElementShortName">[6][0:0][21:0]</obj_property>
-            <obj_property name="ObjectShortName">[6][0:0][21:0]</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/tb_top/dut/dcache/datapath/metadata/tag_array[5]">
-            <obj_property name="ElementShortName">[5][0:0][21:0]</obj_property>
-            <obj_property name="ObjectShortName">[5][0:0][21:0]</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/tb_top/dut/dcache/datapath/metadata/tag_array[4]">
-            <obj_property name="ElementShortName">[4][0:0][21:0]</obj_property>
-            <obj_property name="ObjectShortName">[4][0:0][21:0]</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/tb_top/dut/dcache/datapath/metadata/tag_array[3]">
-            <obj_property name="ElementShortName">[3][0:0][21:0]</obj_property>
-            <obj_property name="ObjectShortName">[3][0:0][21:0]</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/tb_top/dut/dcache/datapath/metadata/tag_array[2]">
-            <obj_property name="ElementShortName">[2][0:0][21:0]</obj_property>
-            <obj_property name="ObjectShortName">[2][0:0][21:0]</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/tb_top/dut/dcache/datapath/metadata/tag_array[1]">
-            <obj_property name="ElementShortName">[1][0:0][21:0]</obj_property>
-            <obj_property name="ObjectShortName">[1][0:0][21:0]</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/tb_top/dut/dcache/datapath/metadata/tag_array[0]">
-            <obj_property name="ElementShortName">[0][0:0][21:0]</obj_property>
-            <obj_property name="ObjectShortName">[0][0:0][21:0]</obj_property>
-         </wvobject>
       </wvobject>
    </wvobject>
    <wvobject type="group" fp_name="group118">
       <obj_property name="label">L2</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="isExpanded"></obj_property>
       <wvobject type="group" fp_name="group148">
          <obj_property name="label">req</obj_property>
          <obj_property name="DisplayName">label</obj_property>
@@ -528,11 +359,9 @@
       <wvobject type="group" fp_name="group50">
          <obj_property name="label">datapath</obj_property>
          <obj_property name="DisplayName">label</obj_property>
-         <obj_property name="isExpanded"></obj_property>
          <wvobject type="group" fp_name="group158">
             <obj_property name="label">metadata</obj_property>
             <obj_property name="DisplayName">label</obj_property>
-            <obj_property name="isExpanded"></obj_property>
             <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/tag_array[17]">
                <obj_property name="DisplayName">label</obj_property>
                <obj_property name="ElementShortName">[17][3:0][21:0]</obj_property>
@@ -541,26 +370,6 @@
                <obj_property name="CustomSignalColor">#FF00FF</obj_property>
                <obj_property name="UseCustomSignalColor">true</obj_property>
                <obj_property name="isExpanded"></obj_property>
-               <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/tag_array[17][3]">
-                  <obj_property name="ElementShortName">[3][21:0]</obj_property>
-                  <obj_property name="ObjectShortName">[3][21:0]</obj_property>
-                  <obj_property name="CustomSignalColor">#FF00FF</obj_property>
-                  <obj_property name="UseCustomSignalColor">true</obj_property>
-               </wvobject>
-               <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/tag_array[17][2]">
-                  <obj_property name="ElementShortName">[2][21:0]</obj_property>
-                  <obj_property name="ObjectShortName">[2][21:0]</obj_property>
-                  <obj_property name="CustomSignalColor">#FF00FF</obj_property>
-                  <obj_property name="UseCustomSignalColor">true</obj_property>
-               </wvobject>
-               <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/tag_array[17][1]">
-                  <obj_property name="ElementShortName">[1][21:0]</obj_property>
-                  <obj_property name="ObjectShortName">[1][21:0]</obj_property>
-               </wvobject>
-               <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/tag_array[17][0]">
-                  <obj_property name="ElementShortName">[0][21:0]</obj_property>
-                  <obj_property name="ObjectShortName">[0][21:0]</obj_property>
-               </wvobject>
             </wvobject>
             <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/valid_array[17]">
                <obj_property name="DisplayName">label</obj_property>
@@ -576,26 +385,6 @@
                <obj_property name="CustomSignalColor">#FF00FF</obj_property>
                <obj_property name="UseCustomSignalColor">true</obj_property>
                <obj_property name="isExpanded"></obj_property>
-               <wvobject type="logic" fp_name="/tb_top/dut/l2_cache/datapath/metadata/\genblk1.dirty_bits /dirty_array[17][3]">
-                  <obj_property name="ElementShortName">[3]</obj_property>
-                  <obj_property name="ObjectShortName">[3]</obj_property>
-                  <obj_property name="CustomSignalColor">#FF00FF</obj_property>
-                  <obj_property name="UseCustomSignalColor">true</obj_property>
-               </wvobject>
-               <wvobject type="logic" fp_name="/tb_top/dut/l2_cache/datapath/metadata/\genblk1.dirty_bits /dirty_array[17][2]">
-                  <obj_property name="ElementShortName">[2]</obj_property>
-                  <obj_property name="ObjectShortName">[2]</obj_property>
-                  <obj_property name="CustomSignalColor">#FF00FF</obj_property>
-                  <obj_property name="UseCustomSignalColor">true</obj_property>
-               </wvobject>
-               <wvobject type="logic" fp_name="/tb_top/dut/l2_cache/datapath/metadata/\genblk1.dirty_bits /dirty_array[17][1]">
-                  <obj_property name="ElementShortName">[1]</obj_property>
-                  <obj_property name="ObjectShortName">[1]</obj_property>
-               </wvobject>
-               <wvobject type="logic" fp_name="/tb_top/dut/l2_cache/datapath/metadata/\genblk1.dirty_bits /dirty_array[17][0]">
-                  <obj_property name="ElementShortName">[0]</obj_property>
-                  <obj_property name="ObjectShortName">[0]</obj_property>
-               </wvobject>
             </wvobject>
             <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/\genblk1.dirty_bits /dirty_array">
                <obj_property name="ElementShortName">dirty_array[31:0][3:0]</obj_property>
@@ -664,135 +453,6 @@
             <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/tag_array">
                <obj_property name="ElementShortName">tag_array[31:0][3:0][21:0]</obj_property>
                <obj_property name="ObjectShortName">tag_array[31:0][3:0][21:0]</obj_property>
-               <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/tag_array[31]">
-                  <obj_property name="ElementShortName">[31][3:0][21:0]</obj_property>
-                  <obj_property name="ObjectShortName">[31][3:0][21:0]</obj_property>
-               </wvobject>
-               <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/tag_array[30]">
-                  <obj_property name="ElementShortName">[30][3:0][21:0]</obj_property>
-                  <obj_property name="ObjectShortName">[30][3:0][21:0]</obj_property>
-               </wvobject>
-               <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/tag_array[29]">
-                  <obj_property name="ElementShortName">[29][3:0][21:0]</obj_property>
-                  <obj_property name="ObjectShortName">[29][3:0][21:0]</obj_property>
-               </wvobject>
-               <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/tag_array[28]">
-                  <obj_property name="ElementShortName">[28][3:0][21:0]</obj_property>
-                  <obj_property name="ObjectShortName">[28][3:0][21:0]</obj_property>
-               </wvobject>
-               <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/tag_array[27]">
-                  <obj_property name="ElementShortName">[27][3:0][21:0]</obj_property>
-                  <obj_property name="ObjectShortName">[27][3:0][21:0]</obj_property>
-               </wvobject>
-               <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/tag_array[26]">
-                  <obj_property name="ElementShortName">[26][3:0][21:0]</obj_property>
-                  <obj_property name="ObjectShortName">[26][3:0][21:0]</obj_property>
-               </wvobject>
-               <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/tag_array[25]">
-                  <obj_property name="ElementShortName">[25][3:0][21:0]</obj_property>
-                  <obj_property name="ObjectShortName">[25][3:0][21:0]</obj_property>
-               </wvobject>
-               <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/tag_array[24]">
-                  <obj_property name="ElementShortName">[24][3:0][21:0]</obj_property>
-                  <obj_property name="ObjectShortName">[24][3:0][21:0]</obj_property>
-               </wvobject>
-               <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/tag_array[23]">
-                  <obj_property name="ElementShortName">[23][3:0][21:0]</obj_property>
-                  <obj_property name="ObjectShortName">[23][3:0][21:0]</obj_property>
-               </wvobject>
-               <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/tag_array[22]">
-                  <obj_property name="ElementShortName">[22][3:0][21:0]</obj_property>
-                  <obj_property name="ObjectShortName">[22][3:0][21:0]</obj_property>
-               </wvobject>
-               <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/tag_array[21]">
-                  <obj_property name="ElementShortName">[21][3:0][21:0]</obj_property>
-                  <obj_property name="ObjectShortName">[21][3:0][21:0]</obj_property>
-               </wvobject>
-               <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/tag_array[20]">
-                  <obj_property name="ElementShortName">[20][3:0][21:0]</obj_property>
-                  <obj_property name="ObjectShortName">[20][3:0][21:0]</obj_property>
-               </wvobject>
-               <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/tag_array[19]">
-                  <obj_property name="ElementShortName">[19][3:0][21:0]</obj_property>
-                  <obj_property name="ObjectShortName">[19][3:0][21:0]</obj_property>
-               </wvobject>
-               <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/tag_array[18]">
-                  <obj_property name="ElementShortName">[18][3:0][21:0]</obj_property>
-                  <obj_property name="ObjectShortName">[18][3:0][21:0]</obj_property>
-               </wvobject>
-               <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/tag_array[17]">
-                  <obj_property name="ElementShortName">[17][3:0][21:0]</obj_property>
-                  <obj_property name="ObjectShortName">[17][3:0][21:0]</obj_property>
-                  <obj_property name="isExpanded"></obj_property>
-               </wvobject>
-               <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/tag_array[16]">
-                  <obj_property name="ElementShortName">[16][3:0][21:0]</obj_property>
-                  <obj_property name="ObjectShortName">[16][3:0][21:0]</obj_property>
-               </wvobject>
-               <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/tag_array[15]">
-                  <obj_property name="ElementShortName">[15][3:0][21:0]</obj_property>
-                  <obj_property name="ObjectShortName">[15][3:0][21:0]</obj_property>
-               </wvobject>
-               <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/tag_array[14]">
-                  <obj_property name="ElementShortName">[14][3:0][21:0]</obj_property>
-                  <obj_property name="ObjectShortName">[14][3:0][21:0]</obj_property>
-               </wvobject>
-               <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/tag_array[13]">
-                  <obj_property name="ElementShortName">[13][3:0][21:0]</obj_property>
-                  <obj_property name="ObjectShortName">[13][3:0][21:0]</obj_property>
-               </wvobject>
-               <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/tag_array[12]">
-                  <obj_property name="ElementShortName">[12][3:0][21:0]</obj_property>
-                  <obj_property name="ObjectShortName">[12][3:0][21:0]</obj_property>
-               </wvobject>
-               <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/tag_array[11]">
-                  <obj_property name="ElementShortName">[11][3:0][21:0]</obj_property>
-                  <obj_property name="ObjectShortName">[11][3:0][21:0]</obj_property>
-               </wvobject>
-               <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/tag_array[10]">
-                  <obj_property name="ElementShortName">[10][3:0][21:0]</obj_property>
-                  <obj_property name="ObjectShortName">[10][3:0][21:0]</obj_property>
-               </wvobject>
-               <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/tag_array[9]">
-                  <obj_property name="ElementShortName">[9][3:0][21:0]</obj_property>
-                  <obj_property name="ObjectShortName">[9][3:0][21:0]</obj_property>
-               </wvobject>
-               <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/tag_array[8]">
-                  <obj_property name="ElementShortName">[8][3:0][21:0]</obj_property>
-                  <obj_property name="ObjectShortName">[8][3:0][21:0]</obj_property>
-               </wvobject>
-               <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/tag_array[7]">
-                  <obj_property name="ElementShortName">[7][3:0][21:0]</obj_property>
-                  <obj_property name="ObjectShortName">[7][3:0][21:0]</obj_property>
-               </wvobject>
-               <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/tag_array[6]">
-                  <obj_property name="ElementShortName">[6][3:0][21:0]</obj_property>
-                  <obj_property name="ObjectShortName">[6][3:0][21:0]</obj_property>
-               </wvobject>
-               <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/tag_array[5]">
-                  <obj_property name="ElementShortName">[5][3:0][21:0]</obj_property>
-                  <obj_property name="ObjectShortName">[5][3:0][21:0]</obj_property>
-               </wvobject>
-               <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/tag_array[4]">
-                  <obj_property name="ElementShortName">[4][3:0][21:0]</obj_property>
-                  <obj_property name="ObjectShortName">[4][3:0][21:0]</obj_property>
-               </wvobject>
-               <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/tag_array[3]">
-                  <obj_property name="ElementShortName">[3][3:0][21:0]</obj_property>
-                  <obj_property name="ObjectShortName">[3][3:0][21:0]</obj_property>
-               </wvobject>
-               <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/tag_array[2]">
-                  <obj_property name="ElementShortName">[2][3:0][21:0]</obj_property>
-                  <obj_property name="ObjectShortName">[2][3:0][21:0]</obj_property>
-               </wvobject>
-               <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/tag_array[1]">
-                  <obj_property name="ElementShortName">[1][3:0][21:0]</obj_property>
-                  <obj_property name="ObjectShortName">[1][3:0][21:0]</obj_property>
-               </wvobject>
-               <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/tag_array[0]">
-                  <obj_property name="ElementShortName">[0][3:0][21:0]</obj_property>
-                  <obj_property name="ObjectShortName">[0][3:0][21:0]</obj_property>
-               </wvobject>
             </wvobject>
             <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/metadata/\genblk2.matching_way ">
                <obj_property name="ElementShortName">\genblk2.matching_way [1:0]</obj_property>
@@ -833,10 +493,6 @@
             <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/data/ASSOC">
                <obj_property name="ElementShortName">ASSOC[31:0]</obj_property>
                <obj_property name="ObjectShortName">ASSOC[31:0]</obj_property>
-            </wvobject>
-            <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/data/ASSOC_WIDTH">
-               <obj_property name="ElementShortName">ASSOC_WIDTH[31:0]</obj_property>
-               <obj_property name="ObjectShortName">ASSOC_WIDTH[31:0]</obj_property>
             </wvobject>
          </wvobject>
          <wvobject type="array" fp_name="/tb_top/dut/l2_cache/datapath/req_word_select">
@@ -895,7 +551,6 @@
       <wvobject type="group" fp_name="group103">
          <obj_property name="label">internal</obj_property>
          <obj_property name="DisplayName">label</obj_property>
-         <obj_property name="isExpanded"></obj_property>
          <wvobject type="logic" fp_name="/tb_top/dut/l2_cache/internal_if/miss_recovery_mode">
             <obj_property name="ElementShortName">miss_recovery_mode</obj_property>
             <obj_property name="ObjectShortName">miss_recovery_mode</obj_property>
@@ -972,13 +627,71 @@
          <obj_property name="UseCustomSignalColor">true</obj_property>
       </wvobject>
    </wvobject>
+   <wvobject type="group" fp_name="group39">
+      <obj_property name="label">hmem</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject type="logic" fp_name="/tb_top/hmem_if/clk">
+         <obj_property name="ElementShortName">clk</obj_property>
+         <obj_property name="ObjectShortName">clk</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/tb_top/hmem_bfm/rst">
+         <obj_property name="ElementShortName">rst</obj_property>
+         <obj_property name="ObjectShortName">rst</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/tb_top/hmem_if/req_address">
+         <obj_property name="ElementShortName">req_address[31:0]</obj_property>
+         <obj_property name="ObjectShortName">req_address[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/tb_top/hmem_if/req_operation">
+         <obj_property name="ElementShortName">req_operation[1:0]</obj_property>
+         <obj_property name="ObjectShortName">req_operation[1:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/tb_top/hmem_if/req_size">
+         <obj_property name="ElementShortName">req_size[1:0]</obj_property>
+         <obj_property name="ObjectShortName">req_size[1:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/tb_top/hmem_if/req_store_word">
+         <obj_property name="ElementShortName">req_store_word[31:0]</obj_property>
+         <obj_property name="ObjectShortName">req_store_word[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/tb_top/hmem_if/req_valid">
+         <obj_property name="ElementShortName">req_valid</obj_property>
+         <obj_property name="ObjectShortName">req_valid</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/tb_top/hmem_if/req_loaded_word">
+         <obj_property name="ElementShortName">req_loaded_word[31:0]</obj_property>
+         <obj_property name="ObjectShortName">req_loaded_word[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/tb_top/hmem_if/req_fulfilled">
+         <obj_property name="ElementShortName">req_fulfilled</obj_property>
+         <obj_property name="ObjectShortName">req_fulfilled</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/tb_top/hmem_bfm/rng">
+         <obj_property name="ElementShortName">rng[31:0]</obj_property>
+         <obj_property name="ObjectShortName">rng[31:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/tb_top/hmem_bfm/rng_allow_fulfilled">
+         <obj_property name="ElementShortName">rng_allow_fulfilled</obj_property>
+         <obj_property name="ObjectShortName">rng_allow_fulfilled</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/tb_top/hmem_bfm/initialized">
+         <obj_property name="ElementShortName">initialized</obj_property>
+         <obj_property name="ObjectShortName">initialized</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/tb_top/hmem_if/XLEN">
+         <obj_property name="ElementShortName">XLEN[31:0]</obj_property>
+         <obj_property name="ObjectShortName">XLEN[31:0]</obj_property>
+      </wvobject>
+   </wvobject>
    <wvobject type="group" fp_name="group136">
       <obj_property name="label">perf_ifs</obj_property>
       <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
       <wvobject type="group" fp_name="group137">
          <obj_property name="label">icache_perf</obj_property>
          <obj_property name="DisplayName">label</obj_property>
-         <obj_property name="isExpanded"></obj_property>
          <wvobject type="logic" fp_name="/tb_top/icache_perf_if/clk">
             <obj_property name="ElementShortName">clk</obj_property>
             <obj_property name="ObjectShortName">clk</obj_property>
@@ -1007,7 +720,6 @@
       <wvobject type="group" fp_name="group138">
          <obj_property name="label">dcache_perf</obj_property>
          <obj_property name="DisplayName">label</obj_property>
-         <obj_property name="isExpanded"></obj_property>
          <wvobject type="logic" fp_name="/tb_top/dcache_perf_if/clk">
             <obj_property name="ElementShortName">clk</obj_property>
             <obj_property name="ObjectShortName">clk</obj_property>

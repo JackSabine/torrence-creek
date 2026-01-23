@@ -46,6 +46,17 @@ class main_memory extends memory_element;
         return resp;
     endfunction
 
+    function cache_response_t tb_read(uint32_t addr, memory_operation_size_e op_size);
+        cache_response_t resp;
+
+        resp.is_hit = 1'b1;
+        resp.req_word = memory.exists(addr) ?
+            memory[addr] :
+            compute_default_value(addr);
+
+        return resp;
+    endfunction
+
     function void tb_write(uint32_t addr, uint32_t data);
         memory[addr] = data;
     endfunction
