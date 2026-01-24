@@ -38,7 +38,7 @@ initial begin
     initialized = 1'b1;
 end
 
-always @(hmem_if.req_valid or hmem_if.req_address or hmem_if.req_size) begin
+always @(rst or initialized or hmem_if.req_valid or hmem_if.req_address or hmem_if.req_size) begin
     if (rst) begin
         hmem_if.req_loaded_word = '0;
     end else if (initialized && hmem_if.req_valid) begin
